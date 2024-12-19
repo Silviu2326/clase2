@@ -1,24 +1,40 @@
-# Tabla de Alumnos - Sistema de Gestión
+# Tabla de Alumnos - React App
 
-Esta aplicación React permite gestionar una tabla de alumnos con información sobre trastornos psicológicos y neurológicos, hábitos conductuales y posibles soluciones.
+Una aplicación React moderna para gestionar información de alumnos con múltiples diseños de tabla.
 
 ## Características
 
-- Tabla interactiva con ordenamiento y filtrado
-- Búsqueda global
-- Operaciones CRUD completas
-- Diseño responsivo con Material-UI
-- Filtros por columna
+- Múltiples diseños de tabla
+- Modo claro y oscuro
+- Diseño responsivo
+- Filtrado y búsqueda
+- Ordenamiento de columnas
+- Interfaz moderna y elegante
+
+## Tecnologías
+
+- React
+- Tailwind CSS
+- Lucide React Icons
+
+## Diseños Disponibles
+
+1. Tabla Original
+2. Tabla Alternativa
+3. Tabla Moderna
+4. Vista Dashboard
+5. Tabla Elegante
+6. Tabla Oscura
+7. Tabla Oscura con Gradientes
 
 ## Instalación
 
-1. Clona este repositorio
-2. Ejecuta `npm install`
-3. Ejecuta `npm start`
+```bash
+npm install
+npm start
+```
 
-## Tecnologías utilizadas
+## Uso
 
-- React
-- Material-UI
-- React Hooks
-- Context API
+Selecciona entre los diferentes diseños usando los botones en la parte superior de la aplicación.
+Cada diseño ofrece una experiencia única manteniendo la misma funcionalidad base.
