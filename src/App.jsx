@@ -6,11 +6,13 @@ import TablaAlumnosDashboard from './components/TablaAlumnosDashboard';
 import TablaAlumnosElegante from './components/TablaAlumnosElegante';
 import TablaAlumnosOscura from './components/TablaAlumnosOscura';
 import TablaAlumnosOscuraGradiente from './components/TablaAlumnosOscuraGradiente';
+import TablaAlumnosOscuraMinimalista from './components/TablaAlumnosOscuraMinimalista';
+import TablaAlumnosOscuraNeomorfica from './components/TablaAlumnosOscuraNeomorfica';
 import './App.css';
 
 function App() {
   const [tablaActiva, setTablaActiva] = useState('original');
-  const esModoOscuro = tablaActiva === 'oscura' || tablaActiva === 'oscura-gradiente';
+  const esModoOscuro = ['oscura', 'oscura-gradiente', 'oscura-minimalista', 'oscura-neomorfica'].includes(tablaActiva);
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${esModoOscuro ? 'bg-gray-900' : 'bg-gray-100'}`}>
@@ -100,17 +102,41 @@ function App() {
           >
             Tabla Oscura Gradiente
           </button>
+          <button
+            onClick={() => setTablaActiva('oscura-minimalista')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              tablaActiva === 'oscura-minimalista'
+                ? 'bg-slate-600 text-white'
+                : esModoOscuro 
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
+                  : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Tabla Oscura Minimalista
+          </button>
+          <button
+            onClick={() => setTablaActiva('oscura-neomorfica')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              tablaActiva === 'oscura-neomorfica'
+                ? 'bg-gradient-to-r from-gray-700 to-slate-900 text-white'
+                : esModoOscuro 
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
+                  : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Tabla Oscura Neomórfica
+          </button>
         </div>
 
-        <div>
-          {tablaActiva === 'original' && <TablaAlumnos />}
-          {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa />}
-          {tablaActiva === 'moderna' && <TablaAlumnosModerna />}
-          {tablaActiva === 'dashboard' && <TablaAlumnosDashboard />}
-          {tablaActiva === 'elegante' && <TablaAlumnosElegante />}
-          {tablaActiva === 'oscura' && <TablaAlumnosOscura />}
-          {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente />}
-        </div>
+        {tablaActiva === 'original' && <TablaAlumnos />}
+        {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa />}
+        {tablaActiva === 'moderna' && <TablaAlumnosModerna />}
+        {tablaActiva === 'dashboard' && <TablaAlumnosDashboard />}
+        {tablaActiva === 'elegante' && <TablaAlumnosElegante />}
+        {tablaActiva === 'oscura' && <TablaAlumnosOscura />}
+        {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente />}
+        {tablaActiva === 'oscura-minimalista' && <TablaAlumnosOscuraMinimalista />}
+        {tablaActiva === 'oscura-neomorfica' && <TablaAlumnosOscuraNeomorfica />}
       </div>
     </div>
   );
