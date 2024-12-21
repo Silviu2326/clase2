@@ -5,54 +5,257 @@ import logo from './logo.jpeg';
 const datosIniciales = [
   {
     id: 1,
-    nombre: 'Juan Pérez',
+    nombre: 'Bus Year 10 - P1',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
     trastornoPsicologico1: 'TDAH',
-    trastornoPsicologico2: 'Dislexia',
-    trastornoPsicologico3: 'Ninguno',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
     conductaAula1: {
-      titulo: 'Dificultad para mantener atención',
-      detalles: [
-        'Se distrae fácilmente con estímulos externos',
-        'Pierde materiales frecuentemente',
-        'Dificultad para seguir instrucciones largas'
-      ]
+      titulo: 'Dificultades SEMH',
+      descripcion: '(Social, Emocional y Salud Mental)'
     },
-    conductaAula2: {
-      titulo: 'Interrumpe frecuentemente',
-      detalles: [
-        'Habla en momentos inapropiados',
-        'Dificultad para esperar su turno',
-        'Interrumpe conversaciones'
-      ]
-    },
+    conductaAula2: null,
     conductaAula3: null,
-    soluciones: 'Establecer rutinas claras, descansos programados'
+    soluciones: [
+      'Apoyo en clase (Matemáticas)',
+      'Psicólogo externo: Nadal San Bartolomew',
+      '25% de tiempo extra en exámenes',
+      'Informe externo (Isabel Yague, 2021)',
+      'TDAH-I (tipo inatento)'
+    ]
   },
   {
     id: 2,
-    nombre: 'María García',
-    trastornoPsicologico1: 'Ansiedad',
-    trastornoPsicologico2: 'TOC',
+    nombre: 'Bus Year 10 - P2',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia',
+    trastornoPsicologico2: 'TDAH',
     trastornoPsicologico3: null,
     conductaAula1: {
-      titulo: 'Perfeccionismo excesivo',
-      detalles: [
-        'Tarda mucho en completar tareas',
-        'Se frustra si no alcanza la perfección',
-        'Revisa el trabajo múltiples veces'
-      ]
+      titulo: 'Dificultades de lectura y escritura',
+      descripcion: 'Problemas de ortografía y decodificación'
     },
     conductaAula2: {
-      titulo: 'Dificultad para trabajar en grupo',
-      detalles: [
-        'Prefiere trabajar sola',
-        'Se estresa en situaciones sociales',
-        'Dificultad para delegar tareas'
-      ]
+      titulo: 'Dificultades atencionales',
+      descripcion: 'Dificultad para mantener la atención, impulsividad, posible hiperactividad'
     },
     conductaAula3: null,
-    soluciones: 'Técnicas de relajación, trabajo gradual'
+    soluciones: [
+      'Programa SNIP de enseñanza de precisión en casa (inicia octubre 2024)',
+      '(Sin ajustes extra indicados en la tabla)',
+      'Diagnóstico oficial: Dislexia + TDAH',
+      'Info adicional: "Diagnosed with dyslexia in June 2024 (internal evaluation)"'
+    ]
   },
+  {
+    id: 3,
+    nombre: 'Bus Year 10 - P3',
+    descripcion: '(Monitor, Diagnóstico formal: No)',
+    trastornoPsicologico1: null,
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: null,
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      '(Ningún apoyo o acceso extra detallado en la tabla)',
+      'Observaciones: Se han reportado problemas de comportamiento ("Behaviour issues") sin diagnóstico formal'
+    ]
+  },
+  {
+    id: 4,
+    nombre: 'Bus Year 10 - P4',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Problemas de comprensión lectora y escritura',
+      descripcion: 'Dificultades específicas en el procesamiento de texto escrito'
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'Asistencia a apoyo especializado',
+      '25% de tiempo extra en exámenes',
+      'Info adicional: "Dyslexia (internal assessment June 2024)"'
+    ]
+  },
+  {
+    id: 5,
+    nombre: 'Bus Year 11 - P1',
+    descripcion: '(Monitor, Diagnóstico formal: No)',
+    trastornoPsicologico1: null,
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: null,
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'Observaciones generales:',
+      '- Dificultades en Cognición y Aprendizaje (C&L)',
+      '- Dificultades Sociales, Emocionales y de Salud Mental (SEMH)',
+      '- Comportamiento deficiente en ocasiones (desinterés y bajo rendimiento)',
+      'Info adicional: «Poor behaviour at times and can be quite disengaged, not performing to ability level»'
+    ]
+  },
+  {
+    id: 6,
+    nombre: 'Bus Year 11 - P2',
+    descripcion: '(Wave 3, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'APD (Trastorno del Procesamiento Auditivo)',
+    trastornoPsicologico2: 'TDA (Trastorno por Déficit de Atención)',
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades de procesamiento auditivo',
+      descripcion: 'Dificultad para procesar la información auditiva, problemas para seguir instrucciones orales'
+    },
+    conductaAula2: {
+      titulo: 'Dificultades atencionales',
+      descripcion: 'Falta de atención, desconexión frecuente de la tarea, impulsividad leve'
+    },
+    conductaAula3: null,
+    soluciones: [
+      'Sesiones de apoyo SEMH (1 hora PSHE) y plan de cuidados con el equipo pastoral',
+      '25% de tiempo extra en exámenes',
+      'Adicional: «ADD and APD»',
+      'Comentario: «Poor behaviour at times, not performing to ability level»'
+    ]
+  },
+  {
+    id: 7,
+    nombre: 'Bus Year 11 - P3',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: '(C&L)'
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      '25% de tiempo extra en exámenes',
+      'Adicional: «DYSLEXIA»'
+    ]
+  },
+  {
+    id: 8,
+    nombre: 'Travel Y13.2 - P1',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "Dyslexia SpLD"'
+    ]
+  },
+  {
+    id: 9,
+    nombre: 'Travel Y13.2 - P2',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: 'TDAH',
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null
+    },
+    conductaAula2: {
+      titulo: 'Dificultad de atención',
+      descripcion: '(hiperactividad/impulsividad)'
+    },
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "Dyslexia"'
+    ]
+  },
+  {
+    id: 10,
+    nombre: 'Travel Y13.2 - P3',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "WISC report completed by school psychologist 2022"'
+    ]
+  },
+  {
+    id: 11,
+    nombre: 'Travel Y13.2 - P4',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "Dyslexia"'
+    ]
+  },
+  {
+    id: 12,
+    nombre: 'BTEC Y13 - P1',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'SpLD (Dificultad Específica de Aprendizaje)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "External assessment (2021) SpLD"'
+    ]
+  },
+  {
+    id: 13,
+    nombre: 'BTEC Y12 - P1',
+    descripcion: '(Monitor, Diagnóstico formal: No)',
+    trastornoPsicologico1: 'SEMH (Social, Emocional y Salud Mental)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades de manejo de la ira y salud mental',
+      descripcion: null
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'Apoyo externo: Psicólogo',
+      'Info adicional: "Anger management issues & mental health difficulties"'
+    ]
+  }
 ];
 
 const TablaAlumnos = () => {
@@ -88,34 +291,35 @@ const TablaAlumnos = () => {
     );
   }, [datos, busquedaGlobal]);
 
-  const renderConducta = (alumno, conductaKey, trastornoKey) => {
-    const conducta = alumno[conductaKey];
-    const trastorno = alumno[trastornoKey];
-    const isExpanded = conductasExpandidas[`${alumno.id}-${conductaKey}`];
+  const renderNombre = (alumno) => (
+    <div>
+      <div className="font-medium text-gray-900 dark:text-white">{alumno.nombre}</div>
+      <div className="text-sm text-gray-500 dark:text-gray-400">{alumno.descripcion}</div>
+    </div>
+  );
 
-    if (!trastorno || trastorno === 'Ninguno' || !conducta) return null;
-
+  const renderConducta = (conducta) => {
+    if (!conducta) return null;
     return (
-      <div className="relative group">
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => toggleConducta(alumno.id, conductaKey)}
-            className="p-1 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
-          >
-            <ChevronRight className={`w-4 h-4 text-blue-400 transform transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
-          </button>
-          <span className="text-gray-700 dark:text-gray-300 font-medium">{conducta.titulo}</span>
-        </div>
-        {isExpanded && (
-          <div className="mt-2 ml-6 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-            <ul className="space-y-1">
-              {conducta.detalles.map((detalle, index) => (
-                <li key={index} className="text-gray-600 dark:text-gray-400 text-sm">{detalle}</li>
-              ))}
-            </ul>
-          </div>
+      <div>
+        <div className="font-medium text-gray-700 dark:text-gray-300">{conducta.titulo}</div>
+        {conducta.descripcion && (
+          <div className="text-sm text-gray-600 dark:text-gray-400">{conducta.descripcion}</div>
         )}
       </div>
+    );
+  };
+
+  const renderSoluciones = (soluciones) => {
+    if (!soluciones || soluciones.length === 0) return null;
+    return (
+      <ul className="space-y-1">
+        {soluciones.map((solucion, index) => (
+          <li key={index} className="text-gray-700 dark:text-gray-300">
+            - {solucion}
+          </li>
+        ))}
+      </ul>
     );
   };
 
@@ -153,10 +357,10 @@ const TablaAlumnos = () => {
 
       {/* Tabla */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table className="min-w-full border-collapse border border-gray-200 dark:border-gray-700">
           <thead>
             <tr className="bg-gray-50 dark:bg-gray-900/50">
-              <th scope="col" className="px-4 py-4 text-left">
+              <th scope="col" className="px-4 py-4 text-left border border-gray-200 dark:border-gray-700">
                 <button
                   onClick={() => handleOrdenamiento('nombre')}
                   className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
@@ -167,61 +371,62 @@ const TablaAlumnos = () => {
                   )}
                 </button>
               </th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Trastorno 1</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Trastorno 2</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Trastorno 3</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Conducta 1</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Conducta 2</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Conducta 3</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Soluciones</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300">Acciones</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Trastorno 1</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Trastorno 2</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Trastorno 3</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Conducta 1</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Conducta 2</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Conducta 3</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Soluciones</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {datosFiltrados.map((alumno) => (
               <tr key={alumno.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors">
-                <td className="px-4 py-4">
-                  <span className="text-gray-900 dark:text-white font-medium">{alumno.nombre}</span>
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {renderNombre(alumno)}
                 </td>
-                <td className="px-4 py-4">
-                  <span className="inline-flex px-2.5 py-1 rounded-full text-sm font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
-                    {alumno.trastornoPsicologico1}
-                  </span>
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {alumno.trastornoPsicologico1 && (
+                    <span className="inline-flex px-2.5 py-1 rounded-full text-sm font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
+                      {alumno.trastornoPsicologico1}
+                    </span>
+                  )}
                 </td>
-                <td className="px-4 py-4">
-                  <span className="inline-flex px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
-                    {alumno.trastornoPsicologico2}
-                  </span>
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {alumno.trastornoPsicologico2 && (
+                    <span className="inline-flex px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                      {alumno.trastornoPsicologico2}
+                    </span>
+                  )}
                 </td>
-                <td className="px-4 py-4">
-                  <span className="inline-flex px-2.5 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
-                    {alumno.trastornoPsicologico3}
-                  </span>
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {alumno.trastornoPsicologico3 && (
+                    <span className="inline-flex px-2.5 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                      {alumno.trastornoPsicologico3}
+                    </span>
+                  )}
                 </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 'conductaAula1', 'trastornoPsicologico1')}
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {renderConducta(alumno.conductaAula1)}
                 </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 'conductaAula2', 'trastornoPsicologico2')}
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {renderConducta(alumno.conductaAula2)}
                 </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 'conductaAula3', 'trastornoPsicologico3')}
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {renderConducta(alumno.conductaAula3)}
                 </td>
-                <td className="px-4 py-4">
-                  <div className="text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-900/50 px-3 py-2 rounded-lg">
-                    {alumno.soluciones}
-                  </div>
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
+                  {renderSoluciones(alumno.soluciones)}
                 </td>
-                <td className="px-4 py-4">
+                <td className="px-4 py-4 border border-gray-200 dark:border-gray-700">
                   <div className="flex space-x-3">
-                    <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                      <Pencil className="w-5 h-5 text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400" />
+                    <button className="text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400">
+                      <Pencil className="w-5 h-5" />
                     </button>
-                    <button 
-                      onClick={() => handleEliminar(alumno.id)}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      <Trash2 className="w-5 h-5 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400" />
+                    <button className="text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400">
+                      <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
                 </td>

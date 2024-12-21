@@ -5,54 +5,327 @@ import logo from './logo.jpeg';
 const datosIniciales = [
   {
     id: 1,
-    nombre: 'Juan Pérez',
+    nombre: 'Bus Year 10 - P1',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
     trastornoPsicologico1: 'TDAH',
-    trastornoPsicologico2: 'Dislexia',
-    trastornoPsicologico3: 'Ninguno',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
     conductaAula1: {
-      titulo: 'Dificultad para mantener atención',
+      titulo: 'Dificultades SEMH',
+      descripcion: '(Social, Emocional y Salud Mental)',
       detalles: [
-        'Se distrae fácilmente con estímulos externos',
-        'Pierde materiales frecuentemente',
-        'Dificultad para seguir instrucciones largas'
+        'Dificultades sociales y emocionales',
+        'Problemas de salud mental',
+        'Impacto en el rendimiento académico'
       ]
     },
-    conductaAula2: {
-      titulo: 'Interrumpe frecuentemente',
-      detalles: [
-        'Habla en momentos inapropiados',
-        'Dificultad para esperar su turno',
-        'Interrumpe conversaciones'
-      ]
-    },
+    conductaAula2: null,
     conductaAula3: null,
-    soluciones: 'Establecer rutinas claras, descansos programados'
+    soluciones: [
+      'Apoyo en clase (Matemáticas)',
+      'Psicólogo externo: Nadal San Bartolomew',
+      '25% de tiempo extra en exámenes',
+      'Informe externo (Isabel Yague, 2021)',
+      'TDAH-I (tipo inatento)'
+    ]
   },
   {
     id: 2,
-    nombre: 'María García',
-    trastornoPsicologico1: 'Ansiedad',
-    trastornoPsicologico2: 'TOC',
+    nombre: 'Bus Year 10 - P2',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia',
+    trastornoPsicologico2: 'TDAH',
     trastornoPsicologico3: null,
     conductaAula1: {
-      titulo: 'Perfeccionismo excesivo',
+      titulo: 'Dificultades de lectura y escritura',
+      descripcion: 'Problemas de ortografía y decodificación',
       detalles: [
-        'Tarda mucho en completar tareas',
-        'Se frustra si no alcanza la perfección',
-        'Revisa el trabajo múltiples veces'
+        'Dificultades en la lectura',
+        'Problemas de ortografía',
+        'Dificultades en la decodificación de texto'
       ]
     },
     conductaAula2: {
-      titulo: 'Dificultad para trabajar en grupo',
+      titulo: 'Dificultades atencionales',
+      descripcion: 'Dificultad para mantener la atención, impulsividad, posible hiperactividad',
       detalles: [
-        'Prefiere trabajar sola',
-        'Se estresa en situaciones sociales',
-        'Dificultad para delegar tareas'
+        'Problemas para mantener la atención',
+        'Comportamiento impulsivo',
+        'Signos de hiperactividad'
       ]
     },
     conductaAula3: null,
-    soluciones: 'Técnicas de relajación, trabajo gradual'
+    soluciones: [
+      'Programa SNIP de enseñanza de precisión en casa (inicia octubre 2024)',
+      '(Sin ajustes extra indicados en la tabla)',
+      'Diagnóstico oficial: Dislexia + TDAH',
+      'Info adicional: "Diagnosed with dyslexia in June 2024 (internal evaluation)"'
+    ]
   },
+  {
+    id: 3,
+    nombre: 'Bus Year 10 - P3',
+    descripcion: '(Monitor, Diagnóstico formal: No)',
+    trastornoPsicologico1: null,
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: null,
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      '(Ningún apoyo o acceso extra detallado en la tabla)',
+      'Observaciones: Se han reportado problemas de comportamiento ("Behaviour issues") sin diagnóstico formal'
+    ]
+  },
+  {
+    id: 4,
+    nombre: 'Bus Year 10 - P4',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Problemas de comprensión lectora y escritura',
+      descripcion: 'Dificultades específicas en el procesamiento de texto escrito',
+      detalles: [
+        'Dificultades en la comprensión lectora',
+        'Problemas en la expresión escrita',
+        'Dificultades en el procesamiento de texto'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'Asistencia a apoyo especializado',
+      '25% de tiempo extra en exámenes',
+      'Info adicional: "Dyslexia (internal assessment June 2024)"'
+    ]
+  },
+  {
+    id: 5,
+    nombre: 'Bus Year 11 - P1',
+    descripcion: '(Monitor, Diagnóstico formal: No)',
+    trastornoPsicologico1: null,
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: null,
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'Observaciones generales:',
+      '- Dificultades en Cognición y Aprendizaje (C&L)',
+      '- Dificultades Sociales, Emocionales y de Salud Mental (SEMH)',
+      '- Comportamiento deficiente en ocasiones (desinterés y bajo rendimiento)',
+      'Info adicional: «Poor behaviour at times and can be quite disengaged, not performing to ability level»'
+    ]
+  },
+  {
+    id: 6,
+    nombre: 'Bus Year 11 - P2',
+    descripcion: '(Wave 3, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'APD (Trastorno del Procesamiento Auditivo)',
+    trastornoPsicologico2: 'TDA (Trastorno por Déficit de Atención)',
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades de procesamiento auditivo',
+      descripcion: 'Dificultad para procesar la información auditiva, problemas para seguir instrucciones orales',
+      detalles: [
+        'Problemas para procesar información auditiva',
+        'Dificultad para seguir instrucciones orales',
+        'Necesidad de apoyo visual adicional'
+      ]
+    },
+    conductaAula2: {
+      titulo: 'Dificultades atencionales',
+      descripcion: 'Falta de atención, desconexión frecuente de la tarea, impulsividad leve',
+      detalles: [
+        'Desconexión frecuente durante las tareas',
+        'Dificultad para mantener la atención',
+        'Signos de impulsividad leve'
+      ]
+    },
+    conductaAula3: null,
+    soluciones: [
+      'Sesiones de apoyo SEMH (1 hora PSHE) y plan de cuidados con el equipo pastoral',
+      '25% de tiempo extra en exámenes',
+      'Adicional: «ADD and APD»',
+      'Comentario: «Poor behaviour at times, not performing to ability level»'
+    ]
+  },
+  {
+    id: 7,
+    nombre: 'Bus Year 11 - P3',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: '(C&L)',
+      detalles: [
+        'Dificultades en el procesamiento de información',
+        'Problemas de aprendizaje específicos',
+        'Necesidad de apoyo adicional'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      '25% de tiempo extra en exámenes',
+      'Adicional: «DYSLEXIA»'
+    ]
+  },
+  {
+    id: 8,
+    nombre: 'Travel Y13.2 - P1',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null,
+      detalles: [
+        'Dificultades específicas de aprendizaje',
+        'Necesidad de apoyo en tareas de lectura y escritura',
+        'Adaptaciones necesarias en evaluaciones'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "Dyslexia SpLD"'
+    ]
+  },
+  {
+    id: 9,
+    nombre: 'Travel Y13.2 - P2',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: 'TDAH',
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null,
+      detalles: [
+        'Dificultades en el procesamiento de información',
+        'Problemas de lectura y escritura',
+        'Necesidad de adaptaciones específicas'
+      ]
+    },
+    conductaAula2: {
+      titulo: 'Dificultad de atención',
+      descripcion: '(hiperactividad/impulsividad)',
+      detalles: [
+        'Problemas de concentración',
+        'Comportamiento hiperactivo',
+        'Dificultad para controlar impulsos'
+      ]
+    },
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "Dyslexia"'
+    ]
+  },
+  {
+    id: 10,
+    nombre: 'Travel Y13.2 - P3',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null,
+      detalles: [
+        'Dificultades en el procesamiento de información',
+        'Necesidad de apoyo en tareas académicas',
+        'Adaptaciones para evaluaciones'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "WISC report completed by school psychologist 2022"'
+    ]
+  },
+  {
+    id: 11,
+    nombre: 'Travel Y13.2 - P4',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'Dislexia (SpLD)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null,
+      detalles: [
+        'Dificultades específicas de aprendizaje',
+        'Problemas en el procesamiento de información',
+        'Necesidad de adaptaciones académicas'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "Dyslexia"'
+    ]
+  },
+  {
+    id: 12,
+    nombre: 'BTEC Y13 - P1',
+    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+    trastornoPsicologico1: 'SpLD (Dificultad Específica de Aprendizaje)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades en Cognición y Aprendizaje',
+      descripcion: null,
+      detalles: [
+        'Dificultades específicas en el aprendizaje',
+        'Necesidad de adaptaciones académicas',
+        'Apoyo específico en tareas'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'SEN Support: Ninguno',
+      'Acceso: 25% de tiempo extra',
+      'Info adicional: "External assessment (2021) SpLD"'
+    ]
+  },
+  {
+    id: 13,
+    nombre: 'BTEC Y12 - P1',
+    descripcion: '(Monitor, Diagnóstico formal: No)',
+    trastornoPsicologico1: 'SEMH (Social, Emocional y Salud Mental)',
+    trastornoPsicologico2: null,
+    trastornoPsicologico3: null,
+    conductaAula1: {
+      titulo: 'Dificultades de manejo de la ira y salud mental',
+      descripcion: null,
+      detalles: [
+        'Problemas en el manejo de la ira',
+        'Dificultades emocionales',
+        'Necesidad de apoyo en salud mental'
+      ]
+    },
+    conductaAula2: null,
+    conductaAula3: null,
+    soluciones: [
+      'Apoyo externo: Psicólogo',
+      'Info adicional: "Anger management issues & mental health difficulties"'
+    ]
+  }
 ];
 
 const TablaAlumnosAlternativa = () => {
@@ -60,6 +333,7 @@ const TablaAlumnosAlternativa = () => {
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
   const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
   const [conductasExpandidas, setConductasExpandidas] = useState({});
+  const [solucionesExpandidas, setSolucionesExpandidas] = useState({});
 
   const handleOrdenamiento = (campo) => {
     const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
@@ -77,6 +351,13 @@ const TablaAlumnosAlternativa = () => {
     setConductasExpandidas(prev => ({
       ...prev,
       [`${alumnoId}-${conductaIndex}`]: !prev[`${alumnoId}-${conductaIndex}`]
+    }));
+  };
+
+  const toggleSolucion = (alumnoId) => {
+    setSolucionesExpandidas(prev => ({
+      ...prev,
+      [alumnoId]: !prev[alumnoId]
     }));
   };
 
@@ -122,6 +403,69 @@ const TablaAlumnosAlternativa = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderSoluciones = (alumno) => {
+    const isExpanded = solucionesExpandidas[alumno.id];
+    const trastornos = [
+      { nombre: alumno.trastornoPsicologico1, soluciones: [] },
+      { nombre: alumno.trastornoPsicologico2, soluciones: [] },
+      { nombre: alumno.trastornoPsicologico3, soluciones: [] }
+    ].filter(t => t.nombre);
+
+    // Distribuir las soluciones según el trastorno
+    alumno.soluciones.forEach(solucion => {
+      // Si la solución menciona específicamente un trastorno, asignarla a ese trastorno
+      const trastornoEncontrado = trastornos.find(t => 
+        solucion.toLowerCase().includes(t.nombre.toLowerCase())
+      );
+
+      if (trastornoEncontrado) {
+        trastornoEncontrado.soluciones.push(solucion);
+      } else {
+        // Si no menciona un trastorno específico, asignarla a todos los trastornos
+        trastornos.forEach(t => t.soluciones.push(solucion));
+      }
+    });
+
+    return (
+      <div className="relative">
+        <button
+          onClick={() => toggleSolucion(alumno.id)}
+          className="w-full flex items-center justify-between p-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg backdrop-blur-sm border border-white/10 hover:from-indigo-500/20 hover:to-purple-500/20 transition-all duration-300"
+        >
+          <span className="text-gray-700 dark:text-gray-300 font-medium">
+            Ver soluciones ({trastornos.length} trastorno{trastornos.length !== 1 ? 's' : ''})
+          </span>
+          {isExpanded ? (
+            <EyeOff className="w-4 h-4 text-purple-400" />
+          ) : (
+            <Eye className="w-4 h-4 text-indigo-400" />
+          )}
+        </button>
+        
+        <div className={`mt-2 space-y-2 overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-[500px]' : 'max-h-0'}`}>
+          {trastornos.map((trastorno, index) => (
+            <div key={index} className="p-3 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-lg">
+              <div className="font-medium text-sm text-indigo-600 dark:text-indigo-400 mb-2">
+                {trastorno.nombre}:
+              </div>
+              <div className="space-y-1">
+                {trastorno.soluciones.map((solucion, sIndex) => (
+                  <div 
+                    key={sIndex} 
+                    className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400"
+                  >
+                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400"></div>
+                    <span>{solucion}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -227,9 +571,7 @@ const TablaAlumnosAlternativa = () => {
                     {renderConducta(alumno, 'conductaAula3', 'trastornoPsicologico3')}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-gray-700 dark:text-gray-300 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 px-4 py-2 rounded-lg border border-white/10">
-                      {alumno.soluciones}
-                    </div>
+                    {renderSoluciones(alumno)}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2">
