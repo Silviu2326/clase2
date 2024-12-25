@@ -1,6 +1,67 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, Eye, EyeOff } from 'lucide-react';
 import logo from './logo.jpeg';
+import problemasEducativos from '../data/problemas-educativos.json';
+import { translations } from '../translations/translations';
+
+const obtenerDetallesTrastorno = (nombreTrastorno) => {
+  if (!nombreTrastorno) return null;
+  
+  const nombreNormalizado = nombreTrastorno.toLowerCase();
+  const mapeoTrastornos = {
+    'tdah': 'Trastorno por Déficit de Atención e Hiperactividad',
+    'dislexia': 'Dificultades Específicas del Aprendizaje',
+    'apd': 'Trastorno del Procesamiento Auditivo',
+    'tda': 'Trastorno por Déficit de Atención e Hiperactividad',
+    'spld': 'Dificultades Específicas del Aprendizaje'
+  };
+
+  const categoriaBuscada = mapeoTrastornos[nombreNormalizado] || nombreTrastorno;
+  
+  return problemasEducativos.problemas.find(
+    problema => problema.categoria.toLowerCase() === categoriaBuscada.toLowerCase()
+  );
+};
+
+const obtenerSolucionesPorTrastorno = (alumno) => {
+  const solucionesPorTrastorno = {};
+  const solucionesEspecificas = {
+    nombre: 'Soluciones Específicas',
+    soluciones: [{
+      categoria: 'Personalizadas',
+      estrategias: alumno.soluciones || []
+    }]
+  };
+
+  // Obtener soluciones de cada trastorno
+  [
+    { nombre: alumno.trastornoPsicologico1, orden: 1 },
+    { nombre: alumno.trastornoPsicologico2, orden: 2 },
+    { nombre: alumno.trastornoPsicologico3, orden: 3 }
+  ]
+    .filter(t => t.nombre)
+    .forEach(trastorno => {
+      const detalles = obtenerDetallesTrastorno(trastorno.nombre);
+      if (detalles) {
+        solucionesPorTrastorno[`trastorno${trastorno.orden}`] = {
+          nombre: trastorno.nombre,
+          soluciones: detalles.soluciones || []
+        };
+      }
+    });
+
+  return {
+    solucionesEspecificas,
+    ...solucionesPorTrastorno
+  };
+};
+
+const obtenerConductasPorTrastorno = (nombreTrastorno) => {
+  if (!nombreTrastorno) return [];
+  
+  const detalles = obtenerDetallesTrastorno(nombreTrastorno);
+  return detalles?.conductas || [];
+};
 
 const datosIniciales = [
   {
@@ -328,151 +389,237 @@ const datosIniciales = [
   }
 ];
 
-const TablaAlumnosAlternativa = () => {
+function TablaAlumnosAlternativa({ language }) {
   const [datos, setDatos] = useState(datosIniciales);
-  const [busquedaGlobal, setBusquedaGlobal] = useState('');
-  const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
-  const [conductasExpandidas, setConductasExpandidas] = useState({});
+  const [filtro, setFiltro] = useState('');
+  const [columnaOrden, setColumnaOrden] = useState(null);
+  const [ordenAscendente, setOrdenAscendente] = useState(true);
+  const [columnasVisibles, setColumnasVisibles] = useState({
+    nombre: true,
+    trastorno1: true,
+    trastorno2: true,
+    trastorno3: true,
+    conducta1: true,
+    conducta2: true,
+    conducta3: true,
+    soluciones: true
+  });
   const [solucionesExpandidas, setSolucionesExpandidas] = useState({});
+  const [categoriaExpandida, setCategoriaExpandida] = useState({});
+  const [conductasExpandidas, setConductasExpandidas] = useState({});
+  const [manifestacionesExpandidas, setManifestacionesExpandidas] = useState({});
+  const t = translations[language];
 
-  const handleOrdenamiento = (campo) => {
-    const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
-    setOrdenamiento({
-      campo,
-      direccion: esAscendente ? 'desc' : 'asc',
-    });
-  };
-
-  const handleEliminar = (id) => {
-    setDatos(datos.filter(alumno => alumno.id !== id));
-  };
-
-  const toggleConducta = (alumnoId, conductaIndex) => {
-    setConductasExpandidas(prev => ({
-      ...prev,
-      [`${alumnoId}-${conductaIndex}`]: !prev[`${alumnoId}-${conductaIndex}`]
-    }));
-  };
-
-  const toggleSolucion = (alumnoId) => {
+  const toggleSolucion = (alumnoId, trastorno) => {
     setSolucionesExpandidas(prev => ({
       ...prev,
-      [alumnoId]: !prev[alumnoId]
+      [alumnoId]: {
+        ...prev[alumnoId],
+        [trastorno]: !prev[alumnoId]?.[trastorno]
+      }
     }));
+  };
+
+  const toggleCategoria = (alumnoId, trastorno, categoria) => {
+    const key = `${alumnoId}-${trastorno}-${categoria}`;
+    setCategoriaExpandida(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const toggleConducta = (alumnoId, trastorno, conductaIndex) => {
+    const key = `${alumnoId}-${trastorno}-${conductaIndex}`;
+    setConductasExpandidas(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const toggleManifestaciones = (alumnoId, trastorno, conductaIndex) => {
+    const key = `${alumnoId}-${trastorno}-${conductaIndex}`;
+    setManifestacionesExpandidas(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const toggleColumna = (columna) => {
+    setColumnasVisibles(prev => ({
+      ...prev,
+      [columna]: !prev[columna]
+    }));
+  };
+
+  const handleOrdenar = (columna) => {
+    if (columnaOrden === columna) {
+      setOrdenAscendente(!ordenAscendente);
+    } else {
+      setColumnaOrden(columna);
+      setOrdenAscendente(true);
+    }
   };
 
   const datosFiltrados = useMemo(() => {
-    return datos.filter((alumno) =>
-      Object.values(alumno).some((valor) =>
-        String(valor).toLowerCase().includes(busquedaGlobal.toLowerCase())
-      )
+    if (!filtro) return datos;
+    
+    const filtroLower = filtro.toLowerCase();
+    return datos.filter(alumno => 
+      alumno.nombre.toLowerCase().includes(filtroLower) ||
+      alumno.descripcion.toLowerCase().includes(filtroLower) ||
+      (alumno.trastornoPsicologico1 && alumno.trastornoPsicologico1.toLowerCase().includes(filtroLower)) ||
+      (alumno.trastornoPsicologico2 && alumno.trastornoPsicologico2.toLowerCase().includes(filtroLower)) ||
+      (alumno.trastornoPsicologico3 && alumno.trastornoPsicologico3.toLowerCase().includes(filtroLower))
     );
-  }, [datos, busquedaGlobal]);
+  }, [datos, filtro]);
 
-  const renderConducta = (alumno, conductaKey, trastornoKey) => {
-    const conducta = alumno[conductaKey];
-    const trastorno = alumno[trastornoKey];
-    const isExpanded = conductasExpandidas[`${alumno.id}-${conductaKey}`];
+  const datosOrdenados = useMemo(() => {
+    if (!columnaOrden) return datosFiltrados;
 
-    if (!trastorno || trastorno === 'Ninguno' || !conducta) return null;
+    return [...datosFiltrados].sort((a, b) => {
+      let valorA, valorB;
+
+      switch (columnaOrden) {
+        case 'nombre':
+          valorA = a.nombre;
+          valorB = b.nombre;
+          break;
+        case 'trastorno1':
+          valorA = a.trastornoPsicologico1 || '';
+          valorB = b.trastornoPsicologico1 || '';
+          break;
+        case 'trastorno2':
+          valorA = a.trastornoPsicologico2 || '';
+          valorB = b.trastornoPsicologico2 || '';
+          break;
+        case 'trastorno3':
+          valorA = a.trastornoPsicologico3 || '';
+          valorB = b.trastornoPsicologico3 || '';
+          break;
+        default:
+          return 0;
+      }
+
+      if (ordenAscendente) {
+        return valorA.localeCompare(valorB);
+      } else {
+        return valorB.localeCompare(valorA);
+      }
+    });
+  }, [datosFiltrados, columnaOrden, ordenAscendente]);
+
+  const renderSoluciones = (alumno) => {
+    const solucionesPorTrastorno = obtenerSolucionesPorTrastorno(alumno);
 
     return (
-      <div className="relative">
-        <div className="flex items-center justify-between p-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg backdrop-blur-sm border border-white/10">
-          <span className="text-gray-700 dark:text-gray-300 font-medium">{conducta.titulo}</span>
-          <button
-            onClick={() => toggleConducta(alumno.id, conductaKey)}
-            className="ml-2 p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 group"
-          >
-            {isExpanded ? (
-              <EyeOff className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
-            ) : (
-              <Eye className="w-4 h-4 text-indigo-400 group-hover:text-indigo-300 transition-colors" />
-            )}
-          </button>
-        </div>
-        <div className={`mt-2 overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-48' : 'max-h-0'}`}>
-          <div className="space-y-1 p-3 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-lg">
-            {conducta.detalles.map((detalle, index) => (
-              <div 
-                key={index} 
-                className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400"></div>
-                <span>{detalle}</span>
+      <div className="space-y-2">
+        {Object.entries(solucionesPorTrastorno).map(([key, { nombre, soluciones }]) => (
+          <div key={key} className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+            <button
+              onClick={() => toggleSolucion(alumno.id, key)}
+              className="w-full px-4 py-2 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100"
+            >
+              <span className="font-medium text-sm text-gray-700">{nombre}</span>
+              {solucionesExpandidas[alumno.id]?.[key] ? (
+                <ChevronUp className="h-4 w-4 text-gray-500" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              )}
+            </button>
+            
+            {solucionesExpandidas[alumno.id]?.[key] && (
+              <div className="p-2 space-y-2">
+                {soluciones.map((solucion, index) => (
+                  <div key={index} className="border border-gray-100 rounded-md overflow-hidden">
+                    <button
+                      onClick={() => toggleCategoria(alumno.id, key, solucion.categoria)}
+                      className="w-full px-3 py-1.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100"
+                    >
+                      <span className="text-sm text-gray-600">{solucion.categoria}</span>
+                      {categoriaExpandida[`${alumno.id}-${key}-${solucion.categoria}`] ? (
+                        <ChevronUp className="h-3 w-3 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="h-3 w-3 text-gray-400" />
+                      )}
+                    </button>
+                    
+                    {categoriaExpandida[`${alumno.id}-${key}-${solucion.categoria}`] && (
+                      <ul className="p-2 space-y-1 bg-white">
+                        {solucion.estrategias.map((estrategia, idx) => (
+                          <li key={idx} className="text-xs text-gray-600 pl-3 relative before:content-['•'] before:absolute before:left-0 before:text-gray-400">
+                            {estrategia}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
-        </div>
+        ))}
       </div>
     );
   };
 
-  const renderSoluciones = (alumno) => {
-    const isExpanded = solucionesExpandidas[alumno.id];
-    const trastornos = [
-      { nombre: alumno.trastornoPsicologico1, soluciones: [] },
-      { nombre: alumno.trastornoPsicologico2, soluciones: [] },
-      { nombre: alumno.trastornoPsicologico3, soluciones: [] }
-    ].filter(t => t.nombre);
+  const renderConductas = (alumno, trastornoKey) => {
+    const trastorno = alumno[trastornoKey];
+    if (!trastorno || trastorno === t.none) return null;
 
-    // Distribuir las soluciones según el trastorno
-    alumno.soluciones.forEach(solucion => {
-      // Si la solución menciona específicamente un trastorno, asignarla a ese trastorno
-      const trastornoEncontrado = trastornos.find(t => 
-        solucion.toLowerCase().includes(t.nombre.toLowerCase())
-      );
-
-      if (trastornoEncontrado) {
-        trastornoEncontrado.soluciones.push(solucion);
-      } else {
-        // Si no menciona un trastorno específico, asignarla a todos los trastornos
-        trastornos.forEach(t => t.soluciones.push(solucion));
-      }
-    });
+    const conductas = obtenerConductasPorTrastorno(trastorno);
+    if (!conductas.length) return null;
 
     return (
-      <div className="relative">
-        <button
-          onClick={() => toggleSolucion(alumno.id)}
-          className="w-full flex items-center justify-between p-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg backdrop-blur-sm border border-white/10 hover:from-indigo-500/20 hover:to-purple-500/20 transition-all duration-300"
-        >
-          <span className="text-gray-700 dark:text-gray-300 font-medium">
-            Ver soluciones ({trastornos.length} trastorno{trastornos.length !== 1 ? 's' : ''})
-          </span>
-          {isExpanded ? (
-            <EyeOff className="w-4 h-4 text-purple-400" />
-          ) : (
-            <Eye className="w-4 h-4 text-indigo-400" />
-          )}
-        </button>
-        
-        <div className={`mt-2 space-y-2 overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-[500px]' : 'max-h-0'}`}>
-          {trastornos.map((trastorno, index) => (
-            <div key={index} className="p-3 bg-gradient-to-r from-indigo-500/5 to-purple-500/5 rounded-lg">
-              <div className="font-medium text-sm text-indigo-600 dark:text-indigo-400 mb-2">
-                {trastorno.nombre}:
-              </div>
-              <div className="space-y-1">
-                {trastorno.soluciones.map((solucion, sIndex) => (
-                  <div 
-                    key={sIndex} 
-                    className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400"
+      <div className="space-y-2">
+        {conductas.map((conducta, conductaIndex) => (
+          <div key={conductaIndex} className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+            <button
+              onClick={() => toggleConducta(alumno.id, trastornoKey, conductaIndex)}
+              className="w-full px-4 py-2 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100"
+            >
+              <span className="font-medium text-sm text-gray-700">{conducta.tipo}</span>
+              {conductasExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] ? (
+                <ChevronUp className="h-4 w-4 text-gray-500" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              )}
+            </button>
+            
+            {conductasExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] && (
+              <div className="p-2">
+                <div className="border border-gray-100 rounded-md overflow-hidden">
+                  <button
+                    onClick={() => toggleManifestaciones(alumno.id, trastornoKey, conductaIndex)}
+                    className="w-full px-3 py-1.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100"
                   >
-                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400"></div>
-                    <span>{solucion}</span>
-                  </div>
-                ))}
+                    <span className="text-sm text-gray-600">{t.manifestations}</span>
+                    {manifestacionesExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] ? (
+                      <ChevronUp className="h-3 w-3 text-gray-400" />
+                    ) : (
+                      <ChevronDown className="h-3 w-3 text-gray-400" />
+                    )}
+                  </button>
+                  
+                  {manifestacionesExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] && (
+                    <ul className="p-2 space-y-1 bg-white">
+                      {conducta.manifestaciones.map((manifestacion, idx) => (
+                        <li key={idx} className="text-xs text-gray-600 pl-3 relative before:content-['•'] before:absolute before:left-0 before:text-gray-400">
+                          {manifestacion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
+        ))}
       </div>
     );
   };
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
+    <div className="max-w-full bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
@@ -481,12 +628,12 @@ const TablaAlumnosAlternativa = () => {
               <img src={logo} alt="Logo" className="w-full h-full object-cover rounded-xl" />
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-transparent bg-clip-text">
-              Gestión de Alumnos
+              {t.management}
             </h1>
           </div>
           <button className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-indigo-500/25">
             <Plus className="w-5 h-5 inline-block mr-2" />
-            Nuevo Alumno
+            {t.newStudent}
           </button>
         </div>
       </div>
@@ -496,16 +643,16 @@ const TablaAlumnosAlternativa = () => {
         <div className="flex-1 relative">
           <input
             type="text"
-            placeholder="Buscar alumno..."
-            value={busquedaGlobal}
-            onChange={(e) => setBusquedaGlobal(e.target.value)}
+            placeholder={t.search}
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-white/40 dark:bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
           />
           <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
         <button className="px-4 py-2 flex items-center space-x-2 bg-white/40 dark:bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg hover:bg-white/60 dark:hover:bg-white/10 transition-all">
           <Filter className="w-5 h-5 text-gray-500" />
-          <span>Filtros</span>
+          <span>{t.filters}</span>
         </button>
       </div>
 
@@ -517,31 +664,83 @@ const TablaAlumnosAlternativa = () => {
               <tr className="bg-gray-50/50 dark:bg-gray-900/50">
                 <th scope="col" className="px-6 py-3 text-left">
                   <button
-                    onClick={() => handleOrdenamiento('nombre')}
+                    onClick={() => handleOrdenar('nombre')}
                     className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
                   >
-                    <span>Nombre</span>
-                    <div className="transition-transform duration-200">
-                      {ordenamiento.campo === 'nombre' && (
-                        ordenamiento.direccion === 'asc' ? 
+                    <span>{t.columns.name}</span>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      {columnaOrden === 'nombre' && (
+                        ordenAscendente ? 
                           <ChevronUp className="w-4 h-4" /> : 
                           <ChevronDown className="w-4 h-4" />
                       )}
                     </div>
                   </button>
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Trastorno 1</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Trastorno 2</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Trastorno 3</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Conducta 1</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Conducta 2</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Conducta 3</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Soluciones</th>
-                <th scope="col" className="px-6 py-3 text-left text-gray-600 dark:text-gray-300">Acciones</th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <button
+                    onClick={() => handleOrdenar('trastorno1')}
+                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
+                  >
+                    <span>{t.columns.disorder1}</span>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      {columnaOrden === 'trastorno1' && (
+                        ordenAscendente ? 
+                          <ChevronUp className="w-4 h-4" /> : 
+                          <ChevronDown className="w-4 h-4" />
+                      )}
+                    </div>
+                  </button>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <span className="text-gray-600 dark:text-gray-300">{t.columns.behavior1}</span>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <button
+                    onClick={() => handleOrdenar('trastorno2')}
+                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
+                  >
+                    <span>{t.columns.disorder2}</span>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      {columnaOrden === 'trastorno2' && (
+                        ordenAscendente ? 
+                          <ChevronUp className="w-4 h-4" /> : 
+                          <ChevronDown className="w-4 h-4" />
+                      )}
+                    </div>
+                  </button>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <span className="text-gray-600 dark:text-gray-300">{t.columns.behavior2}</span>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <button
+                    onClick={() => handleOrdenar('trastorno3')}
+                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
+                  >
+                    <span>{t.columns.disorder3}</span>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      {columnaOrden === 'trastorno3' && (
+                        ordenAscendente ? 
+                          <ChevronUp className="w-4 h-4" /> : 
+                          <ChevronDown className="w-4 h-4" />
+                      )}
+                    </div>
+                  </button>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <span className="text-gray-600 dark:text-gray-300">{t.columns.behavior3}</span>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <span className="text-gray-600 dark:text-gray-300">{t.columns.solutions}</span>
+                </th>
+                <th scope="col" className="px-6 py-3 text-left">
+                  <span className="text-gray-600 dark:text-gray-300">{t.actions}</span>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {datosFiltrados.map((alumno) => (
+              {datosOrdenados.map((alumno) => (
                 <tr key={alumno.id} className="group hover:bg-gray-50/50 dark:hover:bg-gray-900/50 transition-colors">
                   <td className="px-6 py-4">
                     <span className="text-gray-900 dark:text-white font-medium">{alumno.nombre}</span>
@@ -562,13 +761,13 @@ const TablaAlumnosAlternativa = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 max-w-xs">
-                    {renderConducta(alumno, 'conductaAula1', 'trastornoPsicologico1')}
+                    {renderConductas(alumno, 'trastornoPsicologico1')}
                   </td>
                   <td className="px-6 py-4 max-w-xs">
-                    {renderConducta(alumno, 'conductaAula2', 'trastornoPsicologico2')}
+                    {renderConductas(alumno, 'trastornoPsicologico2')}
                   </td>
                   <td className="px-6 py-4 max-w-xs">
-                    {renderConducta(alumno, 'conductaAula3', 'trastornoPsicologico3')}
+                    {renderConductas(alumno, 'trastornoPsicologico3')}
                   </td>
                   <td className="px-6 py-4">
                     {renderSoluciones(alumno)}
@@ -579,7 +778,7 @@ const TablaAlumnosAlternativa = () => {
                         <Pencil className="w-5 h-5 text-indigo-500" />
                       </button>
                       <button 
-                        onClick={() => handleEliminar(alumno.id)}
+                        onClick={() => setDatos(datos.filter(alumno => alumno.id !== alumno.id))}
                         className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
                       >
                         <Trash2 className="w-5 h-5 text-red-500" />
@@ -594,6 +793,6 @@ const TablaAlumnosAlternativa = () => {
       </div>
     </div>
   );
-};
+}
 
 export default TablaAlumnosAlternativa;
