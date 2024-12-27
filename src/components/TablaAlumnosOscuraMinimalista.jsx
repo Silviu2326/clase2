@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, ChevronRight } from 'lucide-react';
 import logo from './logo.jpeg';
+import { translations } from '../translations/translations';
 
 const datosIniciales = [
   {
@@ -55,11 +56,12 @@ const datosIniciales = [
   },
 ];
 
-const TablaAlumnosOscuraMinimalista = () => {
+const TablaAlumnosOscuraMinimalista = ({ language = 'es' }) => {
   const [datos, setDatos] = useState(datosIniciales);
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
   const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
   const [conductasExpandidas, setConductasExpandidas] = useState({});
+  const t = translations[language];
 
   const handleOrdenamiento = (campo) => {
     const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
@@ -130,12 +132,12 @@ const TablaAlumnosOscuraMinimalista = () => {
                 <img src={logo} alt="Logo" className="h-12 w-auto opacity-90" />
               </div>
               <h1 className="text-3xl font-bold text-gray-100">
-                Gestión de Alumnos
+                {t.management}
               </h1>
             </div>
             <button className="px-5 py-2.5 bg-gray-700 text-gray-100 rounded-lg flex items-center space-x-2 hover:bg-gray-600 transition-all">
               <Plus className="w-5 h-5" />
-              <span className="font-medium">Añadir Alumno</span>
+              <span className="font-medium">{t.newStudent}</span>
             </button>
           </div>
         </div>
@@ -147,7 +149,7 @@ const TablaAlumnosOscuraMinimalista = () => {
           <div className="relative">
             <input
               type="text"
-              placeholder="Buscar alumno..."
+              placeholder={t.search}
               value={busquedaGlobal}
               onChange={(e) => setBusquedaGlobal(e.target.value)}
               className="w-96 pl-12 pr-4 py-3 bg-gray-800 text-gray-100 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-gray-600 placeholder-gray-500"
@@ -156,7 +158,7 @@ const TablaAlumnosOscuraMinimalista = () => {
           </div>
           <button className="px-4 py-3 bg-gray-800 rounded-lg flex items-center space-x-2 text-gray-300 hover:bg-gray-700 transition-colors">
             <Filter className="w-5 h-5" />
-            <span>Filtros</span>
+            <span>{t.filters}</span>
           </button>
         </div>
       </div>
@@ -171,20 +173,20 @@ const TablaAlumnosOscuraMinimalista = () => {
                   onClick={() => handleOrdenamiento('nombre')}
                   className="flex items-center space-x-1 text-gray-300 hover:text-gray-100"
                 >
-                  <span>Nombre</span>
+                  <span>{t.columns.name}</span>
                   {ordenamiento.campo === 'nombre' && (
                     ordenamiento.direccion === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
                   )}
                 </button>
               </th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Trastorno 1</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Trastorno 2</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Trastorno 3</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Conducta 1</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Conducta 2</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Conducta 3</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Soluciones</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Acciones</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder1}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder2}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder3}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors1}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors2}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors3}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.solutions}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.actions}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
@@ -206,10 +208,14 @@ const TablaAlumnosOscuraMinimalista = () => {
                 <td className="px-4 py-4 text-gray-300">{alumno.soluciones}</td>
                 <td className="px-4 py-4">
                   <div className="flex space-x-3">
-                    <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+                    <button 
+                      title={t.editStudent}
+                      className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+                    >
                       <Pencil className="w-5 h-5 text-gray-400 hover:text-gray-100" />
                     </button>
                     <button 
+                      title={t.deleteStudent}
                       onClick={() => handleEliminar(alumno.id)}
                       className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
                     >
@@ -221,6 +227,22 @@ const TablaAlumnosOscuraMinimalista = () => {
             ))}
           </tbody>
         </table>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-gray-700">
+          <div className="flex items-center justify-between text-sm text-gray-400">
+            <div>
+              {t.footer.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}
+            </div>
+            <div className="flex items-center space-x-2">
+              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">{t.footer.prev}</button>
+              <button className="px-3 py-1 rounded-lg bg-gray-700 text-white">1</button>
+              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">2</button>
+              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">3</button>
+              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">{t.footer.next}</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

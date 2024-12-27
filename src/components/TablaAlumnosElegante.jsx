@@ -38,13 +38,71 @@ const datosIniciales = [
   },
 ];
 
-const TablaAlumnosElegante = () => {
+const translations = {
+  es: {
+    title: 'Registro de Alumnos',
+    subtitle: 'Sistema de gestión académica',
+    showing: 'Mostrando {count} de {total} alumnos',
+    prev: 'Anterior',
+    next: 'Siguiente',
+    actions: 'Acciones',
+    search: 'Buscar por nombre, trastorno, hábito...',
+    columns: {
+      name: 'Nombre',
+      disorders: 'Trastornos Psicológicos y Neurológicos',
+      habits: 'Hábitos o Conductas que Afectan en el Aula',
+      solutions: 'Posibles Soluciones',
+      actionsHeader: 'Acciones',
+    },
+    buttons: {
+      export: 'Exportar',
+      refresh: 'Actualizar',
+      add: 'Añadir Alumno',
+      filters: 'Filtros',
+    },
+    footer: {
+      showing: 'Mostrando {count} de {total} alumnos',
+      prev: 'Anterior',
+      next: 'Siguiente',
+    },
+  },
+  en: {
+    title: 'Student Registry',
+    subtitle: 'Academic Management System',
+    showing: 'Showing {count} of {total} students',
+    prev: 'Previous',
+    next: 'Next',
+    actions: 'Actions',
+    search: 'Search by name, disorder, habit...',
+    columns: {
+      name: 'Name',
+      disorders: 'Psychological and Neurological Disorders',
+      habits: 'Habits or Behaviors Affecting the Classroom',
+      solutions: 'Possible Solutions',
+      actionsHeader: 'Actions',
+    },
+    buttons: {
+      export: 'Export',
+      refresh: 'Refresh',
+      add: 'Add Student',
+      filters: 'Filters',
+    },
+    footer: {
+      showing: 'Showing {count} of {total} students',
+      prev: 'Previous',
+      next: 'Next',
+    },
+  },
+};
+
+const TablaAlumnosElegante = ({ language }) => {
   const [datos, setDatos] = useState(datosIniciales);
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
   const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
   const [alumnoEditando, setAlumnoEditando] = useState(null);
   const [dialogoAbierto, setDialogoAbierto] = useState(false);
   const [columnaHover, setColumnaHover] = useState(null);
+  const t = translations[language];
 
   const handleOrdenamiento = (campo) => {
     const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
@@ -71,6 +129,24 @@ const TablaAlumnosElegante = () => {
     );
   }, [datos, busquedaGlobal]);
 
+  const renderPagination = () => {
+    return (
+      <div className="flex justify-between items-center mt-4">
+        <span className="text-sm text-gray-600">
+          {t.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}
+        </span>
+        <div className="flex space-x-2">
+          <button className="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg">
+            {t.prev}
+          </button>
+          <button className="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg">
+            {t.next}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="p-6 max-w-[1800px] mx-auto">
       {/* Header */}
@@ -81,22 +157,22 @@ const TablaAlumnosElegante = () => {
               <img src={logo} alt="Logo" className="h-10 w-auto" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-800">Registro de Alumnos</h1>
-              <p className="text-slate-500 text-sm">Sistema de gestión académica</p>
+              <h1 className="text-2xl font-bold text-slate-800">{t.title}</h1>
+              <p className="text-slate-500 text-sm">{t.subtitle}</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
             <button className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors flex items-center space-x-2 border border-slate-200">
               <Download className="w-4 h-4" />
-              <span>Exportar</span>
+              <span>{t.buttons.export}</span>
             </button>
             <button className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors flex items-center space-x-2 border border-slate-200">
               <RefreshCw className="w-4 h-4" />
-              <span>Actualizar</span>
+              <span>{t.buttons.refresh}</span>
             </button>
             <button className="px-4 py-2 bg-rose-600 text-white rounded-lg flex items-center space-x-2 hover:bg-rose-700 transition-colors shadow-sm">
               <Plus className="w-4 h-4" />
-              <span>Añadir Alumno</span>
+              <span>{t.buttons.add}</span>
             </button>
           </div>
         </div>
@@ -106,7 +182,7 @@ const TablaAlumnosElegante = () => {
           <div className="relative flex-1 max-w-lg">
             <input
               type="text"
-              placeholder="Buscar por nombre, trastorno, hábito..."
+              placeholder={t.search}
               value={busquedaGlobal}
               onChange={(e) => setBusquedaGlobal(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-slate-50 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
@@ -116,7 +192,7 @@ const TablaAlumnosElegante = () => {
           <div className="flex items-center space-x-2">
             <button className="px-3 py-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors flex items-center space-x-2 border border-slate-200">
               <Filter className="w-4 h-4" />
-              <span>Filtros</span>
+              <span>{t.buttons.filters}</span>
             </button>
           </div>
         </div>
@@ -134,7 +210,7 @@ const TablaAlumnosElegante = () => {
                 onMouseLeave={() => setColumnaHover(null)}
               >
                 <div className="flex items-center space-x-1">
-                  <span>Nombre</span>
+                  <span>{t.columns.name}</span>
                   <div className={`transition-opacity ${columnaHover === 'nombre' || ordenamiento.campo === 'nombre' ? 'opacity-100' : 'opacity-0'}`}>
                     {ordenamiento.campo === 'nombre' ? (
                       ordenamiento.direccion === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
@@ -143,16 +219,16 @@ const TablaAlumnosElegante = () => {
                 </div>
               </th>
               <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-slate-500 uppercase tracking-wider bg-rose-50/50">
-                Trastornos Psicológicos y Neurológicos
+                {t.columns.disorders}
               </th>
               <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-slate-500 uppercase tracking-wider bg-blue-50/50">
-                Hábitos o Conductas que Afectan en el Aula
+                {t.columns.habits}
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-emerald-50/50">
-                Posibles Soluciones
+                {t.columns.solutions}
               </th>
               <th className="px-6 py-4 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">
-                Acciones
+                {t.columns.actionsHeader}
               </th>
             </tr>
             <tr className="border-b border-slate-200 text-center">
@@ -168,7 +244,7 @@ const TablaAlumnosElegante = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200">
-            {datosFiltrados.map((alumno, index) => (
+            {datosFiltrados.map((alumno) => (
               <tr 
                 key={alumno.id}
                 className="hover:bg-slate-50/50 transition-colors group"
@@ -245,15 +321,15 @@ const TablaAlumnosElegante = () => {
       {/* Footer */}
       <div className="bg-white rounded-b-2xl shadow-sm border border-t-0 border-slate-200 px-6 py-4">
         <div className="flex items-center justify-between text-sm text-slate-600">
-          <div>Mostrando {datosFiltrados.length} de {datos.length} alumnos</div>
+          <div>{t.footer.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}</div>
           <div className="flex items-center space-x-2">
-            <button className="px-3 py-1 rounded-lg hover:bg-slate-50 transition-colors">Anterior</button>
+            <button className="px-3 py-1 rounded-lg hover:bg-slate-50 transition-colors">{t.footer.prev}</button>
             <div className="flex items-center space-x-1">
               <button className="px-3 py-1 rounded-lg bg-rose-50 text-rose-600 font-medium">1</button>
               <button className="px-3 py-1 rounded-lg hover:bg-slate-50 transition-colors">2</button>
               <button className="px-3 py-1 rounded-lg hover:bg-slate-50 transition-colors">3</button>
             </div>
-            <button className="px-3 py-1 rounded-lg hover:bg-slate-50 transition-colors">Siguiente</button>
+            <button className="px-3 py-1 rounded-lg hover:bg-slate-50 transition-colors">{t.footer.next}</button>
           </div>
         </div>
       </div>

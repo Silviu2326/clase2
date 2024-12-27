@@ -13,6 +13,7 @@ import {
   Settings
 } from 'lucide-react';
 import logo from './logo.jpeg';
+import { translations } from '../translations/translations';
 
 const datosIniciales = [
   {
@@ -39,7 +40,8 @@ const datosIniciales = [
   },
 ];
 
-const TablaAlumnosOscuraGradiente = () => {
+const TablaAlumnosOscuraGradiente = ({ language }) => {
+  const t = translations[language];
   const [datos, setDatos] = useState(datosIniciales);
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
   const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
@@ -86,21 +88,27 @@ const TablaAlumnosOscuraGradiente = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                  Gestión de Alumnos
+                  {t.title}
                 </h1>
-                <p className="text-gray-400">Modo Oscuro con Gradientes</p>
+                <p className="text-gray-400">{t.darkMode}</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <button className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors backdrop-blur-sm">
+              <button 
+                className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors backdrop-blur-sm"
+                title={t.buttons.settings}
+              >
                 <Settings className="w-5 h-5" />
               </button>
-              <button className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors backdrop-blur-sm">
+              <button 
+                className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors backdrop-blur-sm"
+                title={t.buttons.export}
+              >
                 <Download className="w-5 h-5" />
               </button>
               <button className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-purple-600 text-white rounded-lg flex items-center space-x-2 hover:from-cyan-500 hover:to-purple-500 transition-all shadow-lg shadow-purple-900/20">
                 <Plus className="w-4 h-4" />
-                <span>Nuevo Alumno</span>
+                <span>{t.newStudent}</span>
               </button>
             </div>
           </div>
@@ -110,14 +118,17 @@ const TablaAlumnosOscuraGradiente = () => {
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="Buscar en todos los campos..."
+                placeholder={t.searchPlaceholder}
                 value={busquedaGlobal}
                 onChange={(e) => setBusquedaGlobal(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-white/5 text-gray-200 rounded-lg border border-gray-700/50 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 placeholder-gray-500"
               />
               <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             </div>
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors backdrop-blur-sm">
+            <button 
+              className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors backdrop-blur-sm"
+              title={t.buttons.filters}
+            >
               <Filter className="w-5 h-5" />
             </button>
           </div>
@@ -135,7 +146,7 @@ const TablaAlumnosOscuraGradiente = () => {
                   onClick={() => handleOrdenamiento('nombre')}
                 >
                   <div className="flex items-center space-x-1">
-                    <span>Nombre</span>
+                    <span>{t.columns.name}</span>
                     {ordenamiento.campo === 'nombre' && (
                       ordenamiento.direccion === 'asc' ? 
                       <ChevronUp className="w-4 h-4" /> : 
@@ -144,16 +155,16 @@ const TablaAlumnosOscuraGradiente = () => {
                   </div>
                 </th>
                 <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider bg-cyan-900/20">
-                  Trastornos
+                  {t.columns.disorders}
                 </th>
                 <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider bg-purple-900/20">
-                  Hábitos
+                  {t.columns.habits}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Soluciones
+                  {t.columns.solutions}
                 </th>
                 <th className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Acciones
+                  {t.columns.actions}
                 </th>
               </tr>
             </thead>
@@ -208,21 +219,21 @@ const TablaAlumnosOscuraGradiente = () => {
                       <button 
                         onClick={() => handleEditar(alumno)}
                         className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-                        title="Editar"
+                        title={t.buttons.edit}
                       >
                         <Pencil className="w-4 h-4 text-gray-400 hover:text-white" />
                       </button>
                       <button 
                         onClick={() => handleEliminar(alumno.id)}
                         className="p-1.5 hover:bg-red-900/20 rounded-lg transition-colors"
-                        title="Eliminar"
+                        title={t.buttons.delete}
                       >
                         <Trash2 className="w-4 h-4 text-red-400 hover:text-red-300" />
                       </button>
                       <button 
                         onClick={() => toggleVistaExpandida(alumno.id)}
                         className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-                        title="Ver más"
+                        title={t.buttons.more}
                       >
                         <Eye className="w-4 h-4 text-gray-400 hover:text-white" />
                       </button>
@@ -238,14 +249,14 @@ const TablaAlumnosOscuraGradiente = () => {
         <div className="px-6 py-4 border-t border-gray-700/50 bg-gradient-to-r from-cyan-900/10 to-purple-900/10">
           <div className="flex items-center justify-between text-sm text-gray-400">
             <div>
-              Mostrando {datosFiltrados.length} de {datos.length} alumnos
+              {t.footer.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}
             </div>
             <div className="flex items-center space-x-2">
-              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">Anterior</button>
+              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">{t.footer.prev}</button>
               <button className="px-3 py-1 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white">1</button>
               <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">2</button>
               <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">3</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">Siguiente</button>
+              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">{t.footer.next}</button>
             </div>
           </div>
         </div>

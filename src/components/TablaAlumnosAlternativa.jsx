@@ -1,39 +1,41 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, Eye, EyeOff } from 'lucide-react';
+import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, Eye, EyeOff, ChevronRight } from 'lucide-react';
 import logo from './logo.jpeg';
 import problemasEducativos from '../data/problemas-educativos.json';
+import educationalProblemsData from '../data/educational-problems.json';
 import { translations } from '../translations/translations';
 
-const obtenerDetallesTrastorno = (nombreTrastorno) => {
+const obtenerDetallesTrastorno = (nombreTrastorno, language) => {
   if (!nombreTrastorno) return null;
   
   const nombreNormalizado = nombreTrastorno.toLowerCase();
   const mapeoTrastornos = {
-    'tdah': 'Trastorno por Déficit de Atención e Hiperactividad',
-    'dislexia': 'Dificultades Específicas del Aprendizaje',
-    'apd': 'Trastorno del Procesamiento Auditivo',
-    'tda': 'Trastorno por Déficit de Atención e Hiperactividad',
-    'spld': 'Dificultades Específicas del Aprendizaje'
+    'tdah': language === 'es' ? 'Trastorno por Déficit de Atención e Hiperactividad' : 'Attention Deficit Hyperactivity Disorder',
+    'dislexia': language === 'es' ? 'Dificultades Específicas del Aprendizaje' : 'Specific Learning Difficulties',
+    'apd': language === 'es' ? 'Trastorno del Procesamiento Auditivo' : 'Auditory Processing Disorder',
+    'tda': language === 'es' ? 'Trastorno por Déficit de Atención e Hiperactividad' : 'Attention Deficit Hyperactivity Disorder',
+    'spld': language === 'es' ? 'Dificultades Específicas del Aprendizaje' : 'Specific Learning Difficulties',
+    'semh': language === 'es' ? 'Social, Emocional y Salud Mental' : 'Social, Emotional, and Mental Health'
   };
 
   const categoriaBuscada = mapeoTrastornos[nombreNormalizado] || nombreTrastorno;
+  const data = language === 'en' ? educationalProblemsData.problems : problemasEducativos.problemas;
   
-  return problemasEducativos.problemas.find(
-    problema => problema.categoria.toLowerCase() === categoriaBuscada.toLowerCase()
+  return data.find(
+    problema => (problema.category || problema.categoria).toLowerCase() === categoriaBuscada.toLowerCase()
   );
 };
 
-const obtenerSolucionesPorTrastorno = (alumno) => {
+const obtenerSolucionesPorTrastorno = (alumno, language) => {
   const solucionesPorTrastorno = {};
   const solucionesEspecificas = {
-    nombre: 'Soluciones Específicas',
+    nombre: language === 'es' ? 'Soluciones Específicas' : 'Specific Solutions',
     soluciones: [{
-      categoria: 'Personalizadas',
+      categoria: language === 'es' ? 'Personalizadas' : 'Personalized',
       estrategias: alumno.soluciones || []
     }]
   };
 
-  // Obtener soluciones de cada trastorno
   [
     { nombre: alumno.trastornoPsicologico1, orden: 1 },
     { nombre: alumno.trastornoPsicologico2, orden: 2 },
@@ -41,11 +43,11 @@ const obtenerSolucionesPorTrastorno = (alumno) => {
   ]
     .filter(t => t.nombre)
     .forEach(trastorno => {
-      const detalles = obtenerDetallesTrastorno(trastorno.nombre);
+      const detalles = obtenerDetallesTrastorno(trastorno.nombre, language);
       if (detalles) {
         solucionesPorTrastorno[`trastorno${trastorno.orden}`] = {
           nombre: trastorno.nombre,
-          soluciones: detalles.soluciones || []
+          soluciones: detalles.solutions || detalles.soluciones || []
         };
       }
     });
@@ -56,359 +58,56 @@ const obtenerSolucionesPorTrastorno = (alumno) => {
   };
 };
 
-const obtenerConductasPorTrastorno = (nombreTrastorno) => {
+const obtenerConductasPorTrastorno = (nombreTrastorno, language) => {
   if (!nombreTrastorno) return [];
   
-  const detalles = obtenerDetallesTrastorno(nombreTrastorno);
-  return detalles?.conductas || [];
+  const detalles = obtenerDetallesTrastorno(nombreTrastorno, language);
+  return detalles?.behaviors || detalles?.conductas || [];
 };
 
-const datosIniciales = [
-  {
-    id: 1,
-    nombre: 'Bus Year 10 - P1',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'TDAH',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades SEMH',
-      descripcion: '(Social, Emocional y Salud Mental)',
-      detalles: [
-        'Dificultades sociales y emocionales',
-        'Problemas de salud mental',
-        'Impacto en el rendimiento académico'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'Apoyo en clase (Matemáticas)',
-      'Psicólogo externo: Nadal San Bartolomew',
-      '25% de tiempo extra en exámenes',
-      'Informe externo (Isabel Yague, 2021)',
-      'TDAH-I (tipo inatento)'
-    ]
-  },
-  {
-    id: 2,
-    nombre: 'Bus Year 10 - P2',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia',
-    trastornoPsicologico2: 'TDAH',
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades de lectura y escritura',
-      descripcion: 'Problemas de ortografía y decodificación',
-      detalles: [
-        'Dificultades en la lectura',
-        'Problemas de ortografía',
-        'Dificultades en la decodificación de texto'
-      ]
-    },
-    conductaAula2: {
-      titulo: 'Dificultades atencionales',
-      descripcion: 'Dificultad para mantener la atención, impulsividad, posible hiperactividad',
-      detalles: [
-        'Problemas para mantener la atención',
-        'Comportamiento impulsivo',
-        'Signos de hiperactividad'
-      ]
-    },
-    conductaAula3: null,
-    soluciones: [
-      'Programa SNIP de enseñanza de precisión en casa (inicia octubre 2024)',
-      '(Sin ajustes extra indicados en la tabla)',
-      'Diagnóstico oficial: Dislexia + TDAH',
-      'Info adicional: "Diagnosed with dyslexia in June 2024 (internal evaluation)"'
-    ]
-  },
-  {
-    id: 3,
-    nombre: 'Bus Year 10 - P3',
-    descripcion: '(Monitor, Diagnóstico formal: No)',
-    trastornoPsicologico1: null,
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: null,
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      '(Ningún apoyo o acceso extra detallado en la tabla)',
-      'Observaciones: Se han reportado problemas de comportamiento ("Behaviour issues") sin diagnóstico formal'
-    ]
-  },
-  {
-    id: 4,
-    nombre: 'Bus Year 10 - P4',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Problemas de comprensión lectora y escritura',
-      descripcion: 'Dificultades específicas en el procesamiento de texto escrito',
-      detalles: [
-        'Dificultades en la comprensión lectora',
-        'Problemas en la expresión escrita',
-        'Dificultades en el procesamiento de texto'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'Asistencia a apoyo especializado',
-      '25% de tiempo extra en exámenes',
-      'Info adicional: "Dyslexia (internal assessment June 2024)"'
-    ]
-  },
-  {
-    id: 5,
-    nombre: 'Bus Year 11 - P1',
-    descripcion: '(Monitor, Diagnóstico formal: No)',
-    trastornoPsicologico1: null,
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: null,
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'Observaciones generales:',
-      '- Dificultades en Cognición y Aprendizaje (C&L)',
-      '- Dificultades Sociales, Emocionales y de Salud Mental (SEMH)',
-      '- Comportamiento deficiente en ocasiones (desinterés y bajo rendimiento)',
-      'Info adicional: «Poor behaviour at times and can be quite disengaged, not performing to ability level»'
-    ]
-  },
-  {
-    id: 6,
-    nombre: 'Bus Year 11 - P2',
-    descripcion: '(Wave 3, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'APD (Trastorno del Procesamiento Auditivo)',
-    trastornoPsicologico2: 'TDA (Trastorno por Déficit de Atención)',
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades de procesamiento auditivo',
-      descripcion: 'Dificultad para procesar la información auditiva, problemas para seguir instrucciones orales',
-      detalles: [
-        'Problemas para procesar información auditiva',
-        'Dificultad para seguir instrucciones orales',
-        'Necesidad de apoyo visual adicional'
-      ]
-    },
-    conductaAula2: {
-      titulo: 'Dificultades atencionales',
-      descripcion: 'Falta de atención, desconexión frecuente de la tarea, impulsividad leve',
-      detalles: [
-        'Desconexión frecuente durante las tareas',
-        'Dificultad para mantener la atención',
-        'Signos de impulsividad leve'
-      ]
-    },
-    conductaAula3: null,
-    soluciones: [
-      'Sesiones de apoyo SEMH (1 hora PSHE) y plan de cuidados con el equipo pastoral',
-      '25% de tiempo extra en exámenes',
-      'Adicional: «ADD and APD»',
-      'Comentario: «Poor behaviour at times, not performing to ability level»'
-    ]
-  },
-  {
-    id: 7,
-    nombre: 'Bus Year 11 - P3',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia (SpLD)',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en Cognición y Aprendizaje',
-      descripcion: '(C&L)',
-      detalles: [
-        'Dificultades en el procesamiento de información',
-        'Problemas de aprendizaje específicos',
-        'Necesidad de apoyo adicional'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      '25% de tiempo extra en exámenes',
-      'Adicional: «DYSLEXIA»'
-    ]
-  },
-  {
-    id: 8,
-    nombre: 'Travel Y13.2 - P1',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia (SpLD)',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en Cognición y Aprendizaje',
-      descripcion: null,
-      detalles: [
-        'Dificultades específicas de aprendizaje',
-        'Necesidad de apoyo en tareas de lectura y escritura',
-        'Adaptaciones necesarias en evaluaciones'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'SEN Support: Ninguno',
-      'Acceso: 25% de tiempo extra',
-      'Info adicional: "Dyslexia SpLD"'
-    ]
-  },
-  {
-    id: 9,
-    nombre: 'Travel Y13.2 - P2',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia (SpLD)',
-    trastornoPsicologico2: 'TDAH',
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en Cognición y Aprendizaje',
-      descripcion: null,
-      detalles: [
-        'Dificultades en el procesamiento de información',
-        'Problemas de lectura y escritura',
-        'Necesidad de adaptaciones específicas'
-      ]
-    },
-    conductaAula2: {
-      titulo: 'Dificultad de atención',
-      descripcion: '(hiperactividad/impulsividad)',
-      detalles: [
-        'Problemas de concentración',
-        'Comportamiento hiperactivo',
-        'Dificultad para controlar impulsos'
-      ]
-    },
-    conductaAula3: null,
-    soluciones: [
-      'SEN Support: Ninguno',
-      'Acceso: 25% de tiempo extra',
-      'Info adicional: "Dyslexia"'
-    ]
-  },
-  {
-    id: 10,
-    nombre: 'Travel Y13.2 - P3',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia (SpLD)',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en Cognición y Aprendizaje',
-      descripcion: null,
-      detalles: [
-        'Dificultades en el procesamiento de información',
-        'Necesidad de apoyo en tareas académicas',
-        'Adaptaciones para evaluaciones'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'SEN Support: Ninguno',
-      'Acceso: 25% de tiempo extra',
-      'Info adicional: "WISC report completed by school psychologist 2022"'
-    ]
-  },
-  {
-    id: 11,
-    nombre: 'Travel Y13.2 - P4',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'Dislexia (SpLD)',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en Cognición y Aprendizaje',
-      descripcion: null,
-      detalles: [
-        'Dificultades específicas de aprendizaje',
-        'Problemas en el procesamiento de información',
-        'Necesidad de adaptaciones académicas'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'SEN Support: Ninguno',
-      'Acceso: 25% de tiempo extra',
-      'Info adicional: "Dyslexia"'
-    ]
-  },
-  {
-    id: 12,
-    nombre: 'BTEC Y13 - P1',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'SpLD (Dificultad Específica de Aprendizaje)',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en Cognición y Aprendizaje',
-      descripcion: null,
-      detalles: [
-        'Dificultades específicas en el aprendizaje',
-        'Necesidad de adaptaciones académicas',
-        'Apoyo específico en tareas'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'SEN Support: Ninguno',
-      'Acceso: 25% de tiempo extra',
-      'Info adicional: "External assessment (2021) SpLD"'
-    ]
-  },
-  {
-    id: 13,
-    nombre: 'BTEC Y12 - P1',
-    descripcion: '(Monitor, Diagnóstico formal: No)',
-    trastornoPsicologico1: 'SEMH (Social, Emocional y Salud Mental)',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades de manejo de la ira y salud mental',
-      descripcion: null,
-      detalles: [
-        'Problemas en el manejo de la ira',
-        'Dificultades emocionales',
-        'Necesidad de apoyo en salud mental'
-      ]
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: [
-      'Apoyo externo: Psicólogo',
-      'Info adicional: "Anger management issues & mental health difficulties"'
-    ]
-  }
-];
+const TablaAlumnosAlternativa = ({ language }) => {
+  const [deletedIds, setDeletedIds] = useState(new Set());
+  const datos = useMemo(() => {
+    const data = language === 'en' ? educationalProblemsData.problems : problemasEducativos.problemas;
+    return data
+      .filter(problema => !deletedIds.has(problema.id))
+      .map(problema => ({
+        id: problema.id,
+        nombre: `Bus Year 10 - P${problema.id}`,
+        descripcion: '(Wave 1, Diagnóstico formal: Sí)',
+        trastornoPsicologico1: problema.category || problema.categoria,
+        trastornoPsicologico2: null,
+        trastornoPsicologico3: null,
+        conductaAula1: {
+          titulo: problema.description || problema.descripcion,
+          descripcion: problema.behaviors?.[0]?.manifestations?.[0] || problema.conductas?.[0]?.manifestaciones?.[0],
+          detalles: problema.behaviors?.[0]?.manifestations || problema.conductas?.[0]?.manifestaciones || []
+        },
+        conductaAula2: problema.behaviors?.[1] || problema.conductas?.[1] ? {
+          titulo: problema.behaviors?.[1]?.type || problema.conductas?.[1]?.tipo,
+          descripcion: problema.behaviors?.[1]?.manifestations?.[0] || problema.conductas?.[1]?.manifestaciones?.[0],
+          detalles: problema.behaviors?.[1]?.manifestations || problema.conductas?.[1]?.manifestaciones || []
+        } : null,
+        conductaAula3: problema.behaviors?.[2] || problema.conductas?.[2] ? {
+          titulo: problema.behaviors?.[2]?.type || problema.conductas?.[2]?.tipo,
+          descripcion: problema.behaviors?.[2]?.manifestations?.[0] || problema.conductas?.[2]?.manifestaciones?.[0],
+          detalles: problema.behaviors?.[2]?.manifestations || problema.conductas?.[2]?.manifestaciones || []
+        } : null,
+        soluciones: problema.solutions?.map(solution => language === 'en' ? solution : problema.soluciones?.[0]) || problema.soluciones || []
+      }));
+  }, [language, deletedIds]);
 
-function TablaAlumnosAlternativa({ language }) {
-  const [datos, setDatos] = useState(datosIniciales);
   const [filtro, setFiltro] = useState('');
   const [columnaOrden, setColumnaOrden] = useState(null);
   const [ordenAscendente, setOrdenAscendente] = useState(true);
-  const [columnasVisibles, setColumnasVisibles] = useState({
-    nombre: true,
-    trastorno1: true,
-    trastorno2: true,
-    trastorno3: true,
-    conducta1: true,
-    conducta2: true,
-    conducta3: true,
-    soluciones: true
-  });
+  const [conductasExpandidas, setConductasExpandidas] = useState({});
   const [solucionesExpandidas, setSolucionesExpandidas] = useState({});
   const [categoriaExpandida, setCategoriaExpandida] = useState({});
-  const [conductasExpandidas, setConductasExpandidas] = useState({});
-  const [manifestacionesExpandidas, setManifestacionesExpandidas] = useState({});
   const t = translations[language];
+
+  const handleDelete = (id) => {
+    setDeletedIds(prev => new Set([...prev, id]));
+  };
 
   const toggleSolucion = (alumnoId, trastorno) => {
     setSolucionesExpandidas(prev => ({
@@ -428,26 +127,10 @@ function TablaAlumnosAlternativa({ language }) {
     }));
   };
 
-  const toggleConducta = (alumnoId, trastorno, conductaIndex) => {
-    const key = `${alumnoId}-${trastorno}-${conductaIndex}`;
+  const toggleConducta = (alumnoId, index) => {
     setConductasExpandidas(prev => ({
       ...prev,
-      [key]: !prev[key]
-    }));
-  };
-
-  const toggleManifestaciones = (alumnoId, trastorno, conductaIndex) => {
-    const key = `${alumnoId}-${trastorno}-${conductaIndex}`;
-    setManifestacionesExpandidas(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
-
-  const toggleColumna = (columna) => {
-    setColumnasVisibles(prev => ({
-      ...prev,
-      [columna]: !prev[columna]
+      [`${alumnoId}-${index}`]: !prev[`${alumnoId}-${index}`]
     }));
   };
 
@@ -509,7 +192,7 @@ function TablaAlumnosAlternativa({ language }) {
   }, [datosFiltrados, columnaOrden, ordenAscendente]);
 
   const renderSoluciones = (alumno) => {
-    const solucionesPorTrastorno = obtenerSolucionesPorTrastorno(alumno);
+    const solucionesPorTrastorno = obtenerSolucionesPorTrastorno(alumno, language);
 
     return (
       <div className="space-y-2">
@@ -562,58 +245,46 @@ function TablaAlumnosAlternativa({ language }) {
     );
   };
 
-  const renderConductas = (alumno, trastornoKey) => {
-    const trastorno = alumno[trastornoKey];
-    if (!trastorno || trastorno === t.none) return null;
+  const renderConducta = (alumno, conductaAula, index) => {
+    // Solo mostrar conducta si hay un trastorno correspondiente
+    const trastorno = alumno[`trastornoPsicologico${index}`];
+    if (!trastorno || !conductaAula) return null;
 
-    const conductas = obtenerConductasPorTrastorno(trastorno);
-    if (!conductas.length) return null;
+    const isExpanded = conductasExpandidas[`${alumno.id}-${index}`];
+    const toggleExpanded = () => {
+      setConductasExpandidas(prev => ({
+        ...prev,
+        [`${alumno.id}-${index}`]: !prev[`${alumno.id}-${index}`]
+      }));
+    };
 
     return (
       <div className="space-y-2">
-        {conductas.map((conducta, conductaIndex) => (
-          <div key={conductaIndex} className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-            <button
-              onClick={() => toggleConducta(alumno.id, trastornoKey, conductaIndex)}
-              className="w-full px-4 py-2 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100"
-            >
-              <span className="font-medium text-sm text-gray-700">{conducta.tipo}</span>
-              {conductasExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] ? (
-                <ChevronUp className="h-4 w-4 text-gray-500" />
-              ) : (
-                <ChevronDown className="h-4 w-4 text-gray-500" />
-              )}
-            </button>
-            
-            {conductasExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] && (
-              <div className="p-2">
-                <div className="border border-gray-100 rounded-md overflow-hidden">
-                  <button
-                    onClick={() => toggleManifestaciones(alumno.id, trastornoKey, conductaIndex)}
-                    className="w-full px-3 py-1.5 flex items-center justify-between bg-gray-50 hover:bg-gray-100"
-                  >
-                    <span className="text-sm text-gray-600">{t.manifestations}</span>
-                    {manifestacionesExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] ? (
-                      <ChevronUp className="h-3 w-3 text-gray-400" />
-                    ) : (
-                      <ChevronDown className="h-3 w-3 text-gray-400" />
-                    )}
-                  </button>
-                  
-                  {manifestacionesExpandidas[`${alumno.id}-${trastornoKey}-${conductaIndex}`] && (
-                    <ul className="p-2 space-y-1 bg-white">
-                      {conducta.manifestaciones.map((manifestacion, idx) => (
-                        <li key={idx} className="text-xs text-gray-600 pl-3 relative before:content-['•'] before:absolute before:left-0 before:text-gray-400">
-                          {manifestacion}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
+        <div
+          className="flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-gray-300"
+          onClick={toggleExpanded}
+        >
+          {isExpanded ? (
+            <ChevronDown className="w-4 h-4" />
+          ) : (
+            <ChevronRight className="w-4 h-4" />
+          )}
+          <span className="font-medium">{conductaAula.titulo}</span>
+        </div>
+        {isExpanded && (
+          <div className="pl-6 text-sm text-gray-600 dark:text-gray-400">
+            {conductaAula.descripcion}
+            {conductaAula.detalles && conductaAula.detalles.length > 0 && (
+              <ul className="mt-2 space-y-1">
+                {conductaAula.detalles.map((detalle, idx) => (
+                  <li key={idx} className="text-xs text-gray-500 dark:text-gray-400">
+                    • {detalle}
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
-        ))}
+        )}
       </div>
     );
   };
@@ -660,130 +331,77 @@ function TablaAlumnosAlternativa({ language }) {
       <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-white/20">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead>
-              <tr className="bg-gray-50/50 dark:bg-gray-900/50">
-                <th scope="col" className="px-6 py-3 text-left">
-                  <button
-                    onClick={() => handleOrdenar('nombre')}
-                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
-                  >
-                    <span>{t.columns.name}</span>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      {columnaOrden === 'nombre' && (
-                        ordenAscendente ? 
-                          <ChevronUp className="w-4 h-4" /> : 
-                          <ChevronDown className="w-4 h-4" />
-                      )}
-                    </div>
-                  </button>
+            <thead className="bg-gray-50 dark:bg-gray-800">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Nombre/Descripción' : 'Name/Description'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <button
-                    onClick={() => handleOrdenar('trastorno1')}
-                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
-                  >
-                    <span>{t.columns.disorder1}</span>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      {columnaOrden === 'trastorno1' && (
-                        ordenAscendente ? 
-                          <ChevronUp className="w-4 h-4" /> : 
-                          <ChevronDown className="w-4 h-4" />
-                      )}
-                    </div>
-                  </button>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Trastorno 1' : 'Disorder 1'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <span className="text-gray-600 dark:text-gray-300">{t.columns.behavior1}</span>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Trastorno 2' : 'Disorder 2'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <button
-                    onClick={() => handleOrdenar('trastorno2')}
-                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
-                  >
-                    <span>{t.columns.disorder2}</span>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      {columnaOrden === 'trastorno2' && (
-                        ordenAscendente ? 
-                          <ChevronUp className="w-4 h-4" /> : 
-                          <ChevronDown className="w-4 h-4" />
-                      )}
-                    </div>
-                  </button>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Trastorno 3' : 'Disorder 3'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <span className="text-gray-600 dark:text-gray-300">{t.columns.behavior2}</span>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Conducta 1' : 'Behavior 1'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <button
-                    onClick={() => handleOrdenar('trastorno3')}
-                    className="flex items-center space-x-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group"
-                  >
-                    <span>{t.columns.disorder3}</span>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      {columnaOrden === 'trastorno3' && (
-                        ordenAscendente ? 
-                          <ChevronUp className="w-4 h-4" /> : 
-                          <ChevronDown className="w-4 h-4" />
-                      )}
-                    </div>
-                  </button>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Conducta 2' : 'Behavior 2'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <span className="text-gray-600 dark:text-gray-300">{t.columns.behavior3}</span>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Conducta 3' : 'Behavior 3'}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <span className="text-gray-600 dark:text-gray-300">{t.columns.solutions}</span>
-                </th>
-                <th scope="col" className="px-6 py-3 text-left">
-                  <span className="text-gray-600 dark:text-gray-300">{t.actions}</span>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border border-gray-200 dark:border-gray-700">
+                  {language === 'es' ? 'Soluciones' : 'Solutions'}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {datosOrdenados.map((alumno) => (
-                <tr key={alumno.id} className="group hover:bg-gray-50/50 dark:hover:bg-gray-900/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="text-gray-900 dark:text-white font-medium">{alumno.nombre}</span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-indigo-500/10 to-purple-500/10 text-indigo-600 dark:text-indigo-400">
-                      {alumno.trastornoPsicologico1}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-purple-500/10 to-pink-500/10 text-purple-600 dark:text-purple-400">
-                      {alumno.trastornoPsicologico2}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-pink-500/10 to-rose-500/10 text-pink-600 dark:text-pink-400">
-                      {alumno.trastornoPsicologico3}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 max-w-xs">
-                    {renderConductas(alumno, 'trastornoPsicologico1')}
-                  </td>
-                  <td className="px-6 py-4 max-w-xs">
-                    {renderConductas(alumno, 'trastornoPsicologico2')}
-                  </td>
-                  <td className="px-6 py-4 max-w-xs">
-                    {renderConductas(alumno, 'trastornoPsicologico3')}
-                  </td>
-                  <td className="px-6 py-4">
-                    {renderSoluciones(alumno)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex space-x-2">
-                      <button className="p-2 hover:bg-indigo-500/10 rounded-lg transition-colors">
-                        <Pencil className="w-5 h-5 text-indigo-500" />
-                      </button>
-                      <button 
-                        onClick={() => setDatos(datos.filter(alumno => alumno.id !== alumno.id))}
-                        className="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
-                      >
-                        <Trash2 className="w-5 h-5 text-red-500" />
-                      </button>
+                <tr key={alumno.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    <div className="text-sm font-medium text-gray-900 dark:text-white">
+                      {alumno.nombre}
                     </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {alumno.descripcion}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {alumno.trastornoPsicologico1 && (
+                      <span className="inline-flex text-xs px-2 py-1 rounded-full font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                        {alumno.trastornoPsicologico1}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {alumno.trastornoPsicologico2 && (
+                      <span className="inline-flex text-xs px-2 py-1 rounded-full font-medium bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                        {alumno.trastornoPsicologico2}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {alumno.trastornoPsicologico3 && (
+                      <span className="inline-flex text-xs px-2 py-1 rounded-full font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                        {alumno.trastornoPsicologico3}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {renderConducta(alumno, alumno.conductaAula1, 1)}
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {renderConducta(alumno, alumno.conductaAula2, 2)}
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {renderConducta(alumno, alumno.conductaAula3, 3)}
+                  </td>
+                  <td className="px-4 py-3 border border-gray-200 dark:border-gray-700">
+                    {renderSoluciones(alumno)}
                   </td>
                 </tr>
               ))}

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, ChevronRight } from 'lucide-react';
 import logo from './logo.jpeg';
+import { translations } from '../translations/translations';
 
 const datosIniciales = [
   {
@@ -55,11 +56,12 @@ const datosIniciales = [
   },
 ];
 
-const TablaAlumnosOscuraNeomorfica = () => {
+const TablaAlumnosOscuraNeomorfica = ({ language = 'es' }) => {
   const [datos, setDatos] = useState(datosIniciales);
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
   const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
   const [conductasExpandidas, setConductasExpandidas] = useState({});
+  const t = translations[language];
 
   const handleOrdenamiento = (campo) => {
     const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
@@ -130,12 +132,12 @@ const TablaAlumnosOscuraNeomorfica = () => {
                 <img src={logo} alt="Logo" className="h-12 w-auto opacity-90" />
               </div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
-                Gestión de Alumnos
+                {t.management}
               </h1>
             </div>
             <button className="px-5 py-2.5 bg-[#22252a] text-gray-200 rounded-xl flex items-center space-x-2 hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.2)] transition-all shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_-2px_5px_rgba(255,255,255,0.05)]">
               <Plus className="w-5 h-5" />
-              <span className="font-medium">Añadir Alumno</span>
+              <span className="font-medium">{t.newStudent}</span>
             </button>
           </div>
         </div>
@@ -147,7 +149,7 @@ const TablaAlumnosOscuraNeomorfica = () => {
           <div className="relative">
             <input
               type="text"
-              placeholder="Buscar alumno..."
+              placeholder={t.search}
               value={busquedaGlobal}
               onChange={(e) => setBusquedaGlobal(e.target.value)}
               className="w-96 pl-12 pr-4 py-3 bg-[#22252a] text-gray-200 rounded-xl border-0 focus:outline-none shadow-[inset_2px_2px_5px_rgba(0,0,0,0.2),inset_-2px_-2px_5px_rgba(255,255,255,0.05)] placeholder-gray-500"
@@ -156,7 +158,7 @@ const TablaAlumnosOscuraNeomorfica = () => {
           </div>
           <button className="px-4 py-3 bg-[#22252a] rounded-xl flex items-center space-x-2 text-gray-300 shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_-2px_5px_rgba(255,255,255,0.05)] hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.2)] transition-all">
             <Filter className="w-5 h-5" />
-            <span>Filtros</span>
+            <span>{t.filters}</span>
           </button>
         </div>
       </div>
@@ -171,20 +173,20 @@ const TablaAlumnosOscuraNeomorfica = () => {
                   onClick={() => handleOrdenamiento('nombre')}
                   className="flex items-center space-x-1 text-gray-300 hover:text-gray-100"
                 >
-                  <span>Nombre</span>
+                  <span>{t.columns.name}</span>
                   {ordenamiento.campo === 'nombre' && (
                     ordenamiento.direccion === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
                   )}
                 </button>
               </th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Trastorno 1</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Trastorno 2</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Trastorno 3</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Conducta 1</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Conducta 2</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Conducta 3</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Soluciones</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">Acciones</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder1}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder2}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder3}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors1}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors2}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors3}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.solutions}</th>
+              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.actions}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-800">
@@ -224,10 +226,14 @@ const TablaAlumnosOscuraNeomorfica = () => {
                 </td>
                 <td className="px-4 py-4">
                   <div className="flex space-x-3">
-                    <button className="p-2 bg-[#22252a] rounded-lg shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_-2px_5px_rgba(255,255,255,0.05)] hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.2)] transition-all">
+                    <button 
+                      title={t.editStudent}
+                      className="p-2 bg-[#22252a] rounded-lg shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_-2px_5px_rgba(255,255,255,0.05)] hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.2)] transition-all"
+                    >
                       <Pencil className="w-5 h-5 text-gray-400 hover:text-gray-100" />
                     </button>
                     <button 
+                      title={t.deleteStudent}
                       onClick={() => handleEliminar(alumno.id)}
                       className="p-2 bg-[#22252a] rounded-lg shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_-2px_5px_rgba(255,255,255,0.05)] hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.2)] transition-all"
                     >

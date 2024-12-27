@@ -10,6 +10,8 @@ import TablaAlumnosOscuraGradiente from './components/TablaAlumnosOscuraGradient
 import TablaAlumnosOscuraMinimalista from './components/TablaAlumnosOscuraMinimalista';
 import TablaAlumnosOscuraNeomorfica from './components/TablaAlumnosOscuraNeomorfica';
 import { translations } from './translations/translations';
+import educationalProblems from './data/educational-problems.json';
+import problemasEducativos from './data/problemas-educativos.json';
 import './App.css';
 
 function App() {
@@ -18,6 +20,10 @@ function App() {
   const [showAlternative, setShowAlternative] = useState(false);
   const esModoOscuro = ['oscura', 'oscura-gradiente', 'oscura-minimalista', 'oscura-neomorfica'].includes(tablaActiva);
   const t = translations[language];
+
+  const getData = () => {
+    return language === 'en' ? educationalProblems.problems : problemasEducativos.problemas;
+  };
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'es' ? 'en' : 'es');
@@ -30,7 +36,7 @@ function App() {
   return (
     <div className={`min-h-screen transition-colors duration-300 ${esModoOscuro ? 'bg-gray-900' : 'bg-gray-100'}`}>
       <div className="p-4">
-        <div className={`mb-6 flex justify-between items-center ${esModoOscuro ? 'bg-gray-800 p-4 rounded-xl' : ''}`}>
+        <div className={`flex justify-between items-center mb-6 ${esModoOscuro ? 'bg-gray-800 p-4 rounded-xl' : ''}`}>
           <div className="flex space-x-4 flex-wrap gap-y-2">
             <button
               onClick={() => setTablaActiva('original')}
@@ -155,27 +161,26 @@ function App() {
             </button>
             <button
               onClick={toggleView}
-              className={`px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors`}
+              className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
             >
               {showAlternative ? t.switchToOriginal : t.switchToAlternative}
             </button>
           </div>
         </div>
-
         <div className="mt-4">
           {showAlternative ? (
-            <TablaAlumnosAlternativa language={language} />
+            <TablaAlumnosAlternativa data={getData()} language={language} />
           ) : (
             <div>
-              {tablaActiva === 'original' && <TablaAlumnos language={language} />}
-              {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa language={language} />}
-              {tablaActiva === 'moderna' && <TablaAlumnosModerna language={language} />}
-              {tablaActiva === 'dashboard' && <TablaAlumnosDashboard language={language} />}
-              {tablaActiva === 'elegante' && <TablaAlumnosElegante language={language} />}
-              {tablaActiva === 'oscura' && <TablaAlumnosOscura language={language} />}
-              {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente language={language} />}
-              {tablaActiva === 'oscura-minimalista' && <TablaAlumnosOscuraMinimalista language={language} />}
-              {tablaActiva === 'oscura-neomorfica' && <TablaAlumnosOscuraNeomorfica language={language} />}
+              {tablaActiva === 'original' && <TablaAlumnos data={getData()} language={language} />}
+              {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa data={getData()} language={language} />}
+              {tablaActiva === 'moderna' && <TablaAlumnosModerna data={getData()} language={language} />}
+              {tablaActiva === 'dashboard' && <TablaAlumnosDashboard data={getData()} language={language} />}
+              {tablaActiva === 'elegante' && <TablaAlumnosElegante data={getData()} language={language} />}
+              {tablaActiva === 'oscura' && <TablaAlumnosOscura data={getData()} language={language} />}
+              {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente data={getData()} language={language} />}
+              {tablaActiva === 'oscura-minimalista' && <TablaAlumnosOscuraMinimalista data={getData()} language={language} />}
+              {tablaActiva === 'oscura-neomorfica' && <TablaAlumnosOscuraNeomorfica data={getData()} language={language} />}
             </div>
           )}
         </div>

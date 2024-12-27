@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, Eye, EyeOff } from 'lucide-react';
 import logo from './logo.jpeg';
+import { translations } from '../translations/translations';
 
 const datosIniciales = [
   {
@@ -379,7 +380,8 @@ const solucionesComunesPorTrastorno = {
   ]
 };
 
-const TablaAlumnosModerna = () => {
+const TablaAlumnosModerna = ({ language = 'es' }) => {
+  const t = translations[language];
   const [datos, setDatos] = useState(datosIniciales);
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
   const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
@@ -527,7 +529,7 @@ const TablaAlumnosModerna = () => {
     if (trastornos.length === 0) {
       return (
         <div className="text-sm text-gray-500 italic">
-          Sin trastornos registrados
+          {t.noDisorders}
         </div>
       );
     }
@@ -593,12 +595,12 @@ const TablaAlumnosModerna = () => {
                   <img src={logo} alt="Logo" className="h-12 w-auto" />
                 </div>
                 <h1 className="text-3xl font-bold text-white tracking-tight">
-                  Gestión de Alumnos
+                  {t.title}
                 </h1>
               </div>
               <button className="px-5 py-2.5 bg-white/90 text-teal-600 rounded-xl flex items-center space-x-2 hover:bg-white transition-all shadow-lg hover:shadow-xl">
                 <Plus className="w-5 h-5" />
-                <span className="font-medium">Añadir Alumno</span>
+                <span className="font-medium">{t.buttons.add}</span>
               </button>
             </div>
           </div>
@@ -611,7 +613,7 @@ const TablaAlumnosModerna = () => {
           <div className="relative">
             <input
               type="text"
-              placeholder="Buscar alumno..."
+              placeholder={t.searchPlaceholder}
               value={busquedaGlobal}
               onChange={(e) => setBusquedaGlobal(e.target.value)}
               className="w-96 pl-12 pr-4 py-3 bg-white rounded-xl border-0 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-lg"
@@ -620,7 +622,7 @@ const TablaAlumnosModerna = () => {
           </div>
           <button className="px-4 py-3 bg-white rounded-xl flex items-center space-x-2 text-gray-600 hover:bg-gray-50 transition-colors shadow-lg">
             <Filter className="w-5 h-5" />
-            <span>Filtros</span>
+            <span>{t.filters}</span>
           </button>
         </div>
       </div>
@@ -634,7 +636,7 @@ const TablaAlumnosModerna = () => {
                 <th colSpan="9" className="px-6 py-4 bg-gray-50 border-b border-gray-200">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-gray-500">
-                      {datosFiltrados.length} alumnos encontrados
+                      {datosFiltrados.length} {t.studentsFound}
                     </span>
                   </div>
                 </th>
@@ -642,7 +644,7 @@ const TablaAlumnosModerna = () => {
               <tr className="bg-gray-50">
                 <th className="group px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 bg-white sticky top-0">
                   <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleOrdenamiento('nombre')}>
-                    <span>Nombre</span>
+                    <span>{t.columns.name}</span>
                     {ordenamiento.campo === 'nombre' && (
                       ordenamiento.direccion === 'asc' ? 
                       <ChevronUp className="w-4 h-4" /> : 
@@ -651,16 +653,16 @@ const TablaAlumnosModerna = () => {
                   </div>
                 </th>
                 <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 bg-white sticky top-0">
-                  Trastornos Psicológicos
+                  {t.columns.psychologicalDisorders}
                 </th>
                 <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 bg-white sticky top-0">
-                  Conductas en el Aula
+                  {t.columns.classroomBehaviors}
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 bg-white sticky top-0">
-                  Soluciones
+                  {t.columns.solutions}
                 </th>
                 <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b-2 border-gray-200 bg-white sticky top-0">
-                  Acciones
+                  {t.columns.actions}
                 </th>
               </tr>
             </thead>
@@ -701,14 +703,14 @@ const TablaAlumnosModerna = () => {
                     <div className="flex items-center justify-center space-x-2">
                       <button 
                         className="p-2 rounded-lg hover:bg-teal-50 transition-colors"
-                        title="Editar alumno"
+                        title={t.buttons.edit}
                       >
                         <Pencil className="w-5 h-5 text-teal-600" />
                       </button>
                       <button 
                         onClick={() => handleEliminar(alumno.id)}
                         className="p-2 rounded-lg hover:bg-red-50 transition-colors"
-                        title="Eliminar alumno"
+                        title={t.buttons.delete}
                       >
                         <Trash2 className="w-5 h-5 text-red-600" />
                       </button>

@@ -1,0 +1,1450 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "category": "Cognition and Learning",
+      "description": "Difficulties in understanding and processing information",
+      "behaviors": [
+        {
+          "type": "Difficulties in reading comprehension",
+          "manifestations": [
+            "Reading and not understanding the meaning of the text",
+            "Confusion when following written or verbal instructions"
+          ]
+        },
+        {
+          "type": "Memory and retention problems",
+          "manifestations": [
+            "Difficulty remembering concepts learned previously",
+            "Frequent forgetfulness of tasks or school materials"
+          ]
+        },
+        {
+          "type": "Problems organizing information",
+          "manifestations": [
+            "Disorganization in written work or notebook usage",
+            "Difficulty structuring ideas and answering questions coherently"
+          ]
+        },
+        {
+          "type": "Slow information processing",
+          "manifestations": [
+            "Need for more time to understand and complete tasks",
+            "Fatigue from tasks requiring high concentration"
+          ]
+        },
+        {
+          "type": "Frequent calculation errors",
+          "manifestations": [
+            "Confusion with numbers or problem steps",
+            "Problems applying basic mathematical concepts"
+          ]
+        },
+        {
+          "type": "Low academic self-esteem",
+          "manifestations": [
+            "Avoiding participation in group activities",
+            "Negative comments about their own abilities"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Content and material adaptation",
+          "strategies": [
+            "Provide summaries and visual guides",
+            "Use concrete and manipulative materials",
+            "Simplify instructions and divide tasks"
+          ]
+        },
+        {
+          "category": "Flexibility in evaluation",
+          "strategies": [
+            "Allow oral evaluations",
+            "Offer more time to complete exams",
+            "Value effort and progress"
+          ]
+        },
+        {
+          "category": "Organizational support",
+          "strategies": [
+            "Teach study techniques",
+            "Help structure work",
+            "Provide clear examples"
+          ]
+        },
+        {
+          "category": "Multisensory teaching methods",
+          "strategies": [
+            "Combine visual, auditory, and kinesthetic methods",
+            "Integrate educational technology",
+            "Use colors and diagrams"
+          ]
+        },
+        {
+          "category": "Supportive environment",
+          "strategies": [
+            "Reinforce achievements positively",
+            "Establish a climate of trust",
+            "Promote cooperative activities"
+          ]
+        },
+        {
+          "category": "Personalized intervention",
+          "strategies": [
+            "Design an individualized plan",
+            "Collaborate with specialists and family",
+            "Establish clear routines"
+          ]
+        },
+        {
+          "category": "Socio-emotional skills",
+          "strategies": [
+            "Strengthen self-esteem",
+            "Practice problem-solving",
+            "Create a safe space for expression"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "Communication and Interaction",
+      "description": "Difficulties in verbal and non-verbal communication, as well as social interactions",
+      "behaviors": [
+        {
+          "type": "Difficulties expressing verbally",
+          "manifestations": [
+            "Problems finding appropriate words or forming complete sentences",
+            "Speaking in a fragmented manner or using limited language"
+          ]
+        },
+        {
+          "type": "Problems understanding language",
+          "manifestations": [
+            "Difficulty understanding long or complex instructions",
+            "Need for extra time to process what is being said"
+          ]
+        },
+        {
+          "type": "Limited social interactions",
+          "manifestations": [
+            "Avoiding eye contact or interactions with peers",
+            "Misinterpreting gestures, tone of voice, or facial expressions"
+          ]
+        },
+        {
+          "type": "Repetitive or rigid behaviors",
+          "manifestations": [
+            "Preference for routines and resistance to change",
+            "Overreactions to sensory stimuli"
+          ]
+        },
+        {
+          "type": "Difficulties working in groups",
+          "manifestations": [
+            "Problems taking turns or sharing materials",
+            "Tendency to isolate or participate inappropriately"
+          ]
+        },
+        {
+          "type": "Frustration and anxiety",
+          "manifestations": [
+            "Displaying challenging or withdrawn behaviors when unable to communicate",
+            "Sensitivity to being corrected in front of peers"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Strategies to improve communication",
+          "strategies": [
+            "Simplify language using short and direct phrases",
+            "Use visual support such as images and pictograms",
+            "Give sufficient time to process and respond"
+          ]
+        },
+        {
+          "category": "Facilitating social interaction",
+          "strategies": [
+            "Model appropriate social interactions",
+            "Organize structured activities with clear roles",
+            "Pair with understanding peers"
+          ]
+        },
+        {
+          "category": "Creating a predictable environment",
+          "strategies": [
+            "Establish clear and consistent routines",
+            "Anticipate and explain changes in advance",
+            "Provide quiet zones for moments of overwhelm"
+          ]
+        },
+        {
+          "category": "Reinforcing social skills",
+          "strategies": [
+            "Practice social situations through role-playing",
+            "Positively reinforce successful interactions",
+            "Teach conflict resolution strategies"
+          ]
+        },
+        {
+          "category": "Adjusting learning activities",
+          "strategies": [
+            "Adapt task complexity to individual levels",
+            "Use technology and interactive tools",
+            "Reinforce concepts in different contexts"
+          ]
+        },
+        {
+          "category": "Emotional support",
+          "strategies": [
+            "Value any attempt at communication",
+            "Promote a respectful climate among peers",
+            "Acknowledge achievements and show empathy for difficulties"
+          ]
+        },
+        {
+          "category": "Personalized intervention",
+          "strategies": [
+            "Design an individualized plan with a support team",
+            "Maintain constant communication with the family",
+            "Regularly evaluate and adjust strategies"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "Sensory and/or Physical",
+      "description": "Difficulties related to sensory processing and/or physical limitations",
+      "behaviors": [
+        {
+          "type": "Auditory sensory difficulties",
+          "manifestations": [
+            "Difficulty following verbal instructions in noisy environments",
+            "Use of auditory aids such as hearing devices",
+            "Confusion or lack of response when called by name"
+          ]
+        },
+        {
+          "type": "Visual sensory difficulties",
+          "manifestations": [
+            "Need to get very close to materials to read or write",
+            "Difficulty copying information from the board",
+            "Use of tools such as magnifying glasses or adaptive technology"
+          ]
+        },
+        {
+          "type": "Sensory processing difficulties",
+          "manifestations": [
+            "Overreactions to sensory stimuli (lights, sounds, smells, textures)",
+            "Repetitive behaviors for self-regulation",
+            "Need for adjustments in the sensory environment"
+          ]
+        },
+        {
+          "type": "Physical difficulties",
+          "manifestations": [
+            "Mobility limitations (walking, sitting, moving)",
+            "Use of support devices (wheelchairs, crutches, prosthetics)",
+            "Quick fatigue during physical tasks",
+            "Problems writing or performing fine motor activities"
+          ]
+        },
+        {
+          "type": "Associated emotional behavior",
+          "manifestations": [
+            "Frustration or anxiety when unable to fully participate",
+            "Social withdrawal due to physical or sensory limitations",
+            "Low self-esteem related to their difficulties"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Physical adaptations",
+          "strategies": [
+            "Ensure the classroom is accessible for mobility devices",
+            "Arrange furniture to facilitate movement",
+            "Use ergonomic tools and adjustable tables"
+          ]
+        },
+        {
+          "category": "Auditory sensory adaptations",
+          "strategies": [
+            "Place the student near the teacher and away from noise",
+            "Provide sound amplification systems",
+            "Supplement verbal instructions with visual support"
+          ]
+        },
+        {
+          "category": "Visual sensory adaptations",
+          "strategies": [
+            "Provide materials in large print or high contrast",
+            "Allow use of screen readers or digital magnifiers",
+            "Place materials at eye level"
+          ]
+        },
+        {
+          "category": "Sensory processing adaptations",
+          "strategies": [
+            "Reduce unnecessary sensory stimuli",
+            "Allow sensory breaks",
+            "Provide self-regulation tools"
+          ]
+        },
+        {
+          "category": "Flexibility in Teaching",
+          "strategies": [
+            "Offer multiple options to complete tasks",
+            "Allow additional time for activities",
+            "Adapt physical activities to be inclusive"
+          ]
+        },
+        {
+          "category": "Social Inclusion",
+          "strategies": [
+            "Promote inclusive group activities",
+            "Raise awareness about individual differences",
+            "Establish a buddy support system"
+          ]
+        },
+        {
+          "category": "Emotional Support",
+          "strategies": [
+            "Positively reinforce efforts and achievements",
+            "Create a safe environment for seeking help",
+            "Provide time for individual attention"
+          ]
+        },
+        {
+          "category": "Collaboration with Specialists",
+          "strategies": [
+            "Work with therapists and specialists",
+            "Design an individualized support plan",
+            "Involve the family in the process"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "Social, Emotional, and Mental Health",
+      "description": "Difficulties in emotional management, social relationships, and mental health",
+      "behaviors": [
+        {
+          "type": "Emotional Behavior",
+          "manifestations": [
+            "Obvious nervousness in social or academic situations",
+            "Avoiding group activities or new experiences",
+            "Negative comments about oneself or one's abilities",
+            "Avoiding challenges due to fear of failure"
+          ]
+        },
+        {
+          "type": "Emotional Regulation Problems",
+          "manifestations": [
+            "Tantrums, crying, or disproportionate anger at frustrations",
+            "Social withdrawal or disengagement from class activities",
+            "Difficulty managing changes or transitions"
+          ]
+        },
+        {
+          "type": "Social Difficulties",
+          "manifestations": [
+            "Frequent conflicts with peers",
+            "Aggressive or passive behaviors in interpersonal relationships",
+            "Difficulty reading social cues",
+            "Problems resolving social conflicts"
+          ]
+        },
+        {
+          "type": "Behavior Problems",
+          "manifestations": [
+            "Resistance to following instructions or disruptive behavior",
+            "Restlessness and constant movement",
+            "Difficulty staying on task",
+            "Challenging authority"
+          ]
+        },
+        {
+          "type": "Academic Impact",
+          "manifestations": [
+            "Difficulty completing tasks due to lack of motivation",
+            "Inconsistent performance depending on emotional state",
+            "Problems with concentration and attention"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Establishing Positive Relationships",
+          "strategies": [
+            "Show genuine interest in their concerns and interests",
+            "Hold one-on-one conversations to build trust",
+            "Communicate expectations clearly and positively"
+          ]
+        },
+        {
+          "category": "Create a Safe and Predictable Environment",
+          "strategies": [
+            "Maintain stable daily routines",
+            "Offer a quiet space for moments of overwhelm",
+            "Provide a clear structure for activities"
+          ]
+        },
+        {
+          "category": "Teach Social and Emotional Skills",
+          "strategies": [
+            "Explicitly teach conflict management",
+            "Practice social situations through role-playing",
+            "Positively reinforce successful interactions"
+          ]
+        },
+        {
+          "category": "Emotional Supports",
+          "strategies": [
+            "Introduce relaxation and mindfulness techniques",
+            "Provide specific and constructive praise",
+            "Implement self-regulation strategies"
+          ]
+        },
+        {
+          "category": "Behavior Management",
+          "strategies": [
+            "Implement a positive reinforcement system",
+            "Intervene early to prevent escalation",
+            "Apply consistent and fair consequences"
+          ]
+        },
+        {
+          "category": "Academic Differentiation",
+          "strategies": [
+            "Adapt activities to interests and abilities",
+            "Break tasks into manageable parts",
+            "Allow extra time when necessary"
+          ]
+        },
+        {
+          "category": "Foster Peer Relationships",
+          "strategies": [
+            "Strategically group with positive peers",
+            "Promote group projects with clear roles",
+            "Facilitate structured social interactions"
+          ]
+        },
+        {
+          "category": "External Collaboration",
+          "strategies": [
+            "Work with specialists and school psychologists",
+            "Create an individualized support plan",
+            "Maintain regular communication with the family"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "category": "Attention Deficit Hyperactivity Disorder",
+      "description": "Difficulties in attention, impulse control, and activity level",
+      "behaviors": [
+        {
+          "type": "Attention Difficulties",
+          "manifestations": [
+            "Easily distracted by external stimuli",
+            "Forgets tasks, instructions, or school materials",
+            "Leaves activities unfinished or skips important steps",
+            "Feels overwhelmed with long or complex tasks",
+            "Quickly moves from one activity to another without completing them"
+          ]
+        },
+        {
+          "type": "Impulsivity",
+          "manifestations": [
+            "Speaks out of turn or interrupts peers and teachers",
+            "Struggles to wait in line or take turns",
+            "Responds before fully understanding instructions",
+            "Difficulty respecting group rules"
+          ]
+        },
+        {
+          "type": "Hyperactivity",
+          "manifestations": [
+            "Constantly moves (taps, plays with objects)",
+            "Gets up from their seat without apparent reason",
+            "Talks excessively and participates unnecessarily",
+            "Struggles to remain still during activities"
+          ]
+        },
+        {
+          "type": "Emotional and Social Problems",
+          "manifestations": [
+            "Easily frustrated with difficult tasks",
+            "Difficulty interpreting social cues",
+            "Low self-esteem and negative self-comments",
+            "Frequent conflicts with peers"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Strategies to Improve Attention",
+          "strategies": [
+            "Break activities into small, manageable parts",
+            "Provide frequent breaks between tasks",
+            "Give brief and specific instructions",
+            "Use graphic organizers and visual aids"
+          ]
+        },
+        {
+          "category": "Impulsivity Management",
+          "strategies": [
+            "Implement a positive reinforcement system",
+            "Establish non-verbal cues for reminders",
+            "Positively and frequently remind about rules",
+            "Teach self-control techniques"
+          ]
+        },
+        {
+          "category": "Hyperactivity Control",
+          "strategies": [
+            "Allow controlled movement and active breaks",
+            "Assign tasks that involve purposeful movement",
+            "Provide objects to channel energy",
+            "Alternate sedentary and dynamic activities"
+          ]
+        },
+        {
+          "category": "Environmental Adjustments",
+          "strategies": [
+            "Place the student away from distractions",
+            "Maintain an orderly and predictable environment",
+            "Create clear and consistent routines",
+            "Reduce unnecessary visual stimuli"
+          ]
+        },
+        {
+          "category": "Social and Emotional Skills",
+          "strategies": [
+            "Explicitly teach social skills",
+            "Practice self-regulation techniques",
+            "Reinforce self-esteem with recognition",
+            "Model conflict resolution"
+          ]
+        },
+        {
+          "category": "Academic Flexibility",
+          "strategies": [
+            "Allow extra time for tasks",
+            "Offer alternative evaluation formats",
+            "Adapt the quantity and complexity of tasks",
+            "Provide options to demonstrate learning"
+          ]
+        },
+        {
+          "category": "External Collaboration",
+          "strategies": [
+            "Work with a multidisciplinary team",
+            "Create an individualized support plan",
+            "Maintain constant communication with family",
+            "Coordinate strategies between school and home"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "category": "Auditory Processing Disorder",
+      "description": "Difficulties in processing and understanding auditory information",
+      "behaviors": [
+        {
+          "type": "Difficulties understanding auditory information",
+          "manifestations": [
+            "Difficulty following long or complex verbal instructions",
+            "Need for repeated instructions multiple times",
+            "Difficulty concentrating in noisy environments",
+            "Takes longer to respond to questions or follow conversations"
+          ]
+        },
+        {
+          "type": "Language Problems",
+          "manifestations": [
+            "Confusion with words that sound similar",
+            "Responds incorrectly or out of context",
+            "Difficulty explaining ideas verbally",
+            "Problems remembering auditory information"
+          ]
+        },
+        {
+          "type": "Learning Impact",
+          "manifestations": [
+            "Problems relating sounds to letters",
+            "Forgets verbal information in the short term",
+            "Appears inattentive due to lack of understanding",
+            "Difficulties with reading fluency"
+          ]
+        },
+        {
+          "type": "Social and Emotional Impact",
+          "manifestations": [
+            "Feels overwhelmed when required to listen and respond quickly",
+            "Difficulty participating in group conversations",
+            "Problems understanding jokes and sarcasm",
+            "Low self-esteem due to comprehension difficulties"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Communication Adaptations",
+          "strategies": [
+            "Give instructions in small steps and verify understanding",
+            "Supplement verbal instructions with visual supports",
+            "Repeat or rephrase using simple words",
+            "Provide extra time to process information"
+          ]
+        },
+        {
+          "category": "Environmental Management",
+          "strategies": [
+            "Reduce background noise in the classroom",
+            "Place the student near the teacher",
+            "Use FM systems or noise-canceling headphones",
+            "Create quiet zones for individual work"
+          ]
+        },
+        {
+          "category": "Visual and Multisensory Resources",
+          "strategies": [
+            "Use boards and images to reinforce information",
+            "Combine auditory, visual, and tactile stimuli",
+            "Allow recording of classes for review",
+            "Provide complementary visual materials"
+          ]
+        },
+        {
+          "category": "Academic Adaptations",
+          "strategies": [
+            "Provide written notes and study guides",
+            "Use lists and outlines to organize information",
+            "Simplify auditory processing activities",
+            "Offer alternative evaluation formats"
+          ]
+        },
+        {
+          "category": "Social and Emotional Skills",
+          "strategies": [
+            "Raise class awareness about learning differences",
+            "Recognize and praise individual achievements",
+            "Create a safe environment for seeking help",
+            "Encourage positive interactions with peers"
+          ]
+        },
+        {
+          "category": "Collaboration with Specialists",
+          "strategies": [
+            "Work with speech and language therapists",
+            "Design an individualized support plan",
+            "Maintain regular communication with family",
+            "Coordinate strategies between specialists and teachers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "category": "Autism Spectrum Disorder",
+      "description": "Difficulties in social communication, interaction, and repetitive behaviors",
+      "behaviors": [
+        {
+          "type": "Communication",
+          "manifestations": [
+            "Limited language use or very literal language",
+            "Problems starting or maintaining conversations",
+            "Difficulty understanding sarcasm, jokes, or figurative expressions",
+            "Repetitive language use or echolalia",
+            "Intense interest in specific topics"
+          ]
+        },
+        {
+          "type": "Social Interaction",
+          "manifestations": [
+            "Difficulty interpreting non-verbal social cues",
+            "Problems understanding facial expressions and body language",
+            "Preference for solitary activities",
+            "Resistance to changes in routines",
+            "Difficulty developing peer relationships"
+          ]
+        },
+        {
+          "type": "Behavior",
+          "manifestations": [
+            "Restricted and specific interests",
+            "Repetitive behaviors (rocking, flapping, spinning)",
+            "Sensory sensitivities to lights, noises, textures",
+            "Insistence on maintaining specific routines",
+            "Attention to specific details"
+          ]
+        },
+        {
+          "type": "Emotional",
+          "manifestations": [
+            "Difficulty handling unexpected changes",
+            "Frustration or anxiety in social situations",
+            "Emotional outbursts when overwhelmed",
+            "Difficulty expressing emotional needs",
+            "Intense reactions to environmental changes"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Adapted Communication",
+          "strategies": [
+            "Use clear and concrete instructions",
+            "Supplement verbal communication with visual supports",
+            "Verify understanding by asking for repetition",
+            "Avoid figurative or ambiguous language"
+          ]
+        },
+        {
+          "category": "Social Inclusion",
+          "strategies": [
+            "Plan structured interactions",
+            "Raise peer awareness about diversity",
+            "Assign supportive peers",
+            "Create guided socialization opportunities"
+          ]
+        },
+        {
+          "category": "Structure and Predictability",
+          "strategies": [
+            "Establish clear and consistent routines",
+            "Use visual calendars and schedules",
+            "Anticipate and prepare for changes",
+            "Facilitate smooth transitions between activities"
+          ]
+        },
+        {
+          "category": "Behavior Management",
+          "strategies": [
+            "Implement a positive reinforcement system",
+            "Teach self-regulation techniques",
+            "Provide a safe space for difficult moments",
+            "Set clear expectations"
+          ]
+        },
+        {
+          "category": "Sensory Adaptations",
+          "strategies": [
+            "Control sensory stimuli in the environment",
+            "Allow use of sensory tools",
+            "Incorporate sensory breaks",
+            "Create zones with varying levels of stimulation"
+          ]
+        },
+        {
+          "category": "Academic Support",
+          "strategies": [
+            "Break tasks into manageable steps",
+            "Offer multiple forms of evaluation",
+            "Leverage special interests",
+            "Provide additional time"
+          ]
+        },
+        {
+          "category": "Collaboration and Personalization",
+          "strategies": [
+            "Work with a multidisciplinary team",
+            "Maintain constant communication with family",
+            "Regularly evaluate and adjust strategies",
+            "Develop an individualized support plan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "category": "Hearing Impairment",
+      "description": "Hearing difficulties that affect communication and learning",
+      "translations": {
+        "es": "Discapacidad Auditiva"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties following verbal instructions",
+          "manifestations": [
+            "Needs frequent repetition of instructions",
+            "Seems not to pay attention to verbal directions",
+            "Requires explanations in different ways",
+            "Difficulty following group conversations"
+          ]
+        },
+        {
+          "type": "Communication Problems",
+          "manifestations": [
+            "Difficulty pronouncing words correctly",
+            "Problems constructing complete sentences",
+            "Misunderstandings in interpreting messages",
+            "Delays in responding to oral questions"
+          ]
+        },
+        {
+          "type": "Learning Impact",
+          "manifestations": [
+            "Limited vocabulary or difficulty with abstract concepts",
+            "Problems relating sounds to letters",
+            "Difficulty in reading comprehension",
+            "Strong performance in visual tasks but not auditory ones"
+          ]
+        },
+        {
+          "type": "Social and Emotional Behavior",
+          "manifestations": [
+            "Frustration in communication situations",
+            "Tendency toward social isolation",
+            "Low self-esteem in classroom participation",
+            "Difficulty integrating into group activities"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Communication Adaptations",
+          "strategies": [
+            "Speak in a moderate and clear tone",
+            "Use visual aids along with verbal explanations",
+            "Regularly check for understanding",
+            "Provide instructions in writing"
+          ]
+        },
+        {
+          "category": "Use of Assistive Technology",
+          "strategies": [
+            "Implement FM amplification systems",
+            "Use videos with subtitles",
+            "Provide written transcripts",
+            "Facilitate voice-to-text tools"
+          ]
+        },
+        {
+          "category": "Physical Environment",
+          "strategies": [
+            "Place the student near the teacher",
+            "Ensure proper lighting",
+            "Minimize background noise",
+            "Arrange the classroom to facilitate visual contact"
+          ]
+        },
+        {
+          "category": "Multisensory Teaching Methods",
+          "strategies": [
+            "Use visual aids and graphics",
+            "Incorporate hands-on activities",
+            "Provide written summaries",
+            "Use manipulative materials"
+          ]
+        },
+        {
+          "category": "Social Inclusion",
+          "strategies": [
+            "Raise awareness in the class about inclusion",
+            "Pair with supportive classmates",
+            "Adapt group activities",
+            "Encourage active participation"
+          ]
+        },
+        {
+          "category": "Emotional Support",
+          "strategies": [
+            "Recognize achievements and efforts",
+            "Create a safe environment for seeking help",
+            "Maintain open communication",
+            "Encourage positive self-esteem"
+          ]
+        },
+        {
+          "category": "External Collaboration",
+          "strategies": [
+            "Work with hearing specialists",
+            "Develop an individualized plan",
+            "Maintain communication with the family",
+            "Coordinate support between school and home"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "category": "Visual Impairment",
+      "description": "Total or partial limitation of visual capacity affecting access to information and mobility, requiring specific adaptations in the educational environment",
+      "translations": {
+        "es": "Discapacidad Visual"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties seeing distant objects",
+          "manifestations": [
+            "Squints to see better",
+            "Difficulty reading the board"
+          ]
+        }
+      ],
+      "solutions": []
+    },
+    {
+      "id": 9,
+      "category": "Moderate Learning Disability",
+      "description": "Significant learning difficulties affecting multiple academic and functional areas",
+      "translations": {
+        "es": "Discapacidad de Aprendizaje Moderada"
+      },
+      "behaviors": [
+        {
+          "type": "Academic Difficulties",
+          "manifestations": [
+            "Needs more time to acquire new skills",
+            "Requires constant repetition to retain information",
+            "Problems applying learning in different contexts",
+            "Difficulty with instructions and abstract concepts",
+            "Academic level significantly below age group"
+          ]
+        },
+        {
+          "type": "Cognitive Difficulties",
+          "manifestations": [
+            "Short- and long-term memory problems",
+            "Slower information processing",
+            "Difficulties planning and organizing tasks",
+            "Problems maintaining attention"
+          ]
+        },
+        {
+          "type": "Emotional and Social Difficulties",
+          "manifestations": [
+            "Low self-esteem and negative self-comments",
+            "Frustration or anxiety with difficult tasks",
+            "Difficulty integrating into groups",
+            "Problems interpreting social cues"
+          ]
+        },
+        {
+          "type": "Behavior",
+          "manifestations": [
+            "Avoidance of academic tasks",
+            "Excessive dependency on help",
+            "Emotional reactions to frustration",
+            "Apparent distraction or disinterest"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Learning Adaptations",
+          "strategies": [
+            "Provide step-by-step instructions",
+            "Repeat key concepts in different contexts",
+            "Use visual aids and graphic organizers",
+            "Provide adapted and simplified materials"
+          ]
+        },
+        {
+          "category": "Differentiated Teaching",
+          "strategies": [
+            "Adjust activity difficulty to individual level",
+            "Implement multisensory learning",
+            "Allow extra time for tasks",
+            "Adapt assessments to needs"
+          ]
+        },
+        {
+          "category": "Organizational Strategies",
+          "strategies": [
+            "Break tasks into manageable parts",
+            "Use agendas and checklists",
+            "Frequently review progress",
+            "Establish clear and consistent routines"
+          ]
+        },
+        {
+          "category": "Behavior Management",
+          "strategies": [
+            "Implement a positive reinforcement system",
+            "Teach self-regulation techniques",
+            "Avoid comparisons with peers",
+            "Set realistic expectations"
+          ]
+        },
+        {
+          "category": "Social Inclusion",
+          "strategies": [
+            "Raise awareness about learning differences",
+            "Design inclusive cooperative activities",
+            "Assign supportive classmates",
+            "Encourage active participation"
+          ]
+        },
+        {
+          "category": "Emotional Support",
+          "strategies": [
+            "Reinforce self-esteem with recognition",
+            "Set achievable goals",
+            "Create a safe and welcoming environment",
+            "Value individual effort and progress"
+          ]
+        },
+        {
+          "category": "External Collaboration",
+          "strategies": [
+            "Develop an individualized support plan",
+            "Coordinate with specialists and therapists",
+            "Maintain communication with the family",
+            "Regularly monitor progress"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "category": "Without Specialized Evaluation",
+      "description": "Learning or behavioral difficulties without a specific diagnosis that require provisional support",
+      "translations": {
+        "es": "Sin Evaluación Especializada"
+      },
+      "behaviors": [
+        {
+          "type": "Academic Difficulties",
+          "manifestations": [
+            "Inconsistent performance across different areas",
+            "Requires more time to complete tasks",
+            "Frequent errors in reading, writing, or math",
+            "Difficulty applying learned concepts"
+          ]
+        },
+        {
+          "type": "Cognitive Difficulties",
+          "manifestations": [
+            "Easily distracted during activities",
+            "Difficulty remembering instructions",
+            "Slower information processing",
+            "Problems maintaining attention"
+          ]
+        },
+        {
+          "type": "Social and Emotional Behavior",
+          "manifestations": [
+            "Shows frustration when facing difficulties",
+            "Low self-esteem and negative self-comparisons",
+            "Difficulty interacting with others",
+            "Anxiety when facing challenging tasks"
+          ]
+        },
+        {
+          "type": "Classroom Behavior",
+          "manifestations": [
+            "Avoids academic activities",
+            "Seeks constant help from the teacher",
+            "May display disruptive behaviors",
+            "Excessive dependency on reassurance"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Observation and Recordkeeping",
+          "strategies": [
+            "Record daily behavior patterns",
+            "Identify triggering situations",
+            "Document progress and challenges",
+            "Maintain records for future evaluation"
+          ]
+        },
+        {
+          "category": "Inclusive Teaching Strategies",
+          "strategies": [
+            "Provide step-by-step instructions",
+            "Adapt materials and content",
+            "Break tasks into manageable parts",
+            "Use multiple teaching methods"
+          ]
+        },
+        {
+          "category": "Positive Reinforcement",
+          "strategies": [
+            "Recognize efforts and progress",
+            "Emphasize individual strengths",
+            "Set achievable goals",
+            "Motivate active participation"
+          ]
+        },
+        {
+          "category": "Social Support",
+          "strategies": [
+            "Assign supportive peers",
+            "Design inclusive group activities",
+            "Promote empathy within the group",
+            "Create guided socialization opportunities"
+          ]
+        },
+        {
+          "category": "Behavior Management",
+          "strategies": [
+            "Apply positive redirection techniques",
+            "Teach self-regulation strategies",
+            "Establish clear and consistent limits",
+            "Prevent situations leading to frustration"
+          ]
+        },
+        {
+          "category": "Learning Environment",
+          "strategies": [
+            "Reduce distractions in the environment",
+            "Use visual and graphic supports",
+            "Maintain predictable routines",
+            "Create quiet workspaces"
+          ]
+        },
+        {
+          "category": "External Collaboration",
+          "strategies": [
+            "Maintain communication with family",
+            "Suggest specialized evaluation",
+            "Collaborate with school support team",
+            "Document effective interventions"
+          ]
+        },
+        {
+          "category": "Academic Flexibility",
+          "strategies": [
+            "Offer varied learning methods",
+            "Provide additional time",
+            "Adapt evaluation formats",
+            "Allow different response forms"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "category": "Nonverbal Learning Disorder",
+      "description": "Difficulties in visual-spatial processing, motor coordination, and nonverbal social skills",
+      "translations": {
+        "es": "Trastorno del Aprendizaje No Verbal"
+      },
+      "behaviors": [
+        {
+          "type": "Academic Difficulties",
+          "manifestations": [
+            "Difficulty interpreting graphs, maps, or diagrams",
+            "Problems with geometric concepts and spatial orientation",
+            "Difficulty with abstract mathematical concepts and patterns",
+            "Problems organizing and planning complex tasks"
+          ]
+        },
+        {
+          "type": "Social Problems",
+          "manifestations": [
+            "Literal interpretation of language and difficulty with sarcasm",
+            "Problems interpreting facial expressions and body language",
+            "Difficulty understanding nonverbal social cues",
+            "Awkward or inappropriate social interactions"
+          ]
+        },
+        {
+          "type": "Motor Coordination",
+          "manifestations": [
+            "Problems with handwriting and using small tools",
+            "Physical clumsiness in sports or games",
+            "Quick fatigue in tasks requiring coordination",
+            "Difficulties with fine and gross motor skills"
+          ]
+        },
+        {
+          "type": "Emotional Behavior",
+          "manifestations": [
+            "Anxiety with complex visual or social tasks",
+            "Frustration and intense emotional reactions",
+            "Low self-esteem and negative self-comments",
+            "Social isolation due to interaction difficulties"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Academic Adaptations",
+          "strategies": [
+            "Provide detailed verbal instructions",
+            "Simplify visual and spatial materials",
+            "Use manipulatives for mathematical concepts",
+            "Break complex tasks into manageable steps"
+          ]
+        },
+        {
+          "category": "Social Strategies",
+          "strategies": [
+            "Practice social skills with role-playing",
+            "Explicitly teach social cues",
+            "Promote structured group activities",
+            "Raise awareness among peers about differences"
+          ]
+        },
+        {
+          "category": "Motor Skills Support",
+          "strategies": [
+            "Allow the use of technology for writing",
+            "Provide ergonomic tools",
+            "Adapt physical activities as needed",
+            "Gradually develop motor skills"
+          ]
+        },
+        {
+          "category": "Organization and Planning",
+          "strategies": [
+            "Use checklists and diagrams",
+            "Implement visual organizers",
+            "Regularly monitor progress",
+            "Establish clear and predictable routines"
+          ]
+        },
+        {
+          "category": "Emotional Management",
+          "strategies": [
+            "Teach self-regulation techniques",
+            "Implement a positive reinforcement system",
+            "Create a safe and understanding environment",
+            "Provide consistent emotional support"
+          ]
+        },
+        {
+          "category": "Collaboration with Specialists",
+          "strategies": [
+            "Design an individualized support plan",
+            "Coordinate with occupational therapy",
+            "Provide psychological support",
+            "Maintain communication among specialists"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "category": "Oppositional Defiant Disorder",
+      "description": "A pattern of defiant, hostile, and disobedient behavior toward authority figures",
+      "translations": {
+        "es": "Trastorno Oposicionista Desafiante"
+      },
+      "behaviors": [
+        {
+          "type": "Defiant Behavior",
+          "manifestations": [
+            "Resistance to following instructions",
+            "Constant arguments with adults and peers",
+            "Deliberate provocation of others",
+            "Active defiance of established norms"
+          ]
+        },
+        {
+          "type": "Hostile Behavior",
+          "manifestations": [
+            "Irritable or sarcastic responses",
+            "Vindictive behaviors when perceiving injustice",
+            "Denial of responsibility for mistakes",
+            "Defensive attitude toward corrections"
+          ]
+        },
+        {
+          "type": "Emotional Problems",
+          "manifestations": [
+            "Low frustration tolerance",
+            "Disproportionate emotional outbursts",
+            "Difficulty managing anger",
+            "Feelings of exclusion or misunderstanding"
+          ]
+        },
+        {
+          "type": "Learning Impact",
+          "manifestations": [
+            "Frequent interruptions in class",
+            "Resistance to participating in activities",
+            "Difficulties in teamwork",
+            "Problems with concentration and organization"
+          ]
+        }
+      ],
+      "solutions": [
+        {
+          "category": "Establishing Clear Limits",
+          "strategies": [
+            "Define simple and explicit rules",
+            "Apply predictable and fair consequences",
+            "Avoid prolonged confrontations",
+            "Maintain consistency in rules"
+          ]
+        },
+        {
+          "category": "Positive Reinforcement",
+          "strategies": [
+            "Recognize efforts and positive behaviors",
+            "Implement a reward system",
+            "Encourage individual achievements",
+            "Create opportunities for success"
+          ]
+        },
+        {
+          "category": "Emotional Management",
+          "strategies": [
+            "Provide structured breaks",
+            "Teach self-regulation techniques",
+            "Avoid public confrontations",
+            "Offer a safe space to calm down"
+          ]
+        },
+        {
+          "category": "Building Positive Relationships",
+          "strategies": [
+            "Show empathy and active listening",
+            "Offer controlled choices",
+            "Maintain a calm and professional attitude",
+            "Validate feelings without justifying behaviors"
+          ]
+        },
+        {
+          "category": "Academic Strategies",
+          "strategies": [
+            "Adapt tasks to their level",
+            "Break activities into small steps",
+            "Allow strategic breaks",
+            "Provide clear structure"
+          ]
+        },
+        {
+          "category": "Social Skills",
+          "strategies": [
+            "Teach peaceful conflict resolution",
+            "Practice social situations with role-playing",
+            "Facilitate positive interactions with peers",
+            "Model appropriate behaviors"
+          ]
+        },
+        {
+          "category": "External Collaboration",
+          "strategies": [
+            "Design a behavior management plan",
+            "Maintain communication with family",
+            "Coordinate with behavioral specialists",
+            "Document interventions and progress"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "category": "Profound and Multiple Language Difficulties",
+      "description": "Significant limitations in verbal communication and language comprehension affecting multiple areas of development",
+      "translations": {
+        "es": "Dificultades Profundas y Múltiples del Lenguaje"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties in verbal expression",
+          "manifestations": [
+            "Limited vocabulary",
+            "Difficulty forming complete sentences"
+          ]
+        }
+      ],
+      "solutions": []
+    },
+    {
+      "id": 14,
+      "category": "Speech and Language Therapy",
+      "description": "Difficulties in verbal expression, language comprehension, and social communication requiring specialized intervention",
+      "translations": {
+        "es": "Terapia del Habla y Lenguaje"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties articulating words",
+          "manifestations": [
+            "Incorrect pronunciation of sounds",
+            "Difficulty being understood by others"
+          ]
+        }
+      ],
+      "solutions": []
+    },
+    {
+      "id": 15,
+      "category": "Speech, Language, and Communication Needs",
+      "description": "Difficulties in verbal expression, language comprehension, and social interaction affecting academic and social development",
+      "translations": {
+        "es": "Necesidades del Habla, Lenguaje y Comunicación"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties following conversations",
+          "manifestations": [
+            "Loses track of the conversation",
+            "Difficulty understanding context"
+          ]
+        }
+      ],
+      "solutions": []
+    },
+    {
+      "id": 16,
+      "category": "Specific Learning Difficulties",
+      "description": "A set of disorders specifically affecting reading (dyslexia), mathematics (dyscalculia), and writing (dysgraphia)",
+      "translations": {
+        "es": "Dificultades Específicas del Aprendizaje"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties in reading",
+          "manifestations": [
+            "Confusion with letters and words",
+            "Difficulty following lines of text"
+          ]
+        }
+      ],
+      "solutions": []
+    },
+    {
+      "id": 17,
+      "category": "Severe Learning Difficulty",
+      "description": "Significant learning difficulties affecting multiple areas of development, requiring intensive support and substantial adaptations",
+      "translations": {
+        "es": "Dificultad Severa del Aprendizaje"
+      },
+      "behaviors": [
+        {
+          "type": "Difficulties retaining information",
+          "manifestations": [
+            "Frequent forgetting of learned concepts",
+            "Difficulty applying knowledge in new contexts"
+          ]
+        }
+      ],
+      "solutions": []
+    },
+    {
+      "id": 18,
+      "category": "Sensory Processing Disorder",
+      "description": "Difficulties processing and integrating sensory information from the environment, manifesting as hypersensitivity or hyposensitivity to various stimuli",
+      "translations": {
+        "es": "Trastorno del Procesamiento Sensorial"
+      },
+      "behaviors": [
+        {
+          "type": "Extreme reactions to sensory stimuli",
+          "manifestations": [
+            "Discomfort with loud noises or bright lights",
+            "Constant seeking of tactile stimuli"
+          ]
+        }
+      ],
+      "solutions": []
+    }
+  ]
+}
