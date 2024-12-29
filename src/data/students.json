@@ -1,0 +1,283 @@
+{
+  "groups": {
+    "Bus Year 10": {
+      "name": "Bus Year 10",
+      "students": [
+        {
+          "id": 1,
+          "group": "Bus Year 10",
+          "period": "P1",
+          "name": "Student Bus10-P1",
+          "disorders": [
+            {
+              "id": 16,
+              "code": "SEMH",
+              "name": "Social, Emotional & Mental Health"
+            },
+            {
+              "id": 17,
+              "code": "ADHD",
+              "name": "Attention Deficit Hyperactivity Disorder"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "group": "Bus Year 10",
+          "period": "P2",
+          "name": "Student Bus10-P2",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "group": "Bus Year 10",
+          "period": "P3",
+          "name": "Student Bus10-P3",
+          "disorders": [
+            {
+              "id": 19,
+              "code": "NSA",
+              "name": "No Specialist Assessment",
+              "notes": "no hay diagnóstico formal, solo 'behaviour issues' sin mención de SEMH u otro"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "group": "Bus Year 10",
+          "period": "P4",
+          "name": "Student Bus10-P4",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            },
+            {
+              "id": 17,
+              "code": "ADHD",
+              "name": "Attention Deficit Hyperactivity Disorder"
+            }
+          ]
+        }
+      ]
+    },
+    "Bus Year 11": {
+      "name": "Bus Year 11",
+      "students": [
+        {
+          "id": 5,
+          "group": "Bus Year 11",
+          "period": "P1",
+          "name": "Student Bus11-P1",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 16,
+              "code": "SEMH",
+              "name": "Social, Emotional & Mental Health"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "group": "Bus Year 11",
+          "period": "P2",
+          "name": "Student Bus11-P2",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 16,
+              "code": "SEMH",
+              "name": "Social, Emotional & Mental Health"
+            },
+            {
+              "id": 8,
+              "code": "APD",
+              "name": "Auditory Processing Disorder"
+            },
+            {
+              "id": 17,
+              "code": "ADHD",
+              "name": "Attention Deficit Hyperactivity Disorder"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "group": "Bus Year 11",
+          "period": "P3",
+          "name": "Student Bus11-P3",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            },
+            {
+              "id": 17,
+              "code": "ADHD",
+              "name": "Attention Deficit Hyperactivity Disorder"
+            }
+          ]
+        }
+      ]
+    },
+    "Travel Y13.2": {
+      "name": "Travel Y13.2",
+      "students": [
+        {
+          "id": 8,
+          "group": "Travel Y13.2",
+          "period": "P1",
+          "name": "Student TravelY13-P1",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "group": "Travel Y13.2",
+          "period": "P2",
+          "name": "Student TravelY13-P2",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "group": "Travel Y13.2",
+          "period": "P3",
+          "name": "Student TravelY13-P3",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "group": "Travel Y13.2",
+          "period": "P4",
+          "name": "Student TravelY13-P4",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            }
+          ]
+        }
+      ]
+    },
+    "BTEC Y13": {
+      "name": "BTEC Y13",
+      "students": [
+        {
+          "id": 12,
+          "group": "BTEC Y13",
+          "period": "P1",
+          "name": "Student BTECY13-P1",
+          "disorders": [
+            {
+              "id": 1,
+              "code": "C&L",
+              "name": "Cognition & Learning"
+            },
+            {
+              "id": 5,
+              "code": "SpLD",
+              "name": "Specific Learning Disability",
+              "notes": "dislexia"
+            }
+          ]
+        }
+      ]
+    },
+    "BTEC Y12": {
+      "name": "BTEC Y12",
+      "students": [
+        {
+          "id": 13,
+          "group": "BTEC Y12",
+          "period": "P1",
+          "name": "Student BTECY12-P1",
+          "disorders": [
+            {
+              "id": 16,
+              "code": "SEMH",
+              "name": "Social, Emotional & Mental Health",
+              "notes": "problemas de ira y salud mental, con apoyo psicológico"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

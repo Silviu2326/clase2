@@ -1,503 +1,538 @@
-import React, { useState, useMemo } from 'react';
-import { 
-  Search, 
-  Pencil, 
-  Trash2, 
-  ChevronUp, 
-  ChevronDown, 
-  Plus,
-  Filter,
-  MoreHorizontal,
-  ChevronRight
-} from 'lucide-react';
+import React, { useState } from 'react'; 
+import { Search, ChevronDown, ChevronRight, ChevronUp, Filter, Settings, Download, Plus } from 'lucide-react';
 import logo from './logo.jpeg';
+import studentsData from '../data/students.json';
 import problemasEducativos from '../data/problemas-educativos.json';
-import educationalProblemsData from '../data/educational-problems.json';
-import { translations } from '../translations/translations';
+import educationalProblems from '../data/educational-problems.json';
 
-const datosIniciales = [
-  {
-    id: 1,
-    nombre: 'Bus Year 10 - P1',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'TDAH',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en atención y comportamiento',
-      descripcion: 'Muestra problemas de atención y control de impulsos'
+// Mapeo de códigos de trastornos a IDs de problemas educativos
+const codigoAId = {
+  'C&L': 1,
+  'SEMH': 4,
+  'ADHD': 5,
+  'SpLD': 16,
+  'APD': 6,
+  'NSA': 19
+};
+
+// Traducciones
+const translations = {
+  es: {
+    title: 'Tabla de Alumnos',
+    darkMode: 'Modo Oscuro',
+    newStudent: 'Nuevo Alumno',
+    searchPlaceholder: 'Buscar...',
+    buttons: {
+      settings: 'Configuración',
+      export: 'Exportar',
+      filters: 'Filtros'
     },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: []
+    name: 'Nombre',
+    disorder: 'Trastorno',
+    disorders: 'Trastornos',
+    behavior: 'Conducta',
+    behaviors: 'Conductas',
+    solutions: 'Soluciones',
+    viewBehaviors: 'Ver conductas',
+    viewSolutions: 'Ver soluciones',
+    solutionsFor: 'Soluciones para',
+    behaviorsFor: 'Conductas de'
   },
-  {
-    id: 2,
-    nombre: 'Bus Year 10 - P2',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'TDAH',
-    trastornoPsicologico2: 'Dislexia',
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades en atención',
-      descripcion: 'Problemas para mantener la atención en clase'
+  en: {
+    title: 'Students Table',
+    darkMode: 'Dark Mode',
+    newStudent: 'New Student',
+    searchPlaceholder: 'Search...',
+    buttons: {
+      settings: 'Settings',
+      export: 'Export',
+      filters: 'Filters'
     },
-    conductaAula2: {
-      titulo: 'Dificultades en lectura',
-      descripcion: 'Problemas significativos en la lectura y comprensión'
-    },
-    conductaAula3: null,
-    soluciones: []
-  },
-  {
-    id: 3,
-    nombre: 'Bus Year 10 - P3',
-    descripcion: '(Wave 1, Diagnóstico formal: No)',
-    trastornoPsicologico1: null,
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: null,
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: []
-  },
-  {
-    id: 4,
-    nombre: 'Bus Year 10 - P4',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'APD',
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades auditivas',
-      descripcion: 'Problemas para procesar información auditiva'
-    },
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: []
-  },
-  {
-    id: 5,
-    nombre: 'Bus Year 10 - P5',
-    descripcion: '(Wave 1, Diagnóstico formal: No)',
-    trastornoPsicologico1: null,
-    trastornoPsicologico2: null,
-    trastornoPsicologico3: null,
-    conductaAula1: null,
-    conductaAula2: null,
-    conductaAula3: null,
-    soluciones: []
-  },
-  {
-    id: 6,
-    nombre: 'Bus Year 10 - P6',
-    descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-    trastornoPsicologico1: 'SEMH',
-    trastornoPsicologico2: 'SpLD',
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Dificultades emocionales',
-      descripcion: 'Problemas de regulación emocional'
-    },
-    conductaAula2: {
-      titulo: 'Dificultades de aprendizaje',
-      descripcion: 'Problemas específicos en el aprendizaje'
-    },
-    conductaAula3: null,
-    soluciones: []
+    name: 'Name',
+    disorder: 'Disorder',
+    disorders: 'Disorders',
+    behavior: 'Behavior',
+    behaviors: 'Behaviors',
+    solutions: 'Solutions',
+    viewBehaviors: 'View behaviors',
+    viewSolutions: 'View solutions',
+    solutionsFor: 'Solutions for',
+    behaviorsFor: 'Behaviors of'
   }
-];
+};
 
-const TablaAlumnosOscura = ({ language }) => {
-  const datos = useMemo(() => {
-    const data = language === 'en' ? educationalProblemsData.problems : problemasEducativos.problemas;
-    return data.map(problema => {
-      const conductas = language === 'es' ? problema.conductas : problema.behaviors;
-      return {
-        id: problema.id,
-        nombre: `Bus Year 10 - P${problema.id}`,
-        descripcion: '(Wave 1, Diagnóstico formal: Sí)',
-        trastornoPsicologico1: problema.category || problema.categoria,
-        trastornoPsicologico2: null,
-        trastornoPsicologico3: null,
-        conductaAula1: conductas && conductas[0] ? {
-          titulo: conductas[0].tipo || conductas[0].type,
-          descripcion: (conductas[0].manifestaciones || conductas[0].manifestations || [])[0] || '',
-          detalles: conductas[0].manifestaciones || conductas[0].manifestations || []
-        } : null,
-        conductaAula2: conductas && conductas[1] ? {
-          titulo: conductas[1].tipo || conductas[1].type,
-          descripcion: (conductas[1].manifestaciones || conductas[1].manifestations || [])[0] || '',
-          detalles: conductas[1].manifestaciones || conductas[1].manifestations || []
-        } : null,
-        conductaAula3: conductas && conductas[2] ? {
-          titulo: conductas[2].tipo || conductas[2].type,
-          descripcion: (conductas[2].manifestaciones || conductas[2].manifestations || [])[0] || '',
-          detalles: conductas[2].manifestaciones || conductas[2].manifestations || []
-        } : null,
-        soluciones: problema.solutions || problema.soluciones || [],
-      };
-    });
-  }, [language]);
+const TablaAlumnosOscura = ({ language = 'es' }) => {
+  // Para traducciones
+  const t = translations[language] || translations['es'];
 
-  const [filtro, setFiltro] = useState('');
-  const [conductasExpandidas, setConductasExpandidas] = useState({});
-  const [solucionesExpandidas, setSolucionesExpandidas] = useState({});
-  const t = translations[language];
+  // Estados para expansión y búsqueda
+  const [expandedStudent, setExpandedStudent] = useState(null);
+  const [expandedItems, setExpandedItems] = useState({});
+  const [busquedaGlobal, setBusquedaGlobal] = useState('');
 
-  const problems = language === 'es' ? problemasEducativos.problemas : educationalProblemsData.problems;
+  // Seleccionar el conjunto de datos según el idioma
+  const problemsData = language === 'es' ? problemasEducativos : educationalProblems;
 
-  const obtenerDetallesTrastorno = (nombreTrastorno) => {
-    if (!nombreTrastorno) return null;
+  /**
+   * Función para obtener las conductas asociadas a un trastorno específico
+   */
+  const getConductas = (disorder) => {
+    console.log('Getting conductas for disorder:', disorder);
+    const problemaId = codigoAId[disorder.code];
+    console.log('Mapped problemaId:', problemaId);
+    if (!problemaId) return null;
+
+    const problems = language === 'es' ? problemsData.problemas : problemsData.problems;
+    console.log('Selected problems data:', problems);
+    console.log('Current language:', language);
+    const problema = problems.find(p => p.id === problemaId);
+    console.log('Found problema:', problema);
     
-    const nombreNormalizado = nombreTrastorno.toLowerCase();
-    const mapeoTrastornos = {
-      'tdah': language === 'es' ? 'Trastorno por Déficit de Atención e Hiperactividad' : 'Attention Deficit Hyperactivity Disorder',
-      'dislexia': language === 'es' ? 'Dificultades Específicas del Aprendizaje' : 'Specific Learning Difficulties',
-      'apd': language === 'es' ? 'Trastorno del Procesamiento Auditivo' : 'Auditory Processing Disorder',
-      'tda': language === 'es' ? 'Trastorno por Déficit de Atención e Hiperactividad' : 'Attention Deficit Hyperactivity Disorder',
-      'spld': language === 'es' ? 'Dificultades Específicas del Aprendizaje' : 'Specific Learning Difficulties',
-      'semh': language === 'es' ? 'Social, Emocional y Salud Mental' : 'Social, Emotional, and Mental Health'
-    };
+    if (!problema) return null;
 
-    const categoriaBuscada = mapeoTrastornos[nombreNormalizado] || nombreTrastorno;
+    const behaviors = language === 'es' ? problema.conductas : problema.behaviors;
+    console.log('Selected behaviors:', behaviors);
     
-    const mapeoIds = {
-      'Trastorno por Déficit de Atención e Hiperactividad': 5,
-      'Attention Deficit Hyperactivity Disorder': 5,
-      'Dificultades Específicas del Aprendizaje': 1,
-      'Specific Learning Difficulties': 1,
-      'Trastorno del Procesamiento Auditivo': 6,
-      'Auditory Processing Disorder': 6,
-      'Social, Emocional y Salud Mental': 4,
-      'Social, Emotional, and Mental Health': 4
-    };
+    if (!behaviors) return [];
 
-    const idBuscado = mapeoIds[categoriaBuscada];
-    if (idBuscado !== undefined) {
-      const problemaPorId = problems.find(p => p.id === idBuscado);
-      if (problemaPorId) return problemaPorId;
-    }
-
-    const problemaPorCategoria = problems.find(p => {
-      const matchKey = language === 'es' ? 'categoria' : 'category';
-      const categoriaProblema = p[matchKey] || '';
-      return categoriaProblema.toLowerCase() === categoriaBuscada.toLowerCase();
-    });
-
-    return problemaPorCategoria || null;
+    // Mantener la estructura completa de las conductas
+    const mappedBehaviors = behaviors.map(behavior => ({
+      tipo: language === 'es' ? behavior.tipo : behavior.type,
+      manifestaciones: language === 'es' ? behavior.manifestaciones : behavior.manifestations || []
+    }));
+    
+    console.log('Final behaviors:', mappedBehaviors);
+    return mappedBehaviors;
   };
 
-  const obtenerSolucionesPorTrastorno = (alumno) => {
-    const solucionesPorTrastorno = {};
-    const solucionesEspecificas = {
-      nombre: language === 'es' ? 'Soluciones Específicas' : 'Specific Solutions',
-      soluciones: alumno.soluciones ? [alumno.soluciones].flat() : []
-    };
-
-    if (alumno.trastornoPsicologico1) {
-      const detalles = obtenerDetallesTrastorno(alumno.trastornoPsicologico1);
-      if (detalles) {
-        const solutionsKey = language === 'es' ? 'soluciones' : 'solutions';
-        solucionesPorTrastorno.trastorno1 = {
-          nombre: alumno.trastornoPsicologico1,
-          soluciones: detalles[solutionsKey] || []
-        };
-      }
+  const getSoluciones = (disorder) => {
+    console.log('Getting solutions for disorder:', disorder.code);
+    const problemaId = codigoAId[disorder.code];
+    if (!problemaId) {
+      console.log('No problema ID found for code:', disorder.code);
+      return null;
     }
 
-    if (alumno.trastornoPsicologico2) {
-      const detalles = obtenerDetallesTrastorno(alumno.trastornoPsicologico2);
-      if (detalles) {
-        const solutionsKey = language === 'es' ? 'soluciones' : 'solutions';
-        solucionesPorTrastorno.trastorno2 = {
-          nombre: alumno.trastornoPsicologico2,
-          soluciones: detalles[solutionsKey] || []
-        };
-      }
+    const problems = language === 'es' ? problemsData.problemas : problemsData.problems;
+    const problema = problems.find(p => p.id === problemaId);
+    
+    if (!problema) {
+      console.log('No problema found for ID:', problemaId);
+      return null;
     }
 
-    return { ...solucionesPorTrastorno, especificas: solucionesEspecificas };
+    console.log('Found problema:', problema);
+    
+    // Obtener las soluciones según el idioma
+    const solutions = language === 'es' ? problema.soluciones : problema.solutions;
+    if (!solutions) {
+      console.log('No solutions found');
+      return [];
+    }
+
+    // Transformar las soluciones al formato esperado
+    const formattedSolutions = solutions.map(solution => ({
+      categoria: language === 'es' ? solution.categoria : solution.category,
+      estrategias: language === 'es' ? solution.estrategias : solution.strategies || []
+    }));
+
+    console.log('Formatted solutions:', formattedSolutions);
+    return formattedSolutions;
   };
 
-  const renderConducta = (alumno, conductaIndex) => {
-    // Solo mostrar conducta si hay un trastorno correspondiente
-    const trastorno = alumno[`trastornoPsicologico${conductaIndex}`];
-    if (!trastorno) return null;
+  const isNSA = (disorder) => {
+    return disorder && disorder.code === 'NSA';
+  };
 
-    // Obtener los detalles del trastorno
-    const detallesTrastorno = obtenerDetallesTrastorno(trastorno);
-    if (!detallesTrastorno) return null;
+  const getBehaviorHelperText = (disorder) => {
+    if (!disorder) return '';
+    if (isNSA(disorder)) return 'No se aplica';
+    const conductas = getConductas(disorder);
+    if (!conductas || conductas.length === 0) return 'No hay conductas asociadas';
+    return `Ver conductas (${conductas.length})`;
+  };
 
-    const conductas = language === 'es' ? detallesTrastorno.conductas : detallesTrastorno.behaviors;
-    if (!conductas || conductas.length === 0) return null;
+  const getSolutionHelperText = (disorder) => {
+    if (!disorder) return '';
+    if (isNSA(disorder)) return 'No se aplica';
+    const soluciones = getSoluciones(disorder);
+    if (!soluciones || soluciones.length === 0) return 'No hay soluciones asociadas';
+    return `Ver soluciones (${soluciones.length})`;
+  };
 
-    // Obtener la conducta específica para esta columna
-    const conductaAula = alumno[`conductaAula${conductaIndex}`];
-    if (!conductaAula) return null;
+  /**
+   * Filtrado de los datos a partir de la búsqueda global
+   */
+  const datosFiltrados = Object.values(studentsData.groups).flatMap((group) =>
+    group.students.filter((student) => {
+      // Coincidencia en el nombre del grupo o en cualquier trastorno
+      const matchGroup = student.group.toLowerCase().includes(busquedaGlobal.toLowerCase());
+      const matchDisorders = student.disorders.some(
+        (d) =>
+          d.name.toLowerCase().includes(busquedaGlobal.toLowerCase()) ||
+          d.code.toLowerCase().includes(busquedaGlobal.toLowerCase())
+      );
 
-    const isExpanded = conductasExpandidas[`${alumno.id}-${conductaIndex}`];
-    const toggleExpanded = () => {
-      setConductasExpandidas(prev => ({
-        ...prev,
-        [`${alumno.id}-${conductaIndex}`]: !prev[`${alumno.id}-${conductaIndex}`]
-      }));
-    };
+      return matchGroup || matchDisorders;
+    })
+  );
+
+  const toggleBehaviors = (studentId, disorder) => {
+    console.log('Toggling behaviors for student:', studentId, 'disorder:', disorder);
+    setExpandedItems(prev => {
+      const key = `${studentId}-${disorder.id}-behaviors`;
+      const newItems = { ...prev };
+      newItems[key] = !prev[key];
+      return newItems;
+    });
+  };
+
+  const toggleSolutions = (studentId, disorder) => {
+    console.log('Toggling solutions for student:', studentId, 'disorder:', disorder);
+    setExpandedItems(prev => {
+      const key = `${studentId}-${disorder.id}-solutions`;
+      const newItems = { ...prev };
+      newItems[key] = !prev[key];
+      return newItems;
+    });
+  };
+
+  const toggleStudent = (studentId) => {
+    setExpandedStudent(prev => {
+      const newState = prev === studentId ? null : studentId;
+      if (newState === null) {
+        // Si cerramos el estudiante, limpiamos los estados de expansión
+        setExpandedItems({});
+      }
+      return newState;
+    });
+  };
+
+  const isExpanded = (studentId, disorderId, type) => {
+    const key = `${studentId}-${disorderId}-${type}`;
+    return expandedItems[key] || false;
+  };
+
+  /**
+   * Renderiza las soluciones para un trastorno dado
+   */
+  const renderSoluciones = (soluciones) => {
+    console.log('Rendering solutions:', soluciones);
+    if (!soluciones || !Array.isArray(soluciones) || soluciones.length === 0) {
+      console.log('No solutions to render');
+      return null;
+    }
 
     return (
-      <div className="space-y-2">
-        <div
-          className="flex items-center space-x-2 cursor-pointer text-gray-300"
-          onClick={toggleExpanded}
-        >
-          {isExpanded ? (
-            <ChevronDown className="w-4 h-4" />
-          ) : (
-            <ChevronRight className="w-4 h-4" />
-          )}
-          <span className="font-medium">{conductaAula.titulo}</span>
-        </div>
-        {isExpanded && (
-          <div className="pl-6 space-y-4">
-            <div className="text-sm text-gray-400">
-              {conductaAula.descripcion}
+      <div className="space-y-4">
+        {soluciones.map((solucion, idx) => {
+          if (!solucion || !solucion.categoria || !Array.isArray(solucion.estrategias)) {
+            console.log('Invalid solution object:', solucion);
+            return null;
+          }
+
+          return (
+            <div key={idx} className="space-y-2">
+              <h5 className="text-sm font-medium text-gray-100">
+                {solucion.categoria}:
+              </h5>
+              <ul className="list-disc pl-5 space-y-1">
+                {solucion.estrategias.map((estrategia, estrategiaIdx) => (
+                  <li
+                    key={estrategiaIdx}
+                    className="text-sm text-gray-300"
+                  >
+                    {estrategia}
+                  </li>
+                ))}
+              </ul>
             </div>
-            {conductaAula.detalles.map((detalle, idx) => (
-              <div key={idx} className="space-y-2">
-                <div className="font-medium text-gray-300">
-                  {detalle}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+          );
+        })}
       </div>
     );
   };
-
-  const renderSoluciones = (alumno) => {
-    const soluciones = obtenerSolucionesPorTrastorno(alumno);
-    const isExpanded = solucionesExpandidas[alumno.id];
-    
-    const toggleExpanded = () => {
-      setSolucionesExpandidas(prev => ({
-        ...prev,
-        [alumno.id]: !prev[alumno.id]
-      }));
-    };
-
-    if (!soluciones) return null;
-
-    const renderSolucion = (solucion) => {
-      if (typeof solucion === 'string') {
-        return <div className="text-sm text-gray-400">{solucion}</div>;
-      }
-
-      if (solucion.categoria && solucion.estrategias) {
-        return (
-          <div className="text-sm text-gray-400">
-            <div className="font-medium">{solucion.categoria}</div>
-            <ul className="list-disc list-inside pl-4">
-              {Array.isArray(solucion.estrategias) 
-                ? solucion.estrategias.map((estrategia, idx) => (
-                    <li key={idx}>{estrategia}</li>
-                  ))
-                : <li>{String(solucion.estrategias)}</li>
-              }
-            </ul>
-          </div>
-        );
-      }
-
-      return <div className="text-sm text-gray-400">{JSON.stringify(solucion)}</div>;
-    };
-
-    return (
-      <div className="space-y-2">
-        <div
-          className="flex items-center space-x-2 cursor-pointer text-gray-300"
-          onClick={toggleExpanded}
-        >
-          {isExpanded ? (
-            <ChevronDown className="w-4 h-4" />
-          ) : (
-            <ChevronRight className="w-4 h-4" />
-          )}
-          <span className="font-medium">
-            {language === 'es' ? 'Ver soluciones' : 'View solutions'}
-          </span>
-        </div>
-        {isExpanded && (
-          <div className="pl-6 space-y-4">
-            {Object.entries(soluciones).map(([key, data]) => {
-              if (!data || !data.soluciones || data.soluciones.length === 0) return null;
-              
-              return (
-                <div key={key} className="space-y-2">
-                  <div className="font-medium text-gray-300">
-                    {data.nombre}
-                  </div>
-                  <div className="space-y-1">
-                    {data.soluciones.map((solucion, idx) => (
-                      <div key={idx}>
-                        {renderSolucion(solucion)}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const datosFiltrados = useMemo(() => {
-    if (!filtro) return datos;
-    const filtroLower = filtro.toLowerCase();
-    return datos.filter(alumno => 
-      alumno.nombre.toLowerCase().includes(filtroLower) ||
-      alumno.descripcion.toLowerCase().includes(filtroLower) ||
-      (alumno.trastornoPsicologico1 && alumno.trastornoPsicologico1.toLowerCase().includes(filtroLower)) ||
-      (alumno.trastornoPsicologico2 && alumno.trastornoPsicologico2.toLowerCase().includes(filtroLower))
-    );
-  }, [datos, filtro]);
 
   return (
-    <div className="p-6 bg-gray-900 rounded-xl">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-gray-800 rounded-lg">
-              <img src={logo} alt="Logo" className="h-8 w-auto" />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-white">{t.title}</h1>
-              <p className="text-gray-400 text-sm">{t.darkMode}</p>
-            </div>
+    <div className="container mx-auto p-4 bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-gray-100 min-h-screen">
+      {/* Header with glass effect */}
+      <div className="flex items-center justify-between mb-6 p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-gradient-to-br from-gray-800 to-gray-700 rounded-xl border border-gray-600 shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+            <img src={logo} alt="Logo" className="h-10 w-auto" />
           </div>
-          <button className="px-4 py-2 bg-violet-600 text-white rounded-lg flex items-center space-x-2 hover:bg-violet-700 transition-colors">
+          <div>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">{t.title}</h1>
+            <p className="text-sm text-gray-400">{t.darkMode}</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-3">
+          <button
+            className="p-2 text-gray-300 hover:text-blue-400 hover:bg-gray-800 rounded-lg transition-all duration-300 border border-gray-700 hover:border-blue-500/50"
+            title={t.buttons.settings}
+          >
+            <Settings className="w-4 h-4" />
+          </button>
+          <button
+            className="p-2 text-gray-300 hover:text-blue-400 hover:bg-gray-800 rounded-lg transition-all duration-300 border border-gray-700 hover:border-blue-500/50"
+            title={t.buttons.export}
+          >
+            <Download className="w-4 h-4" />
+          </button>
+          <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg flex items-center space-x-2 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-blue-500/20">
             <Plus className="w-4 h-4" />
             <span>{t.newStudent}</span>
           </button>
         </div>
-
-        {/* Búsqueda */}
-        <div className="mt-6 flex space-x-4">
-          <div className="relative flex-1">
-            <input
-              type="text"
-              placeholder={t.searchPlaceholder}
-              value={filtro}
-              onChange={(e) => setFiltro(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 text-gray-200 rounded-lg border border-gray-700 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
-            />
-            <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-          <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
-            <Filter className="w-5 h-5" />
-          </button>
-        </div>
       </div>
 
-      {/* Tabla */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-800">
+      {/* Search bar with glass effect */}
+      <div className="flex items-center space-x-4 mb-6">
+        <div className="relative flex-1">
+          <input
+            type="text"
+            placeholder={t.searchPlaceholder}
+            value={busquedaGlobal}
+            onChange={(e) => setBusquedaGlobal(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 bg-gray-800/50 backdrop-blur-sm text-gray-100 rounded-lg border border-gray-700/50 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all duration-300"
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        </div>
+        <button
+          className="p-3 text-gray-300 hover:text-blue-400 bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800 rounded-lg transition-all duration-300 border border-gray-700/50 hover:border-blue-500/50"
+          title={t.buttons.filters}
+        >
+          <Filter className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Table with glass effect */}
+      <div className="overflow-x-auto border border-gray-700/50 rounded-xl bg-gray-800/30 backdrop-blur-sm shadow-xl">
+        <table className="min-w-full divide-y divide-gray-700/50">
+          <thead className="bg-gray-800/50 backdrop-blur-sm">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Nombre/Descripción' : 'Name/Description'}
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-300 border-r border-gray-700/50">
+                {t.name}
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Trastorno 1' : 'Disorder 1'}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Trastorno 2' : 'Disorder 2'}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Trastorno 3' : 'Disorder 3'}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Conducta 1' : 'Behavior 1'}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Conducta 2' : 'Behavior 2'}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Conducta 3' : 'Behavior 3'}
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                {language === 'es' ? 'Soluciones' : 'Solutions'}
+              {[1, 2, 3, 4].map(num => (
+                <th
+                  key={`disorder-${num}`}
+                  className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 border-r border-gray-700/50"
+                >
+                  {t.disorder} {num}
+                </th>
+              ))}
+              {[1, 2, 3, 4].map(num => (
+                <th
+                  key={`behavior-${num}`}
+                  className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300 border-r border-gray-700/50"
+                >
+                  {t.behavior} {num}
+                </th>
+              ))}
+              <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-300">
+                {t.solutions}
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
-            {datosFiltrados.map((alumno) => (
-              <tr 
-                key={alumno.id}
-                className="group hover:bg-gray-800/50 transition-colors"
-              >
-                <td className="px-6 py-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-violet-900/50 text-violet-300 rounded-lg flex items-center justify-center">
-                      {alumno.nombre.charAt(0)}
+          <tbody className="divide-y divide-gray-700/50">
+            {datosFiltrados.map((student) => (
+              <React.Fragment key={student.id}>
+                {/* Fila principal */}
+                <tr
+                  className={`cursor-pointer hover:bg-gray-800/70 ${
+                    expandedStudent === student.id ? 'bg-gray-800/70' : ''
+                  }`}
+                  onClick={() => toggleStudent(student.id)}
+                >
+                  {/* Nombre/Grupo */}
+                  <td className="px-4 py-3 border-r border-gray-700/50 text-sm">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex-shrink-0 w-8 h-8 bg-gray-700 text-white rounded-lg flex items-center justify-center">
+                        <span className="text-gray-300">
+                          {student.group.charAt(0)}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="font-semibold">{student.group} {student.period}</div>
+                      </div>
                     </div>
-                    <span className="text-gray-200">{alumno.nombre}</span>
-                  </div>
-                </td>
-                <td className="px-4 py-4">
-                  {alumno.trastornoPsicologico1 && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300">
-                      {alumno.trastornoPsicologico1}
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-4">
-                  {alumno.trastornoPsicologico2 && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-900/30 text-purple-300">
-                      {alumno.trastornoPsicologico2}
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-4">
-                  {alumno.trastornoPsicologico3 && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-900/30 text-green-300">
-                      {alumno.trastornoPsicologico3}
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 1)}
-                </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 2)}
-                </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 3)}
-                </td>
-                <td className="px-6 py-4">
-                  {renderSoluciones(alumno)}
-                </td>
-              </tr>
+                  </td>
+
+                  {/* Trastornos */}
+                  {[0, 1, 2, 3].map(index => (
+                    <td
+                      key={index}
+                      className="px-6 py-4 border-r border-gray-700/50 text-center text-sm"
+                    >
+                      {student.disorders[index] && !isNSA(student.disorders[index]) ? (
+                        <span className="text-blue-400 font-semibold">
+                          {student.disorders[index].code}
+                        </span>
+                      ) : (
+                        <span className="text-gray-500">-</span>
+                      )}
+                    </td>
+                  ))}
+
+                  {/* Conductas */}
+                  {[0, 1, 2, 3].map(index => (
+                    <td
+                      key={index}
+                      className="px-6 py-4 border-r border-gray-700/50 text-sm"
+                    >
+                      {student.disorders[index] && !isNSA(student.disorders[index]) ? (
+                        <div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleBehaviors(student.id, student.disorders[index]);
+                            }}
+                            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-blue-300 hover:from-blue-600/30 hover:to-purple-600/30 transition-all duration-300 border border-blue-500/30"
+                          >
+                            {student.disorders[index].code}
+                          </button>
+                          {isExpanded(student.id, student.disorders[index].id, 'behaviors') && (
+                            <div className="mt-2 p-4 rounded-lg bg-gray-800/50 backdrop-blur-sm border border-gray-700/50">
+                              <h4 className="text-sm font-semibold text-blue-400 mb-3">
+                                {t.behaviorsFor} {student.disorders[index].name}
+                              </h4>
+                              <div className="space-y-4">
+                                {getConductas(student.disorders[index])?.map((conducta, idx) => (
+                                  <div key={idx} className="mb-4">
+                                    <h5 className="text-sm font-medium text-blue-300 mb-2">
+                                      {conducta.tipo}:
+                                    </h5>
+                                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
+                                      {conducta.manifestaciones.map((manifestacion, midx) => (
+                                        <li key={midx}>
+                                          {manifestacion}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-gray-500">-</span>
+                      )}
+                    </td>
+                  ))}
+
+                  {/* Soluciones */}
+                  <td className="px-6 py-4 text-sm">
+                    {student.disorders
+                      .filter(d => !isNSA(d))
+                      .map((disorder) => (
+                        <button
+                          key={disorder.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleSolutions(student.id, disorder);
+                          }}
+                          className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-blue-300 hover:from-blue-600/30 hover:to-purple-600/30 transition-all duration-300 border border-blue-500/30 mr-2 mb-2"
+                        >
+                          {disorder.code}
+                        </button>
+                      ))
+                    }
+                    {student.disorders
+                      .filter(d => !isNSA(d))
+                      .map((disorder) => (
+                        <React.Fragment key={disorder.id}>
+                          {isExpanded(student.id, disorder.id, 'solutions') && (
+                            <div className="p-4 rounded-lg bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 mt-2">
+                              <h4 className="text-sm font-semibold text-blue-400 mb-3">
+                                {t.solutionsFor} {disorder.name}
+                              </h4>
+                              {renderSoluciones(getSoluciones(disorder))}
+                            </div>
+                          )}
+                        </React.Fragment>
+                      ))
+                    }
+                  </td>
+                </tr>
+
+                {/* Fila expandida con detalles de conductas y soluciones */}
+                {expandedStudent === student.id && (
+                  <tr className="bg-gray-800/70">
+                    <td
+                      colSpan={1 + 4 + 4 + 1}
+                      className="px-4 py-4 border-t border-gray-700/50"
+                    >
+                      <div className="space-y-4">
+                        {student.disorders.map((disorder) => {
+                          if (!disorder || isNSA(disorder)) return null;
+
+                          const conductasForDisorder = getConductas(disorder);
+                          const solucionesForDisorder = getSoluciones(disorder);
+
+                          return (
+                            <div key={disorder.id} className="space-y-4">
+                              {/* Conductas */}
+                              {isExpanded(student.id, disorder.id, 'behaviors') && conductasForDisorder && conductasForDisorder.length > 0 && (
+                                <div className="p-4 rounded-lg bg-gray-800/50 backdrop-blur-sm border border-gray-700/50">
+                                  <h4 className="text-sm font-semibold text-blue-400 mb-3">
+                                    {t.behaviorsFor} {disorder.name} ({disorder.code})
+                                  </h4>
+                                  <div className="space-y-2">
+                                    {conductasForDisorder.map((conducta, idx) => (
+                                      <div key={idx} className="mb-4">
+                                        <h5 className="text-sm font-medium text-blue-300 mb-2">
+                                          {conducta.tipo}:
+                                        </h5>
+                                        <ul className="list-disc pl-5 space-y-1 text-gray-300">
+                                          {conducta.manifestaciones.map((manifestacion, midx) => (
+                                            <li key={midx}>
+                                              {manifestacion}
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Soluciones */}
+                              {isExpanded(student.id, disorder.id, 'solutions') && solucionesForDisorder && solucionesForDisorder.length > 0 && (
+                                <div className="p-4 rounded-lg bg-gray-800/50 backdrop-blur-sm border border-gray-700/50">
+                                  <h4 className="text-sm font-semibold text-blue-400 mb-3">
+                                    {t.solutionsFor} {disorder.name} ({disorder.code})
+                                  </h4>
+                                  <div className="space-y-4">
+                                    {solucionesForDisorder.map((solucion, idx) => (
+                                      <div key={idx} className="space-y-2">
+                                        <h5 className="text-sm font-medium text-gray-100">
+                                          {solucion.categoria}
+                                        </h5>
+                                        <ul className="list-disc pl-5 space-y-1 text-gray-300">
+                                          {solucion.estrategias.map((estrategia, eidx) => (
+                                            <li key={eidx}>
+                                              {estrategia}
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
-      </div>
-
-      {/* Footer */}
-      <div className="mt-4 flex items-center justify-between text-sm text-gray-400">
-        <div>
-          {t.footer.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}
-        </div>
-        <div className="flex items-center space-x-2">
-          <button className="px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors">{t.footer.prev}</button>
-          <button className="px-3 py-1 rounded-lg bg-violet-900/50 text-violet-300">1</button>
-          <button className="px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors">2</button>
-          <button className="px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors">3</button>
-          <button className="px-3 py-1 rounded-lg hover:bg-gray-800 transition-colors">{t.footer.next}</button>
-        </div>
       </div>
     </div>
   );

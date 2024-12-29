@@ -21,10 +21,6 @@ function App() {
   const esModoOscuro = ['oscura', 'oscura-gradiente', 'oscura-minimalista', 'oscura-neomorfica'].includes(tablaActiva);
   const t = translations[language];
 
-  const getData = () => {
-    return language === 'en' ? educationalProblems.problems : problemasEducativos.problemas;
-  };
-
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'es' ? 'en' : 'es');
   };
@@ -122,65 +118,34 @@ function App() {
             >
               Tabla Oscura Gradiente
             </button>
-            <button
-              onClick={() => setTablaActiva('oscura-minimalista')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                tablaActiva === 'oscura-minimalista'
-                  ? 'bg-slate-600 text-white'
-                  : esModoOscuro 
-                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                    : 'bg-white text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Tabla Oscura Minimalista
-            </button>
-            <button
-              onClick={() => setTablaActiva('oscura-neomorfica')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                tablaActiva === 'oscura-neomorfica'
-                  ? 'bg-gradient-to-r from-gray-700 to-slate-900 text-white'
-                  : esModoOscuro 
-                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                    : 'bg-white text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Tabla Oscura Neomórfica
-            </button>
+            
           </div>
           <div className="flex space-x-4">
-            <button
-              onClick={toggleLanguage}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                esModoOscuro 
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                  : 'bg-white text-gray-600 hover:bg-gray-50'
-              }`}
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <Globe size={20} />
-              <span>{language === 'es' ? 'English' : 'Español'}</span>
-            </button>
-            <button
-              onClick={toggleView}
-              className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
-            >
-              {showAlternative ? t.switchToOriginal : t.switchToAlternative}
-            </button>
+              <option value="es">Español</option>
+              <option value="en">English</option>
+            </select>
+           
           </div>
         </div>
         <div className="mt-4">
           {showAlternative ? (
-            <TablaAlumnosAlternativa data={getData()} language={language} />
+            <TablaAlumnosAlternativa language={language} />
           ) : (
             <div>
-              {tablaActiva === 'original' && <TablaAlumnos data={getData()} language={language} />}
-              {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa data={getData()} language={language} />}
-              {tablaActiva === 'moderna' && <TablaAlumnosModerna data={getData()} language={language} />}
-              {tablaActiva === 'dashboard' && <TablaAlumnosDashboard data={getData()} language={language} />}
-              {tablaActiva === 'elegante' && <TablaAlumnosElegante data={getData()} language={language} />}
-              {tablaActiva === 'oscura' && <TablaAlumnosOscura data={getData()} language={language} />}
-              {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente data={getData()} language={language} />}
-              {tablaActiva === 'oscura-minimalista' && <TablaAlumnosOscuraMinimalista data={getData()} language={language} />}
-              {tablaActiva === 'oscura-neomorfica' && <TablaAlumnosOscuraNeomorfica data={getData()} language={language} />}
+              {tablaActiva === 'original' && <TablaAlumnos language={language} />}
+              {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa language={language} />}
+              {tablaActiva === 'moderna' && <TablaAlumnosModerna language={language} />}
+              {tablaActiva === 'dashboard' && <TablaAlumnosDashboard language={language} />}
+              {tablaActiva === 'elegante' && <TablaAlumnosElegante language={language} />}
+              {tablaActiva === 'oscura' && <TablaAlumnosOscura language={language} />}
+              {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente language={language} />}
+              {tablaActiva === 'oscura-minimalista' && <TablaAlumnosOscuraMinimalista language={language} />}
+              {tablaActiva === 'oscura-neomorfica' && <TablaAlumnosOscuraNeomorfica language={language} />}
             </div>
           )}
         </div>

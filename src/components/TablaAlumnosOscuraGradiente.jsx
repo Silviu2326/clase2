@@ -1,80 +1,251 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
+import studentsData from '../data/students.json';
+import problemasEducativos from '../data/problemas-educativos.json';
+import educationalProblems from '../data/educational-problems.json';
 import { 
   Search, 
-  Pencil, 
-  Trash2, 
-  ChevronUp, 
-  ChevronDown, 
-  Plus,
+  ChevronDown,
+  ChevronUp,
   Filter,
-  MoreHorizontal,
-  Eye,
+  Settings,
   Download,
-  Settings
+  Plus
 } from 'lucide-react';
 import logo from './logo.jpeg';
-import { translations } from '../translations/translations';
 
-const datosIniciales = [
-  {
-    id: 1,
-    nombre: 'Juan Pérez',
-    trastorno1: 'TDAH',
-    trastorno2: 'Dislexia',
-    trastorno3: 'Ninguno',
-    habito1: 'Dificultad para mantener atención',
-    habito2: 'Interrumpe frecuentemente',
-    habito3: 'Movimiento constante',
-    soluciones: 'Establecer rutinas claras, descansos programados'
-  },
-  {
-    id: 2,
-    nombre: 'María García',
-    trastorno1: 'Ansiedad',
-    trastorno2: 'Ninguno',
-    trastorno3: 'Ninguno',
-    habito1: 'Perfeccionismo excesivo',
-    habito2: 'Dificultad para trabajar en grupo',
-    habito3: 'Preocupación constante',
-    soluciones: 'Técnicas de relajación, trabajo gradual'
-  },
-];
+const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
+  console.log('Imported data:', { studentsData, problemasEducativos, educationalProblems });
+  console.log('Current language:', language);
 
-const TablaAlumnosOscuraGradiente = ({ language }) => {
-  const t = translations[language];
-  const [datos, setDatos] = useState(datosIniciales);
+  const [expandedStudent, setExpandedStudent] = useState(null);
+  const [expandedBehaviors, setExpandedBehaviors] = useState({});
+  const [expandedSolutions, setExpandedSolutions] = useState({});
   const [busquedaGlobal, setBusquedaGlobal] = useState('');
-  const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
-  const [vistaExpandida, setVistaExpandida] = useState(null);
 
-  const handleOrdenamiento = (campo) => {
-    const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
-    setOrdenamiento({
-      campo,
-      direccion: esAscendente ? 'desc' : 'asc',
+  // Seleccionar el conjunto de datos según el idioma
+  const problemsData = language === 'es' ? problemasEducativos : educationalProblems;
+
+  // Traducciones
+  const translations = {
+    es: {
+      title: 'Tabla de Alumnos',
+      darkMode: 'Modo Oscuro',
+      newStudent: 'Nuevo Alumno',
+      searchPlaceholder: 'Buscar...',
+      buttons: {
+        settings: 'Configuración',
+        export: 'Exportar',
+        filters: 'Filtros'
+      },
+      name: 'Nombre',
+      disorder: 'Trastorno',
+      behavior: 'Conducta',
+      behaviors: 'Conductas',
+      solutions: 'Soluciones',
+      viewBehaviors: 'Ver conductas',
+      viewSolutions: 'Ver soluciones',
+      solutionsFor: 'Soluciones para',
+      behaviorsFor: 'Conductas de'
+    },
+    en: {
+      title: 'Students Table',
+      darkMode: 'Dark Mode',
+      newStudent: 'New Student',
+      searchPlaceholder: 'Search...',
+      buttons: {
+        settings: 'Settings',
+        export: 'Export',
+        filters: 'Filters'
+      },
+      name: 'Name',
+      disorder: 'Disorder',
+      behavior: 'Behavior',
+      behaviors: 'Behaviors',
+      solutions: 'Solutions',
+      viewBehaviors: 'View behaviors',
+      viewSolutions: 'View solutions',
+      solutionsFor: 'Solutions for',
+      behaviorsFor: 'Behaviors of'
+    }
+  };
+
+  const t = translations[language];
+
+  // Mapeo de códigos de trastornos a IDs de problemas educativos
+  const codigoAId = {
+    'C&L': 1,
+    'SEMH': 4,
+    'ADHD': 5,
+    'SpLD': 16,
+    'APD': 6,
+    'NSA': 19
+  };
+
+  // Función para obtener las conductas asociadas a un trastorno específico
+  const getConductas = (disorder) => {
+    console.log('Getting conductas for disorder:', disorder);
+    const problemaId = codigoAId[disorder.code];
+    console.log('Mapped problemaId:', problemaId);
+    if (!problemaId) return null;
+
+    const problems = language === 'es' ? problemsData.problemas : problemsData.problems;
+    console.log('Selected problems data:', problems);
+    console.log('Current language:', language);
+    const problema = problems.find(p => p.id === problemaId);
+    console.log('Found problema:', problema);
+    
+    if (!problema) return null;
+
+    const behaviors = language === 'es' ? problema.conductas : problema.behaviors;
+    console.log('Selected behaviors:', behaviors);
+    
+    // Extraer las manifestaciones según el idioma
+    let manifestaciones = [];
+    if (language === 'es') {
+      manifestaciones = behaviors.flatMap(b => b.manifestaciones);
+    } else {
+      // En inglés, extraer todas las manifestaciones de cada behavior
+      manifestaciones = behaviors.reduce((acc, behavior) => {
+        if (behavior.manifestations && Array.isArray(behavior.manifestations)) {
+          acc.push(...behavior.manifestations);
+        }
+        return acc;
+      }, []);
+    }
+    
+    console.log('Final manifestaciones:', manifestaciones);
+    return manifestaciones;
+  };
+
+  // Función para obtener las soluciones asociadas a un trastorno específico
+  const getSoluciones = (disorder) => {
+    console.log('Getting solutions for disorder:', disorder.code);
+    const problemaId = codigoAId[disorder.code];
+    if (!problemaId) {
+      console.log('No problema ID found for code:', disorder.code);
+      return null;
+    }
+
+    const problems = language === 'es' ? problemsData.problemas : problemsData.problems;
+    const problema = problems.find(p => p.id === problemaId);
+    
+    if (!problema) {
+      console.log('No problema found for ID:', problemaId);
+      return null;
+    }
+
+    console.log('Found problema:', problema);
+    
+    // Obtener las soluciones según el idioma
+    const solutions = language === 'es' ? problema.soluciones : problema.solutions;
+    if (!solutions) {
+      console.log('No solutions found');
+      return [];
+    }
+
+    // Transformar las soluciones al formato esperado
+    const formattedSolutions = solutions.map(solution => ({
+      categoria: language === 'es' ? solution.categoria : solution.category,
+      estrategias: language === 'es' ? solution.estrategias : solution.strategies || []
+    }));
+
+    console.log('Formatted solutions:', formattedSolutions);
+    return formattedSolutions;
+  };
+
+  // Función para obtener las soluciones asociadas a un trastorno específico
+  const isNSA = (disorder) => {
+    return disorder && disorder.code === 'NSA';
+  };
+
+  // Filtrado de datos basado en la búsqueda global
+  const datosFiltrados = Object.values(studentsData.groups).flatMap(group =>
+    group.students.filter(student =>
+      student.group.toLowerCase().includes(busquedaGlobal.toLowerCase()) ||
+      student.disorders.some(d => 
+        d.name.toLowerCase().includes(busquedaGlobal.toLowerCase()) ||
+        d.code.toLowerCase().includes(busquedaGlobal.toLowerCase())
+      )
+    )
+  );
+
+  // Renderizado de soluciones
+  const renderSoluciones = (soluciones) => {
+    console.log('Rendering solutions:', soluciones);
+    if (!soluciones || !Array.isArray(soluciones) || soluciones.length === 0) {
+      console.log('No solutions to render');
+      return null;
+    }
+
+    return (
+      <div className="space-y-6">
+        {soluciones.map((solucion, idx) => {
+          // Verificar que solucion y sus propiedades existen
+          if (!solucion || !solucion.categoria || !Array.isArray(solucion.estrategias)) {
+            console.log('Invalid solution object:', solucion);
+            return null;
+          }
+
+          return (
+            <div key={idx} className="mb-4">
+              <h5 className="text-cyan-300 font-medium mb-3">{solucion.categoria}:</h5>
+              <ul className="list-disc pl-5 space-y-2">
+                {solucion.estrategias.map((estrategia, estrategiaIdx) => (
+                  <li key={estrategiaIdx} className="text-gray-300">
+                    {estrategia}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const toggleBehaviors = (studentId, disorder) => {
+    console.log('===== TOGGLE BEHAVIORS FUNCTION =====');
+    console.log('Student ID:', studentId);
+    console.log('Disorder:', disorder);
+    console.log('Current behaviors state:', expandedBehaviors);
+    const key = `${studentId}-${disorder.id}`;
+    console.log('State key:', key);
+    const newState = !expandedBehaviors[key];
+    console.log('New state will be:', newState);
+    
+    setExpandedBehaviors(prev => {
+      const updated = {
+        ...prev,
+        [key]: newState
+      };
+      console.log('Updated behaviors state:', updated);
+      return updated;
     });
   };
 
-  const handleEditar = (alumno) => {
-    // Implementar edición
-    console.log('Editar', alumno);
+  const toggleSolutions = (studentId, disorder) => {
+    console.log('===== TOGGLE SOLUTIONS FUNCTION =====');
+    console.log('Student ID:', studentId);
+    console.log('Disorder:', disorder);
+    console.log('Current solutions state:', expandedSolutions);
+    const key = `${studentId}-${disorder.id}`;
+    console.log('State key:', key);
+    const newState = !expandedSolutions[key];
+    console.log('New state will be:', newState);
+    
+    setExpandedSolutions(prev => {
+      const updated = {
+        ...prev,
+        [key]: newState
+      };
+      console.log('Updated solutions state:', updated);
+      return updated;
+    });
   };
 
-  const handleEliminar = (id) => {
-    setDatos(datos.filter(alumno => alumno.id !== id));
+  const toggleStudent = (studentId) => {
+    setExpandedStudent(prev => prev === studentId ? null : studentId);
   };
-
-  const toggleVistaExpandida = (id) => {
-    setVistaExpandida(vistaExpandida === id ? null : id);
-  };
-
-  const datosFiltrados = useMemo(() => {
-    return datos.filter((alumno) =>
-      Object.values(alumno).some((valor) =>
-        String(valor).toLowerCase().includes(busquedaGlobal.toLowerCase())
-      )
-    );
-  }, [datos, busquedaGlobal]);
 
   return (
     <div className="p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl">
@@ -141,124 +312,161 @@ const TablaAlumnosOscuraGradiente = ({ language }) => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-700/50">
-                <th 
-                  className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider cursor-pointer"
-                  onClick={() => handleOrdenamiento('nombre')}
-                >
-                  <div className="flex items-center space-x-1">
-                    <span>{t.columns.name}</span>
-                    {ordenamiento.campo === 'nombre' && (
-                      ordenamiento.direccion === 'asc' ? 
-                      <ChevronUp className="w-4 h-4" /> : 
-                      <ChevronDown className="w-4 h-4" />
-                    )}
-                  </div>
-                </th>
-                <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider bg-cyan-900/20">
-                  {t.columns.disorders}
-                </th>
-                <th colSpan="3" className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider bg-purple-900/20">
-                  {t.columns.habits}
-                </th>
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  {t.columns.solutions}
+                  {t.name}
                 </th>
-                <th className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  {t.columns.actions}
+                {[1, 2, 3, 4].map(index => (
+                  <th key={index} className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    {t.disorder} {index}
+                  </th>
+                ))}
+                {[1, 2, 3, 4].map(index => (
+                  <th key={index} className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    {t.behavior} {index}
+                  </th>
+                ))}
+                <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  {t.solutions}
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800/50">
-              {datosFiltrados.map((alumno) => (
-                <tr 
-                  key={alumno.id}
-                  className={`group transition-all duration-200
-                    ${vistaExpandida === alumno.id ? 'bg-white/10' : 'hover:bg-white/5'}`}
-                >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 text-white rounded-lg flex items-center justify-center border border-white/10">
-                        {alumno.nombre.charAt(0)}
+              {datosFiltrados.map((student, index) => (
+                <React.Fragment key={student.id}>
+                  <tr 
+                    className={`group transition-all duration-200 cursor-pointer
+                      ${expandedStudent === student.id ? 'bg-white/10' : 'hover:bg-white/5'}`}
+                    onClick={() => toggleStudent(student.id)}
+                  >
+                    <td className="px-6 py-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 text-white rounded-lg flex items-center justify-center border border-white/10">
+                          {student.group.charAt(0)}
+                        </div>
+                        <span className="text-gray-200 font-medium">
+                          {student.group} {student.period}
+                        </span>
                       </div>
-                      <span className="text-gray-200 font-medium">{alumno.nombre}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-cyan-500/20 to-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                      {alumno.trastorno1}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    {alumno.trastorno2 !== 'Ninguno' && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-cyan-500/20 to-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                        {alumno.trastorno2}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-4">
-                    {alumno.trastorno3 !== 'Ninguno' && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-cyan-500/20 to-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                        {alumno.trastorno3}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="text-sm text-gray-400">{alumno.habito1}</div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="text-sm text-gray-400">{alumno.habito2}</div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="text-sm text-gray-400">{alumno.habito3}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 max-w-md">{alumno.soluciones}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
-                        onClick={() => handleEditar(alumno)}
-                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-                        title={t.buttons.edit}
-                      >
-                        <Pencil className="w-4 h-4 text-gray-400 hover:text-white" />
-                      </button>
-                      <button 
-                        onClick={() => handleEliminar(alumno.id)}
-                        className="p-1.5 hover:bg-red-900/20 rounded-lg transition-colors"
-                        title={t.buttons.delete}
-                      >
-                        <Trash2 className="w-4 h-4 text-red-400 hover:text-red-300" />
-                      </button>
-                      <button 
-                        onClick={() => toggleVistaExpandida(alumno.id)}
-                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-                        title={t.buttons.more}
-                      >
-                        <Eye className="w-4 h-4 text-gray-400 hover:text-white" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                    {[0, 1, 2, 3].map(index => (
+                      <td key={index} className="px-6 py-4 text-center">
+                        {student.disorders[index] ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-cyan-500/20 to-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                            {student.disorders[index].code}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500">-</span>
+                        )}
+                      </td>
+                    ))}
+                    {[0, 1, 2, 3].map(index => (
+                      <td key={index} className="px-6 py-4 text-center">
+                        {student.disorders[index] ? (
+                          isNSA(student.disorders[index]) ? (
+                            <span className="text-gray-500">-</span>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                console.log('===== BEHAVIOR BUTTON CLICKED IN BEHAVIORS COLUMN =====');
+                                console.log('Column index:', index);
+                                console.log('Disorder:', student.disorders[index]);
+                                console.log('Student:', student);
+                                toggleBehaviors(student.id, student.disorders[index]);
+                              }}
+                              className="px-3 py-1 bg-gradient-to-r from-purple-600/50 to-purple-500/50 rounded-lg hover:from-purple-500/50 hover:to-purple-400/50 transition-colors text-sm text-white"
+                            >
+                              {student.disorders[index].code}
+                            </button>
+                          )
+                        ) : (
+                          <span className="text-gray-500">-</span>
+                        )}
+                      </td>
+                    ))}
+                    <td className="px-6 py-4">
+                      <div className="flex space-x-2">
+                        {student.disorders
+                          .filter(disorder => !isNSA(disorder))
+                          .map(disorder => (
+                            <React.Fragment key={disorder.id}>
+                              <button
+                                onClick={(e) => {
+                                  console.log('===== SOLUTION BUTTON CLICKED IN SOLUTIONS COLUMN =====');
+                                  console.log('Disorder:', disorder);
+                                  console.log('Student:', student);
+                                  toggleSolutions(student.id, disorder);
+                                }}
+                                className="px-3 py-1 bg-gradient-to-r from-cyan-600/50 to-cyan-500/50 rounded-lg hover:from-cyan-500/50 hover:to-cyan-400/50 transition-colors text-sm text-white"
+                              >
+                                {disorder.code}
+                              </button>
+                            </React.Fragment>
+                          ))}
+                      </div>
+                    </td>
+                  </tr>
+                  {expandedStudent === student.id && (
+                    <tr className="bg-white/5">
+                      <td colSpan="10" className="px-6 py-4">
+                        <div className="space-y-4">
+                          {student.disorders.map((disorder, index) => {
+                            const conductasForDisorder = getConductas(disorder);
+                            const isExpandedBehavior = expandedBehaviors[`${student.id}-${disorder.id}`];
+                            const isExpandedSolution = expandedSolutions[`${student.id}-${disorder.id}`];
+                            
+                            if (!conductasForDisorder && !disorder) return null;
+
+                            return (
+                              <React.Fragment key={disorder.id}>
+                                {isExpandedBehavior && conductasForDisorder && (
+                                  <div className="p-4 bg-gradient-to-r from-purple-900/30 to-purple-800/30 rounded-lg mb-4">
+                                    {console.log('===== RENDERING BEHAVIORS SECTION =====', {
+                                      studentId: student.id,
+                                      disorderId: disorder.id,
+                                      code: disorder.code,
+                                      expandedKey: `${student.id}-${disorder.id}`,
+                                      isExpanded: expandedBehaviors[`${student.id}-${disorder.id}`],
+                                      conductasCount: conductasForDisorder.length
+                                    })}
+                                    <h4 className="font-semibold mb-4 text-white">
+                                      {t.behaviorsFor} {disorder.name}:
+                                    </h4>
+                                    <ul className="list-disc pl-5 space-y-2">
+                                      {conductasForDisorder.map((conducta, idx) => (
+                                        <li key={idx} className="text-gray-300">
+                                          {conducta}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                                {isExpandedSolution && (
+                                  <div className="p-4 bg-gradient-to-r from-cyan-900/30 to-cyan-800/30 rounded-lg">
+                                    {console.log('===== RENDERING SOLUTIONS SECTION =====', {
+                                      studentId: student.id,
+                                      disorderId: disorder.id,
+                                      code: disorder.code,
+                                      expandedKey: `${student.id}-${disorder.id}`,
+                                      isExpanded: expandedSolutions[`${student.id}-${disorder.id}`],
+                                      solutions: getSoluciones(disorder)
+                                    })}
+                                    <h4 className="font-semibold mb-4 text-white">
+                                      {t.solutionsFor} {disorder.name}:
+                                    </h4>
+                                    {renderSoluciones(getSoluciones(disorder))}
+                                  </div>
+                                )}
+                              </React.Fragment>
+                            );
+                          })}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Footer con gradiente sutil */}
-        <div className="px-6 py-4 border-t border-gray-700/50 bg-gradient-to-r from-cyan-900/10 to-purple-900/10">
-          <div className="flex items-center justify-between text-sm text-gray-400">
-            <div>
-              {t.footer.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}
-            </div>
-            <div className="flex items-center space-x-2">
-              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">{t.footer.prev}</button>
-              <button className="px-3 py-1 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white">1</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">2</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">3</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-white/5 transition-colors">{t.footer.next}</button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

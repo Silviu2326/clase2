@@ -1,0 +1,124 @@
+{
+  "categories": {
+    "C&L": {
+      "name": "Cognition & Learning",
+      "disorders": [
+        {
+          "id": 1,
+          "code": "C&L",
+          "name": "Cognition & Learning"
+        },
+        {
+          "id": 2,
+          "code": "MLD",
+          "name": "Moderate Learning Disability"
+        },
+        {
+          "id": 3,
+          "code": "PMLD",
+          "name": "Profound and Multiple Language Difficulties"
+        },
+        {
+          "id": 4,
+          "code": "SLD",
+          "name": "Severe Learning Difficulty"
+        },
+        {
+          "id": 5,
+          "code": "SpLD",
+          "name": "Specific Learning Disability"
+        },
+        {
+          "id": 6,
+          "code": "NVLD",
+          "name": "Non Verbal Learning Disorder"
+        }
+      ]
+    },
+    "C&I": {
+      "name": "Communication & Interaction",
+      "disorders": [
+        {
+          "id": 7,
+          "code": "C&I",
+          "name": "Communication & Interaction"
+        },
+        {
+          "id": 8,
+          "code": "APD",
+          "name": "Auditory Processing Disorder"
+        },
+        {
+          "id": 9,
+          "code": "ASC",
+          "name": "Autism Spectrum Condition"
+        },
+        {
+          "id": 10,
+          "code": "SLCN",
+          "name": "Speech, Language and Communication Needs"
+        },
+        {
+          "id": 11,
+          "code": "SaLT",
+          "name": "Speech and Language Therapy"
+        }
+      ]
+    },
+    "S&P": {
+      "name": "Sensory and/or Physical",
+      "disorders": [
+        {
+          "id": 12,
+          "code": "S&P",
+          "name": "Sensory and/or Physical"
+        },
+        {
+          "id": 13,
+          "code": "HI",
+          "name": "Hearing Impairment"
+        },
+        {
+          "id": 14,
+          "code": "VI",
+          "name": "Visual Impairment"
+        },
+        {
+          "id": 15,
+          "code": "SPD",
+          "name": "Sensory Processing Disorder"
+        }
+      ]
+    },
+    "SEMH": {
+      "name": "Social, Emotional & Mental Health",
+      "disorders": [
+        {
+          "id": 16,
+          "code": "SEMH",
+          "name": "Social, Emotional & Mental Health"
+        },
+        {
+          "id": 17,
+          "code": "ADHD",
+          "name": "Attention Deficit Hyperactivity Disorder"
+        },
+        {
+          "id": 18,
+          "code": "ODD",
+          "name": "Oppositional Defiance Disorder"
+        }
+      ]
+    },
+    "Other": {
+      "name": "Other Conditions",
+      "disorders": [
+        {
+          "id": 19,
+          "code": "NSA",
+          "name": "No Specialist Assessment"
+        }
+      ]
+    }
+  }
+}

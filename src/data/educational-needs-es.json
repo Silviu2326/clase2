@@ -1,0 +1,124 @@
+{
+  "categories": {
+    "C&L": {
+      "name": "Cognición y Aprendizaje",
+      "disorders": [
+        {
+          "id": 1,
+          "code": "C&L",
+          "name": "Cognición y Aprendizaje"
+        },
+        {
+          "id": 2,
+          "code": "MLD",
+          "name": "Discapacidad de Aprendizaje Moderada"
+        },
+        {
+          "id": 3,
+          "code": "PMLD",
+          "name": "Dificultades Profundas y Múltiples del Lenguaje"
+        },
+        {
+          "id": 4,
+          "code": "SLD",
+          "name": "Dificultad de Aprendizaje Severa"
+        },
+        {
+          "id": 5,
+          "code": "SpLD",
+          "name": "Discapacidad Específica del Aprendizaje"
+        },
+        {
+          "id": 6,
+          "code": "NVLD",
+          "name": "Trastorno del Aprendizaje No Verbal"
+        }
+      ]
+    },
+    "C&I": {
+      "name": "Comunicación e Interacción",
+      "disorders": [
+        {
+          "id": 7,
+          "code": "C&I",
+          "name": "Comunicación e Interacción"
+        },
+        {
+          "id": 8,
+          "code": "APD",
+          "name": "Trastorno del Procesamiento Auditivo"
+        },
+        {
+          "id": 9,
+          "code": "ASC",
+          "name": "Condición del Espectro Autista"
+        },
+        {
+          "id": 10,
+          "code": "SLCN",
+          "name": "Necesidades de Habla, Lenguaje y Comunicación"
+        },
+        {
+          "id": 11,
+          "code": "SaLT",
+          "name": "Terapia de Habla y Lenguaje"
+        }
+      ]
+    },
+    "S&P": {
+      "name": "Sensorial y/o Físico",
+      "disorders": [
+        {
+          "id": 12,
+          "code": "S&P",
+          "name": "Sensorial y/o Físico"
+        },
+        {
+          "id": 13,
+          "code": "HI",
+          "name": "Discapacidad Auditiva"
+        },
+        {
+          "id": 14,
+          "code": "VI",
+          "name": "Discapacidad Visual"
+        },
+        {
+          "id": 15,
+          "code": "SPD",
+          "name": "Trastorno del Procesamiento Sensorial"
+        }
+      ]
+    },
+    "SEMH": {
+      "name": "Social, Emocional y Salud Mental",
+      "disorders": [
+        {
+          "id": 16,
+          "code": "SEMH",
+          "name": "Social, Emocional y Salud Mental"
+        },
+        {
+          "id": 17,
+          "code": "ADHD",
+          "name": "Trastorno por Déficit de Atención e Hiperactividad"
+        },
+        {
+          "id": 18,
+          "code": "ODD",
+          "name": "Trastorno Oposicionista Desafiante"
+        }
+      ]
+    },
+    "Other": {
+      "name": "Otras Condiciones",
+      "disorders": [
+        {
+          "id": 19,
+          "code": "NSA",
+          "name": "Sin Evaluación Especializada"
+        }
+      ]
+    }
+  }
+}

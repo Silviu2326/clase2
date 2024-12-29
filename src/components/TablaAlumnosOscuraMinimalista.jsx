@@ -1,248 +1,262 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Pencil, Trash2, ChevronUp, ChevronDown, Plus, Filter, ChevronRight } from 'lucide-react';
-import logo from './logo.jpeg';
-import { translations } from '../translations/translations';
-
-const datosIniciales = [
-  {
-    id: 1,
-    nombre: 'Juan Pérez',
-    trastornoPsicologico1: 'TDAH',
-    trastornoPsicologico2: 'Dislexia',
-    trastornoPsicologico3: 'Ninguno',
-    conductaAula1: {
-      titulo: 'Dificultad para mantener atención',
-      detalles: [
-        'Se distrae fácilmente con estímulos externos',
-        'Pierde materiales frecuentemente',
-        'Dificultad para seguir instrucciones largas'
-      ]
-    },
-    conductaAula2: {
-      titulo: 'Interrumpe frecuentemente',
-      detalles: [
-        'Habla en momentos inapropiados',
-        'Dificultad para esperar su turno',
-        'Interrumpe conversaciones'
-      ]
-    },
-    conductaAula3: null,
-    soluciones: 'Establecer rutinas claras, descansos programados'
-  },
-  {
-    id: 2,
-    nombre: 'María García',
-    trastornoPsicologico1: 'Ansiedad',
-    trastornoPsicologico2: 'TOC',
-    trastornoPsicologico3: null,
-    conductaAula1: {
-      titulo: 'Perfeccionismo excesivo',
-      detalles: [
-        'Tarda mucho en completar tareas',
-        'Se frustra si no alcanza la perfección',
-        'Revisa el trabajo múltiples veces'
-      ]
-    },
-    conductaAula2: {
-      titulo: 'Dificultad para trabajar en grupo',
-      detalles: [
-        'Prefiere trabajar sola',
-        'Se estresa en situaciones sociales',
-        'Dificultad para delegar tareas'
-      ]
-    },
-    conductaAula3: null,
-    soluciones: 'Técnicas de relajación, trabajo gradual'
-  },
-];
+import React, { useState } from 'react';
+import studentsData from '../data/students.json';
+import problemasEducativos from '../data/problemas-educativos.json';
+import educationalProblems from '../data/educational-problems.json';
 
 const TablaAlumnosOscuraMinimalista = ({ language = 'es' }) => {
-  const [datos, setDatos] = useState(datosIniciales);
-  const [busquedaGlobal, setBusquedaGlobal] = useState('');
-  const [ordenamiento, setOrdenamiento] = useState({ campo: 'nombre', direccion: 'asc' });
-  const [conductasExpandidas, setConductasExpandidas] = useState({});
-  const t = translations[language];
+  const [expandedStudent, setExpandedStudent] = useState(null);
+  const [expandedBehaviors, setExpandedBehaviors] = useState({});
+  const [expandedSolutions, setExpandedSolutions] = useState({});
 
-  const handleOrdenamiento = (campo) => {
-    const esAscendente = ordenamiento.campo === campo && ordenamiento.direccion === 'asc';
-    setOrdenamiento({
-      campo,
-      direccion: esAscendente ? 'desc' : 'asc',
-    });
+  // Seleccionar el conjunto de datos según el idioma
+  const problemsData = language === 'es' ? problemasEducativos : educationalProblems;
+
+  // Traducciones
+  const translations = {
+    es: {
+      name: 'Nombre',
+      disorder: 'Trastorno',
+      behavior: 'Conducta',
+      solutions: 'Soluciones',
+      viewBehaviors: 'Ver conductas',
+      viewSolutions: 'Ver soluciones',
+      solutionsFor: 'Soluciones para',
+      behaviorsFor: 'Conductas de'
+    },
+    en: {
+      name: 'Name',
+      disorder: 'Disorder',
+      behavior: 'Behavior',
+      solutions: 'Solutions',
+      viewBehaviors: 'View behaviors',
+      viewSolutions: 'View solutions',
+      solutionsFor: 'Solutions for',
+      behaviorsFor: 'Behaviors of'
+    }
   };
 
-  const handleEliminar = (id) => {
-    setDatos(datos.filter(alumno => alumno.id !== id));
+  const t = (key) => translations[language][key];
+
+  // Función para alternar la expansión de un estudiante
+  const toggleExpand = (studentId) => {
+    setExpandedStudent(expandedStudent === studentId ? null : studentId);
   };
 
-  const toggleConducta = (alumnoId, conductaIndex) => {
-    setConductasExpandidas(prev => ({
+  // Función para alternar la expansión de conductas para un trastorno específico
+  const toggleBehavior = (e, studentId, disorderId) => {
+    e.stopPropagation();
+    setExpandedBehaviors(prev => ({
       ...prev,
-      [`${alumnoId}-${conductaIndex}`]: !prev[`${alumnoId}-${conductaIndex}`]
+      [`${studentId}-${disorderId}`]: !prev[`${studentId}-${disorderId}`]
     }));
   };
 
-  const datosFiltrados = useMemo(() => {
-    return datos.filter((alumno) =>
-      Object.values(alumno).some((valor) =>
-        String(valor).toLowerCase().includes(busquedaGlobal.toLowerCase())
-      )
-    );
-  }, [datos, busquedaGlobal]);
+  // Función para alternar la expansión de soluciones para un trastorno específico
+  const toggleSolution = (e, studentId, disorderId) => {
+    e.stopPropagation();
+    setExpandedSolutions(prev => ({
+      ...prev,
+      [`${studentId}-${disorderId}`]: !prev[`${studentId}-${disorderId}`]
+    }));
+  };
 
-  const renderConducta = (alumno, conductaKey, trastornoKey) => {
-    const conducta = alumno[conductaKey];
-    const trastorno = alumno[trastornoKey];
-    const isExpanded = conductasExpandidas[`${alumno.id}-${conductaKey}`];
+  // Función para obtener el color de fondo según el índice de la fila
+  const getRowColor = (index) => {
+    return index % 2 === 0 ? 'bg-slate-800 hover:bg-slate-700' : 'bg-slate-700 hover:bg-slate-600';
+  };
 
-    if (!trastorno || trastorno === 'Ninguno' || !conducta) return null;
+  // Mapeo de códigos de trastornos a IDs de problemas educativos
+  const codigoAId = {
+    'C&L': 1,  // Cognición y Aprendizaje
+    'SEMH': 4, // Social, Emocional y Salud Mental
+    'ADHD': 5, // Trastorno por Déficit de Atención e Hiperactividad
+    'SpLD': 16, // Dificultades Específicas del Aprendizaje
+    'APD': 6,  // Trastorno del Procesamiento Auditivo
+    'NSA': 19  // Sin Evaluación Especializada (No Specialist Assessment)
+  };
 
-    return (
-      <div className="relative group">
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => toggleConducta(alumno.id, conductaKey)}
-            className="p-1 hover:bg-gray-700 rounded-lg transition-colors"
-          >
-            <ChevronRight className={`w-4 h-4 text-gray-400 transform transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
-          </button>
-          <span className="text-gray-300">{conducta.titulo}</span>
-        </div>
-        {isExpanded && (
-          <div className="mt-2 ml-6 p-3 bg-gray-700/50 rounded-lg">
-            <ul className="space-y-1">
-              {conducta.detalles.map((detalle, index) => (
-                <li key={index} className="text-gray-400 text-sm">{detalle}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    );
+  // Función para obtener las conductas asociadas a un trastorno específico
+  const getConductas = (disorder) => {
+    const problemaId = codigoAId[disorder.code];
+    if (!problemaId) return null;
+
+    const problems = language === 'es' ? problemsData.problemas : problemsData.problems;
+    const problema = problems.find(p => p.id === problemaId);
+    
+    if (!problema) return null;
+
+    return language === 'es' ? problema.conductas : problema.behaviors;
+  };
+
+  // Función para verificar si es NSA
+  const isNSA = (disorder) => {
+    return disorder && disorder.code === 'NSA';
   };
 
   return (
-    <div className="p-6 bg-gray-900">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <div className="bg-gray-700 p-3 rounded-lg">
-                <img src={logo} alt="Logo" className="h-12 w-auto opacity-90" />
-              </div>
-              <h1 className="text-3xl font-bold text-gray-100">
-                {t.management}
-              </h1>
-            </div>
-            <button className="px-5 py-2.5 bg-gray-700 text-gray-100 rounded-lg flex items-center space-x-2 hover:bg-gray-600 transition-all">
-              <Plus className="w-5 h-5" />
-              <span className="font-medium">{t.newStudent}</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Búsqueda y filtros */}
-      <div className="mb-8 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder={t.search}
-              value={busquedaGlobal}
-              onChange={(e) => setBusquedaGlobal(e.target.value)}
-              className="w-96 pl-12 pr-4 py-3 bg-gray-800 text-gray-100 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-gray-600 placeholder-gray-500"
-            />
-            <Search className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
-          </div>
-          <button className="px-4 py-3 bg-gray-800 rounded-lg flex items-center space-x-2 text-gray-300 hover:bg-gray-700 transition-colors">
-            <Filter className="w-5 h-5" />
-            <span>{t.filters}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Tabla */}
-      <div className="bg-gray-800 rounded-lg overflow-x-auto shadow-xl">
-        <table className="min-w-full divide-y divide-gray-700">
+    <div className="p-4 bg-slate-900 text-gray-100 min-h-screen">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-slate-800 shadow-lg rounded-lg overflow-hidden">
           <thead>
-            <tr className="bg-gray-900/50">
-              <th scope="col" className="px-4 py-4 text-left">
-                <button
-                  onClick={() => handleOrdenamiento('nombre')}
-                  className="flex items-center space-x-1 text-gray-300 hover:text-gray-100"
-                >
-                  <span>{t.columns.name}</span>
-                  {ordenamiento.campo === 'nombre' && (
-                    ordenamiento.direccion === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
-                  )}
-                </button>
-              </th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder1}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder2}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.disorder3}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors1}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors2}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.behaviors3}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.solutions}</th>
-              <th scope="col" className="px-4 py-4 text-left text-gray-300">{t.columns.actions}</th>
+            <tr className="bg-purple-900">
+              <th className="px-4 py-3 text-left">{t('name')}</th>
+              <th className="px-4 py-3 text-left">{t('disorder')} 1</th>
+              <th className="px-4 py-3 text-left">{t('disorder')} 2</th>
+              <th className="px-4 py-3 text-left">{t('disorder')} 3</th>
+              <th className="px-4 py-3 text-left">{t('disorder')} 4</th>
+              <th className="px-4 py-3 text-left">{t('behavior')} 1</th>
+              <th className="px-4 py-3 text-left">{t('behavior')} 2</th>
+              <th className="px-4 py-3 text-left">{t('behavior')} 3</th>
+              <th className="px-4 py-3 text-left">{t('behavior')} 4</th>
+              <th className="px-4 py-3 text-left">{t('solutions')}</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
-            {datosFiltrados.map((alumno) => (
-              <tr key={alumno.id} className="hover:bg-gray-700/50 transition-colors">
-                <td className="px-4 py-4 text-gray-100">{alumno.nombre}</td>
-                <td className="px-4 py-4 text-gray-300">{alumno.trastornoPsicologico1}</td>
-                <td className="px-4 py-4 text-gray-400">{alumno.trastornoPsicologico2}</td>
-                <td className="px-4 py-4 text-gray-400">{alumno.trastornoPsicologico3}</td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 'conductaAula1', 'trastornoPsicologico1')}
-                </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 'conductaAula2', 'trastornoPsicologico2')}
-                </td>
-                <td className="px-4 py-4">
-                  {renderConducta(alumno, 'conductaAula3', 'trastornoPsicologico3')}
-                </td>
-                <td className="px-4 py-4 text-gray-300">{alumno.soluciones}</td>
-                <td className="px-4 py-4">
-                  <div className="flex space-x-3">
-                    <button 
-                      title={t.editStudent}
-                      className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      <Pencil className="w-5 h-5 text-gray-400 hover:text-gray-100" />
-                    </button>
-                    <button 
-                      title={t.deleteStudent}
-                      onClick={() => handleEliminar(alumno.id)}
-                      className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      <Trash2 className="w-5 h-5 text-gray-400 hover:text-red-400" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+          <tbody>
+            {Object.values(studentsData.groups).map(group =>
+              group.students.map((student, index) => (
+                <React.Fragment key={student.id}>
+                  <tr
+                    className={`border-b border-slate-600 cursor-pointer transition-colors ${
+                      getRowColor(index)
+                    }`}
+                    onClick={() => toggleExpand(student.id)}
+                  >
+                    <td className="px-4 py-3">
+                      {student.group} {student.period}
+                    </td>
+                    {[0, 1, 2, 3].map(index => (
+                      <td key={`disorder-${index}`} className="px-4 py-3">
+                        {student.disorders[index] ? (
+                          <span
+                            className="inline-block px-2 py-1 text-sm rounded-full bg-emerald-700"
+                            title={student.disorders[index].name}
+                          >
+                            {student.disorders[index].code}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">-</span>
+                        )}
+                      </td>
+                    ))}
+                    {[0, 1, 2, 3].map(index => (
+                      <td key={`behavior-${index}`} className="px-4 py-3">
+                        {student.disorders[index] ? (
+                          isNSA(student.disorders[index]) ? (
+                            <span className="text-slate-400">-</span>
+                          ) : (
+                            <button
+                              onClick={(e) => toggleBehavior(e, student.id, student.disorders[index].id)}
+                              className="px-3 py-1 bg-emerald-700 rounded-lg hover:bg-emerald-600 transition-colors text-sm"
+                            >
+                              {student.disorders[index].code}
+                            </button>
+                          )
+                        ) : (
+                          <span className="text-slate-400">-</span>
+                        )}
+                      </td>
+                    ))}
+                    <td className="px-4 py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {student.disorders
+                          .filter(disorder => !isNSA(disorder))
+                          .map(disorder => (
+                            <button
+                              key={disorder.id}
+                              onClick={(e) => toggleSolution(e, student.id, disorder.id)}
+                              className="px-3 py-1 bg-emerald-700 rounded-lg hover:bg-emerald-600 transition-colors text-sm"
+                            >
+                              {disorder.code}
+                            </button>
+                          ))}
+                      </div>
+                    </td>
+                  </tr>
+                  {expandedStudent === student.id && (
+                    <tr className={getRowColor(index + 1)}>
+                      <td colSpan="10" className="px-4 py-3">
+                        <div className="space-y-2">
+                          {student.disorders.map(disorder => (
+                            <div key={disorder.id} className="p-2 bg-emerald-700 rounded">
+                              <div className="font-semibold">{disorder.name}</div>
+                              {disorder.notes && (
+                                <div className="text-sm text-slate-300 mt-1">
+                                  {disorder.notes}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                  {student.disorders.map(disorder => {
+                    const conductasForDisorder = getConductas(disorder);
+                    const isExpandedBehavior = expandedBehaviors[`${student.id}-${disorder.id}`];
+                    const isExpandedSolution = expandedSolutions[`${student.id}-${disorder.id}`];
+                    
+                    if (!conductasForDisorder) return null;
+
+                    return (
+                      <React.Fragment key={`behavior-solution-${student.id}-${disorder.id}`}>
+                        {isExpandedBehavior && (
+                          <tr className={getRowColor(index + 2)}>
+                            <td colSpan="10" className="px-4 py-3">
+                              <div className="mb-3 text-lg font-semibold">
+                                {t('behaviorsFor')} {disorder.code} - {disorder.name}
+                              </div>
+                              <div className="space-y-4">
+                                {conductasForDisorder.map((conducta, index) => (
+                                  <div key={index} className="p-3 bg-emerald-700 rounded-lg">
+                                    <h4 className="font-semibold mb-2">
+                                      {language === 'es' ? conducta.tipo : conducta.type}
+                                    </h4>
+                                    <ul className="list-disc list-inside space-y-1">
+                                      {(language === 'es' ? conducta.manifestaciones : conducta.manifestations).map((manifestacion, idx) => (
+                                        <li key={idx} className="text-sm text-slate-300">
+                                          {manifestacion}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                        {isExpandedSolution && (
+                          <tr className={getRowColor(index + 3)}>
+                            <td colSpan="10" className="px-4 py-3">
+                              <div className="mb-3 text-lg font-semibold">
+                                {t('solutionsFor')} {disorder.code} - {disorder.name}
+                              </div>
+                              <div className="space-y-4">
+                                {conductasForDisorder.map((conducta, index) => (
+                                  <div key={index} className="p-3 bg-emerald-700 rounded-lg">
+                                    <h4 className="font-semibold mb-2">
+                                      {language === 'es' ? conducta.tipo : conducta.type}
+                                    </h4>
+                                    <ul className="list-disc list-inside space-y-1">
+                                      {(language === 'es' ? conducta.manifestaciones : conducta.manifestations).map((manifestacion, idx) => (
+                                        <li key={idx} className="text-sm text-slate-300">
+                                          {manifestacion}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </React.Fragment>
+              ))
+            )}
           </tbody>
         </table>
-
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-700">
-          <div className="flex items-center justify-between text-sm text-gray-400">
-            <div>
-              {t.footer.showing.replace('{count}', datosFiltrados.length).replace('{total}', datos.length)}
-            </div>
-            <div className="flex items-center space-x-2">
-              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">{t.footer.prev}</button>
-              <button className="px-3 py-1 rounded-lg bg-gray-700 text-white">1</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">2</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">3</button>
-              <button className="px-3 py-1 rounded-lg hover:bg-gray-700 transition-colors">{t.footer.next}</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
