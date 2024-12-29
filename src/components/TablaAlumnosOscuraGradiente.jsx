@@ -38,7 +38,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
         filters: 'Filtros'
       },
       name: 'Nombre',
-      disorder: 'Trastorno',
+      condition: 'Condición',
       behavior: 'Conducta',
       behaviors: 'Conductas',
       solutions: 'Soluciones',
@@ -58,7 +58,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
         filters: 'Filters'
       },
       name: 'Name',
-      disorder: 'Disorder',
+      condition: 'Condition',
       behavior: 'Behavior',
       behaviors: 'Behaviors',
       solutions: 'Solutions',
@@ -71,7 +71,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
 
   const t = translations[language];
 
-  // Mapeo de códigos de trastornos a IDs de problemas educativos
+  // Mapeo de códigos de condiciones a IDs de problemas educativos
   const codigoAId = {
     'C&L': 1,
     'SEMH': 4,
@@ -81,7 +81,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
     'NSA': 19
   };
 
-  // Función para obtener las conductas asociadas a un trastorno específico
+  // Función para obtener las conductas asociadas a una condición específica
   const getConductas = (disorder) => {
     console.log('Getting conductas for disorder:', disorder);
     const problemaId = codigoAId[disorder.code];
@@ -117,7 +117,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
     return manifestaciones;
   };
 
-  // Función para obtener las soluciones asociadas a un trastorno específico
+  // Función para obtener las soluciones asociadas a una condición específica
   const getSoluciones = (disorder) => {
     console.log('Getting solutions for disorder:', disorder.code);
     const problemaId = codigoAId[disorder.code];
@@ -153,7 +153,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
     return formattedSolutions;
   };
 
-  // Función para obtener las soluciones asociadas a un trastorno específico
+  // Función para obtener las soluciones asociadas a una condición específica
   const isNSA = (disorder) => {
     return disorder && disorder.code === 'NSA';
   };
@@ -317,7 +317,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
                 </th>
                 {[1, 2, 3, 4].map(index => (
                   <th key={index} className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                    {t.disorder} {index}
+                    {t.condition} {index}
                   </th>
                 ))}
                 {[1, 2, 3, 4].map(index => (
@@ -366,7 +366,7 @@ const TablaAlumnosOscuraGradiente = ({ language = 'es' }) => {
                             <span className="text-gray-500">-</span>
                           ) : (
                             <button
-                              onClick={(e) => {
+                              onClick={() => {
                                 console.log('===== BEHAVIOR BUTTON CLICKED IN BEHAVIORS COLUMN =====');
                                 console.log('Column index:', index);
                                 console.log('Disorder:', student.disorders[index]);

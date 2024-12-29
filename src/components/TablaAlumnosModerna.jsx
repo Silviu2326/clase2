@@ -5,7 +5,7 @@ import studentsData from '../data/students.json';
 import problemasEducativos from '../data/problemas-educativos.json';
 import educationalProblems from '../data/educational-problems.json';
 
-// Mapeo de códigos de trastornos a IDs de problemas educativos
+// Mapeo de códigos de condiciones a IDs de problemas educativos
 const codigoAId = {
   'C&L': 1,
   'SEMH': 4,
@@ -28,8 +28,8 @@ const translations = {
       filters: 'Filtros'
     },
     name: 'Nombre',
-    disorder: 'Trastorno',
-    disorders: 'Trastornos',
+    disorder: 'Condición',
+    disorders: 'Condiciones',
     behavior: 'Conducta',
     behaviors: 'Conductas',
     solutions: 'Soluciones',
@@ -49,8 +49,8 @@ const translations = {
       filters: 'Filters'
     },
     name: 'Name',
-    disorder: 'Disorder',
-    disorders: 'Disorders',
+    disorder: 'Condition',
+    disorders: 'Conditions',
     behavior: 'Behavior',
     behaviors: 'Behaviors',
     solutions: 'Solutions',
@@ -372,7 +372,7 @@ const TablaAlumnosModerna = ({ language = 'es' }) => {
                         </div>
                       </td>
 
-                      {/* Trastornos */}
+                      {/* Condiciones */}
                       {[0, 1, 2, 3].map(index => (
                         <td key={index} className="px-6 py-4 text-center">
                           {student.disorders[index] && !isNSA(student.disorders[index]) ? (

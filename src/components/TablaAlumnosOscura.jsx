@@ -5,7 +5,7 @@ import studentsData from '../data/students.json';
 import problemasEducativos from '../data/problemas-educativos.json';
 import educationalProblems from '../data/educational-problems.json';
 
-// Mapeo de códigos de trastornos a IDs de problemas educativos
+// Mapeo de códigos de condiciones a IDs de problemas educativos
 const codigoAId = {
   'C&L': 1,
   'SEMH': 4,
@@ -28,8 +28,8 @@ const translations = {
       filters: 'Filtros'
     },
     name: 'Nombre',
-    disorder: 'Trastorno',
-    disorders: 'Trastornos',
+    disorder: 'Condición',
+    disorders: 'Condiciones',
     behavior: 'Conducta',
     behaviors: 'Conductas',
     solutions: 'Soluciones',
@@ -49,8 +49,8 @@ const translations = {
       filters: 'Filters'
     },
     name: 'Name',
-    disorder: 'Disorder',
-    disorders: 'Disorders',
+    disorder: 'Condition',
+    disorders: 'Conditions',
     behavior: 'Behavior',
     behaviors: 'Behaviors',
     solutions: 'Solutions',
@@ -74,7 +74,7 @@ const TablaAlumnosOscura = ({ language = 'es' }) => {
   const problemsData = language === 'es' ? problemasEducativos : educationalProblems;
 
   /**
-   * Función para obtener las conductas asociadas a un trastorno específico
+   * Función para obtener las conductas asociadas a una condición específica
    */
   const getConductas = (disorder) => {
     console.log('Getting conductas for disorder:', disorder);
@@ -165,7 +165,7 @@ const TablaAlumnosOscura = ({ language = 'es' }) => {
    */
   const datosFiltrados = Object.values(studentsData.groups).flatMap((group) =>
     group.students.filter((student) => {
-      // Coincidencia en el nombre del grupo o en cualquier trastorno
+      // Coincidencia en el nombre del grupo o en cualquier condición
       const matchGroup = student.group.toLowerCase().includes(busquedaGlobal.toLowerCase());
       const matchDisorders = student.disorders.some(
         (d) =>
@@ -214,7 +214,7 @@ const TablaAlumnosOscura = ({ language = 'es' }) => {
   };
 
   /**
-   * Renderiza las soluciones para un trastorno dado
+   * Renderiza las soluciones para una condición dada
    */
   const renderSoluciones = (soluciones) => {
     console.log('Rendering solutions:', soluciones);
@@ -359,7 +359,7 @@ const TablaAlumnosOscura = ({ language = 'es' }) => {
                     </div>
                   </td>
 
-                  {/* Trastornos */}
+                  {/* Condiciones */}
                   {[0, 1, 2, 3].map(index => (
                     <td
                       key={index}
