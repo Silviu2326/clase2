@@ -3,7 +3,6 @@ import { Globe } from 'lucide-react';
 import TablaAlumnos from './components/TablaAlumnos';
 import TablaAlumnosAlternativa from './components/TablaAlumnosAlternativa';
 import TablaAlumnosModerna from './components/TablaAlumnosModerna';
-import TablaAlumnosDashboard from './components/TablaAlumnosDashboard';
 import TablaAlumnosElegante from './components/TablaAlumnosElegante';
 import TablaAlumnosOscura from './components/TablaAlumnosOscura';
 import TablaAlumnosOscuraGradiente from './components/TablaAlumnosOscuraGradiente';
@@ -71,18 +70,6 @@ function App() {
               Tabla Moderna
             </button>
             <button
-              onClick={() => setTablaActiva('dashboard')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                tablaActiva === 'dashboard'
-                  ? 'bg-indigo-600 text-white'
-                  : esModoOscuro 
-                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                    : 'bg-white text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              Vista Dashboard
-            </button>
-            <button
               onClick={() => setTablaActiva('elegante')}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 tablaActiva === 'elegante'
@@ -140,7 +127,6 @@ function App() {
               {tablaActiva === 'original' && <TablaAlumnos language={language} />}
               {tablaActiva === 'alternativa' && <TablaAlumnosAlternativa language={language} />}
               {tablaActiva === 'moderna' && <TablaAlumnosModerna language={language} />}
-              {tablaActiva === 'dashboard' && <TablaAlumnosDashboard language={language} />}
               {tablaActiva === 'elegante' && <TablaAlumnosElegante language={language} />}
               {tablaActiva === 'oscura' && <TablaAlumnosOscura language={language} />}
               {tablaActiva === 'oscura-gradiente' && <TablaAlumnosOscuraGradiente language={language} />}
